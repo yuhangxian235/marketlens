@@ -1,19 +1,27 @@
-diff --git a/packages/core/src/types.ts b/packages/core/src/types.ts
 --- a/packages/core/src/types.ts
 +++ b/packages/core/src/types.ts
-@@
-   "approve",
+@@ -15,6 +15,8 @@
+   "claim",
+   "mint",
+   "transfer",
 +  "create",
 +  "buy",
+   "approve",
  ] as const;
-@@
--export const CATEGORIES = ["dex", "lending", "staking", "rewards", "token", "nft"] as const;
-+export const CATEGORIES = [
-+  "dex", "lending", "staking", "rewards", "token", "nft", "prediction-market",
-+] as const;
-@@
--export const RISK_LABELS = ["fundOut", "approval", "priceImpact"] as const;
-+export const RISK_LABELS = [
-+  "fundOut", "approval", "priceImpact", "adminAction", "contractInteraction",
-+] as const;
-
+ export type Verb = (typeof VERBS)[number];
+@@ -22,6 +24,7 @@
+   "rewards",
+   "token",
+   "nft",
++  "prediction-market",
+ ] as const;
+ export type Category = (typeof CATEGORIES)[number];
+ 
+@@ -25,6 +28,8 @@
+   "fundOut",
+   "approval",
+   "priceImpact",
++  "adminAction",
++  "contractInteraction",
+ ] as const;
+ export type RiskLabel = (typeof RISK_LABELS)[number];

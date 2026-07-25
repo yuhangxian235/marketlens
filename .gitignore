@@ -39,3 +39,6 @@ work/
 cache/
 demo/generated/
 config/deployments/local-anvil.json
+
+# Phase 2B
+external/

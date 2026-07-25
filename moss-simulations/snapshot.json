@@ -1,0 +1,33 @@
+{
+  "snapshotVersion": 1,
+  "timestamp": "2026-07-25T07:39:59Z",
+  "anvilChainId": 143,
+  "contractAddress": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+  "markets": {
+    "1": {
+      "scenario": "buy_YES_open",
+      "state": "open"
+    },
+    "2": {
+      "scenario": "buy_NO_open",
+      "state": "open"
+    },
+    "3": {
+      "scenario": "claim_win_lose",
+      "state": "resolved_YES",
+      "participants": {
+        "ALICE": "YES_winner",
+        "BOB": "NO_loser"
+      }
+    },
+    "4": {
+      "scenario": "already_claimed",
+      "state": "claimed"
+    },
+    "5": {
+      "scenario": "closed_buy_refund",
+      "state": "resolved_refund"
+    }
+  },
+  "simulationSummary": "12/12 SDK tests passed. All scenarios verified via real debug_traceCall."
+}

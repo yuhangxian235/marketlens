@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-25T08:17:16Z",
+  "environment": "local_anvil_moss",
+  "chainId": 143,
+  "contractAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  "totalScenarios": 11,
+  "successCount": 4,
+  "failureCount": 7,
+  "successScenarios": {
+    "create_market": {
+      "result": "PASSED",
+      "warnings": [],
+      "halted": false,
+      "outcome": {
+        "operation": "create_market",
+        "marketId": "6"
+      }
+    },
+    "buy_position_YES": {
+      "result": "PASSED",
+      "warnings": [],
+      "halted": false,
+      "outcome": {
+        "operation": "buy_position",
+        "marketId": "1",
+        "outcome": "YES"
+      }
+    },
+    "buy_position_NO": {
+      "result": "PASSED",
+      "warnings": [],
+      "halted": false,
+      "outcome": {
+        "operation": "buy_position",
+        "marketId": "2",
+        "outcome": "NO"
+      }
+    },
+    "claim_reward": {
+      "result": "PASSED",
+      "warnings": [],
+      "halted": false,
+      "outcome": {
+        "operation": "claim_reward",
+        "marketId": "3",
+        "payoutWei": "1500000000000000000"
+      }
+    }
+  },
+  "failureScenarios": {
+    "losing_claim": {
+      "result": "SIMULATION_REVERTED",
+      "failureStage": "SIMULATION_REVERTED"
+    },
+    "already_claimed": {
+      "result": "SIMULATION_REVERTED",
+      "failureStage": "SIMULATION_REVERTED"
+    },
+    "closed_market_buy": {
+      "result": "SIMULATION_REVERTED",
+      "failureStage": "SIMULATION_REVERTED"
+    },
+    "unknown_market_buy": {
+      "result": "SIMULATION_REVERTED",
+      "failureStage": "SIMULATION_REVERTED"
+    },
+    "unknown_market_claim": {
+      "result": "SIMULATION_REVERTED",
+      "failureStage": "SIMULATION_REVERTED"
+    },
+    "zero_value_buy": {
+      "result": "PARAMETER_REJECTED",
+      "failureStage": "PARAMETER_REJECTED"
+    },
+    "invalid_outcome": {
+      "result": "PARAMETER_REJECTED",
+      "failureStage": "PARAMETER_REJECTED"
+    }
+  }
+}

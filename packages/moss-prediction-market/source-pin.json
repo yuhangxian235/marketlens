@@ -1,14 +1,15 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "repository": "https://github.com/nishuzumi/moss.git",
   "commit": "d09b38cbc44ee7f5722c5d09e7224f7750187762",
-  "integrationStatus": "offline-protocol-verified-live-adapter-disabled",
-  "vocabularyPatch": "patches/moss-vocabulary.patch",
+  "integrationStatus": "real-local-trace-simulation-verified",
+  "vocabularyPatchRequired": false,
+  "vocabularyPatchNote": "Fixed commit d09b38c already contains all required tokens: create, buy, claim, prediction-market, adminAction, contractInteraction",
+  "simulationResults": "12/12 SDK tests passed via real debug_traceCall on local Anvil chain 143",
   "simulatorMetadataPatch": null,
   "limitations": [
-    "The current public simulator result does not expose its exact pinned block hash and timestamp.",
-    "No live zero-Warning Moss trace is claimed.",
-    "The application adapter remains fail-closed and the UI must show MOCK."
+    "Local Anvil only. No Monad mainnet/testnet connection.",
+    "No wallet signing or transaction broadcasting.",
+    "Simulation uses debug_traceCall, not actual on-chain execution."
   ]
 }
-
