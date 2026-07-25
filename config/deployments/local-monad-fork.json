@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "status": "deployed",
+  "networkProfile": "local-monad-fork",
+  "chainId": 143,
+  "contractName": "PredictionMarket",
+  "address": "0xa4d0806d597146df93796a38435abb2a3cb96677",
+  "deploymentBlock": 90057010,
+  "deploymentBlockHash": "0x6ab063385d8d5f527e960fd6a98db084b0a502a83888560c39ba9f864fe9f089",
+  "transactionHash": "0x7319a910ef5c96ac08504b93656b82fa4c806f22c06a6ca80e0434dddbf08efc",
+  "deployer": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+  "runtimeBytecodeHash": "0xfc5332f91bffdd797f2855897636e3975869ac202f001e6481bb61f0a6547fc7",
+  "abiHash": "0x88fc7a71edc70c73fc27d6466c07a5d301dd4299c1bf55e522c15f0d0919c57d",
+  "generatedAt": "2026-07-25T01:10:57Z"
+}

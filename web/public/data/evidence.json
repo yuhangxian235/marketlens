@@ -1,0 +1,196 @@
+{
+  "global.d1_repeat_rate": {
+    "metric_id": "global.d1_repeat_rate",
+    "definition": "Eligible wallets active on the UTC day after first-seen-in-sample.",
+    "numerator_definition": "Eligible wallets with next_day_returned = 1",
+    "denominator_definition": "Wallets whose cohort day and next UTC day are complete",
+    "sql_file": "wallet_first_seen.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "global.multi_market_share": {
+    "metric_id": "global.multi_market_share",
+    "definition": "Share of sampled wallets that joined at least two markets.",
+    "numerator_definition": "Wallets with markets_joined >= 2",
+    "denominator_definition": "All sampled wallets",
+    "sql_file": "cross_market.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "global.unique_wallets": {
+    "metric_id": "global.unique_wallets",
+    "definition": "Distinct wallet addresses with a qualifying PositionBought event.",
+    "numerator_definition": "Distinct wallet addresses",
+    "denominator_definition": "not_applicable",
+    "sql_file": "wallet_first_seen.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.1.first_touch_wallets": {
+    "metric_id": "market.1.first_touch_wallets",
+    "definition": "Wallets whose earliest sampled buy is in this market.",
+    "numerator_definition": "Wallets first touching this market",
+    "denominator_definition": "All sampled wallets",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
+      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
+      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.1.total_amount_mon": {
+    "metric_id": "market.1.total_amount_mon",
+    "definition": "Total aligned contribution amount, displayed in MON.",
+    "numerator_definition": "Sum of exact contribution gwei",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
+      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
+      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.1.trade_count": {
+    "metric_id": "market.1.trade_count",
+    "definition": "Qualifying PositionBought events for this market.",
+    "numerator_definition": "Distinct event keys",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
+      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
+      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.1.unique_wallets": {
+    "metric_id": "market.1.unique_wallets",
+    "definition": "Distinct wallet addresses buying in this market.",
+    "numerator_definition": "Distinct wallet addresses",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
+      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
+      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.2.first_touch_wallets": {
+    "metric_id": "market.2.first_touch_wallets",
+    "definition": "Wallets whose earliest sampled buy is in this market.",
+    "numerator_definition": "Wallets first touching this market",
+    "denominator_definition": "All sampled wallets",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
+      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
+      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.2.total_amount_mon": {
+    "metric_id": "market.2.total_amount_mon",
+    "definition": "Total aligned contribution amount, displayed in MON.",
+    "numerator_definition": "Sum of exact contribution gwei",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
+      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
+      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.2.trade_count": {
+    "metric_id": "market.2.trade_count",
+    "definition": "Qualifying PositionBought events for this market.",
+    "numerator_definition": "Distinct event keys",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
+      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
+      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.2.unique_wallets": {
+    "metric_id": "market.2.unique_wallets",
+    "definition": "Distinct wallet addresses buying in this market.",
+    "numerator_definition": "Distinct wallet addresses",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
+      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
+      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.3.first_touch_wallets": {
+    "metric_id": "market.3.first_touch_wallets",
+    "definition": "Wallets whose earliest sampled buy is in this market.",
+    "numerator_definition": "Wallets first touching this market",
+    "denominator_definition": "All sampled wallets",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
+      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.3.total_amount_mon": {
+    "metric_id": "market.3.total_amount_mon",
+    "definition": "Total aligned contribution amount, displayed in MON.",
+    "numerator_definition": "Sum of exact contribution gwei",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
+      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.3.trade_count": {
+    "metric_id": "market.3.trade_count",
+    "definition": "Qualifying PositionBought events for this market.",
+    "numerator_definition": "Distinct event keys",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
+      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  },
+  "market.3.unique_wallets": {
+    "metric_id": "market.3.unique_wallets",
+    "definition": "Distinct wallet addresses buying in this market.",
+    "numerator_definition": "Distinct wallet addresses",
+    "denominator_definition": "not_applicable",
+    "sql_file": "market_activity.sql",
+    "sample_size": 6,
+    "sample_tx_hashes": [
+      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
+      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+    ],
+    "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
+  }
+}

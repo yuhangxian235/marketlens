@@ -1,0 +1,19 @@
+diff --git a/packages/core/src/types.ts b/packages/core/src/types.ts
+--- a/packages/core/src/types.ts
++++ b/packages/core/src/types.ts
+@@
+   "approve",
++  "create",
++  "buy",
+ ] as const;
+@@
+-export const CATEGORIES = ["dex", "lending", "staking", "rewards", "token", "nft"] as const;
++export const CATEGORIES = [
++  "dex", "lending", "staking", "rewards", "token", "nft", "prediction-market",
++] as const;
+@@
+-export const RISK_LABELS = ["fundOut", "approval", "priceImpact"] as const;
++export const RISK_LABELS = [
++  "fundOut", "approval", "priceImpact", "adminAction", "contractInteraction",
++] as const;
+

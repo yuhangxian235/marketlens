@@ -1,0 +1,29 @@
+{
+  "name": "@marketlens/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "predev": "pnpm --filter @marketlens/prediction-market-actions build",
+    "dev": "next dev",
+    "prebuild": "pnpm --filter @marketlens/prediction-market-actions build",
+    "build": "next build",
+    "typecheck": "tsc --noEmit",
+    "test": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@marketlens/prediction-market-actions": "workspace:*",
+    "next": "16.2.11",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "viem": "^2.54.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "eslint": "^9.31.0",
+    "eslint-config-next": "16.2.11",
+    "typescript": "^5.9.2"
+  }
+}

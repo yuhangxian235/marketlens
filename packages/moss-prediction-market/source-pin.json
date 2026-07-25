@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/nishuzumi/moss.git",
+  "commit": "d09b38cbc44ee7f5722c5d09e7224f7750187762",
+  "integrationStatus": "offline-protocol-verified-live-adapter-disabled",
+  "vocabularyPatch": "patches/moss-vocabulary.patch",
+  "simulatorMetadataPatch": null,
+  "limitations": [
+    "The current public simulator result does not expose its exact pinned block hash and timestamp.",
+    "No live zero-Warning Moss trace is claimed.",
+    "The application adapter remains fail-closed and the UI must show MOCK."
+  ]
+}
+

@@ -1,0 +1,8 @@
+packages:
+  - packages/prediction-market-actions
+  - web
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
