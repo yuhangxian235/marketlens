@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "comparisonType": "clean_run_deterministic",
+  "run1": {
+    "contract_address": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "protocol_tests": 27,
+    "foundry": 44,
+    "analytics": 16,
+    "action": 6,
+    "residual_anvil": 0
+  },
+  "run2": {
+    "contract_address": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "protocol_tests": 27,
+    "foundry": 44,
+    "analytics": 16,
+    "action": 6,
+    "residual_anvil": 0
+  },
+  "deterministic_fields_checked": [
+    "contract_address",
+    "protocol_test_count",
+    "foundry_test_count",
+    "analytics_test_count",
+    "action_test_count",
+    "residual_anvil_process_count"
+  ],
+  "matching_fields": 6,
+  "mismatching_fields": 0,
+  "accepted_nondeterministic_fields": [
+    "run_id",
+    "started_at",
+    "finished_at",
+    "duration",
+    "pid"
+  ],
+  "comparison_status": "PASS"
+}
