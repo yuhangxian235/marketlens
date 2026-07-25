@@ -1,0 +1,45 @@
+{
+  "demoVersion": "3B-R1",
+  "generatedAt": "2026-07-25T12:09:48Z",
+  "generatedFromCommit": "bf3887e",
+  "primaryScenarioId": "buy_position_YES",
+  "fallbackScenarioId": "claim_reward",
+  "failureScenarioId": "losing_claim",
+  "executionEnabled": false,
+  "signingEnabled": false,
+  "broadcastingEnabled": false,
+  "externalRpcRequired": false,
+  "backgroundServiceRequired": false,
+  "dataFiles": {
+    "analytics.json": {
+      "sha256": "d9547d9e0fcd096d9e02c3f2b9101a8a5f7e740883c82628d771549bfe80b642",
+      "status": "VERIFIED_AT_BUILD",
+      "role": "analytics"
+    },
+    "evidence.json": {
+      "sha256": "c8699814d18edf31e53daf50e41aaed6219f78349718a4b0b06a3d47796ba178",
+      "status": "VERIFIED_AT_BUILD",
+      "role": "evidence"
+    },
+    "provenance.json": {
+      "sha256": "d3f5f241cff605e9bc7c92f430b0c558e20fb3577d37e46ed53bb7f6673e4d46",
+      "status": "VERIFIED_AT_BUILD",
+      "role": "provenance"
+    },
+    "markets.json": {
+      "sha256": "b05eba6c1a503e92710fc5f346e836fdf347e7397415661c063435619c3fe3e1",
+      "status": "VERIFIED_AT_BUILD",
+      "role": "markets"
+    },
+    "moss-simulations.json": {
+      "sha256": "5d0fe032ea20c38ac0c847db890a1daa2b5d84244be98ccaae807b67b7bf4863",
+      "status": "VERIFIED_AT_BUILD",
+      "role": "moss-simulations"
+    },
+    "moss-provenance.json": {
+      "sha256": "d3362b88e586b9b06861c974ef75e5ee97eeb84773a0e037ab7814c7c1ac0078",
+      "status": "VERIFIED_AT_BUILD",
+      "role": "moss-provenance"
+    }
+  }
+}
