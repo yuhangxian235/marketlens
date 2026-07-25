@@ -66,6 +66,17 @@ export interface MetricEvidence {
 
 export type EvidenceMap = Record<string, MetricEvidence>;
 
+
+export interface DataProvenance {
+  source: string; data_status: string; chain_id: number;
+  rpc_external: boolean; fork_used: boolean; contract_address: string;
+  block_from: number; block_to: number; block_count: number;
+  generated_at_utc: string; raw_event_count: number;
+  decoded_event_count: number; decode_error_count: number;
+  action_status: string; moss_status: string; monad_status: string;
+  wallet_count: number; market_count: number;
+}
+
 async function readData<T>(filename: string): Promise<T> {
   const path = join(process.cwd(), "public", "data", filename);
   return JSON.parse(await readFile(path, "utf8")) as T;
@@ -75,6 +86,7 @@ export const getManifest = () => readData<EvidenceManifest>("manifest.json");
 export const getMarkets = () => readData<MarketSummary[]>("markets.json");
 export const getAnalytics = () => readData<AnalyticsSummary>("analytics.json");
 export const getEvidence = () => readData<EvidenceMap>("evidence.json");
+export const getProvenance = () => readData<DataProvenance>("provenance.json");
 
 export function compactAddress(address: string): string {
   return `${address.slice(0, 8)}…${address.slice(-6)}`;

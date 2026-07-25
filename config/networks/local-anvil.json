@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "profile": "local-anvil",
+  "chainId": 31337,
+  "rpcUrlEnv": "RPC_URL",
+  "localRpcUrl": "http://127.0.0.1:8545",
+  "upstreamRpcUrlEnv": "",
+  "upstreamRpcLabel": "",
+  "forkBlockNumber": 0,
+  "forkBlockHash": "",
+  "forkUsed": false,
+  "externalRpcUsed": false,
+  "requiredRpcMethods": [
+    "eth_getLogs",
+    "evm_setNextBlockTimestamp",
+    "evm_mine"
+  ],
+  "explorerBaseUrl": "",
+  "privateKeysAllowed": false,
+  "notes": "Clean local Anvil instance. No fork. Uses Anvil public development accounts."
+}

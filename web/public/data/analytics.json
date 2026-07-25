@@ -1,12 +1,12 @@
 {
-  "analysisRunId": "analysis-3ebe1e24-914f-433b-ad68-d5e0e0028624",
-  "allWallets": 6,
+  "analysisRunId": "analysis-08125857-96a6-4e4d-878c-e247c593fe57",
+  "allWallets": 8,
   "multiMarketWallets": 5,
-  "multiMarketShare": 0.8333333333333334,
+  "multiMarketShare": 0.625,
   "returnedLaterWallets": 5,
-  "d1EligibleWallets": 6,
-  "d1ReturnedWallets": 4,
-  "d1RepeatRate": 0.6666666666666666,
+  "d1EligibleWallets": 5,
+  "d1ReturnedWallets": 3,
+  "d1RepeatRate": 0.6,
   "semantics": {
     "wallet": "address-level participant, not a natural person",
     "firstSeen": "first-seen-in-sample, not platform acquisition",

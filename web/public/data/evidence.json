@@ -5,7 +5,7 @@
     "numerator_definition": "Eligible wallets with next_day_returned = 1",
     "denominator_definition": "Wallets whose cohort day and next UTC day are complete",
     "sql_file": "wallet_first_seen.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -15,7 +15,7 @@
     "numerator_definition": "Wallets with markets_joined >= 2",
     "denominator_definition": "All sampled wallets",
     "sql_file": "cross_market.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -25,7 +25,7 @@
     "numerator_definition": "Distinct wallet addresses",
     "denominator_definition": "not_applicable",
     "sql_file": "wallet_first_seen.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -35,11 +35,11 @@
     "numerator_definition": "Wallets first touching this market",
     "denominator_definition": "All sampled wallets",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
-      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
-      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+      "0x22d68f1bd9c9fc95e45e45b51b2052ff00b06260bd254bd9c5bf0643a7127b36",
+      "0x05349d50d4c76504ce2388e8bef641afb6c439c8cfad0207e1220ddeb604602f",
+      "0xb6a17cb81bb411f7c532ce1a38881a33f44f0614c4710255b2f7e3450f010548"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -49,11 +49,11 @@
     "numerator_definition": "Sum of exact contribution gwei",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
-      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
-      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+      "0x22d68f1bd9c9fc95e45e45b51b2052ff00b06260bd254bd9c5bf0643a7127b36",
+      "0x05349d50d4c76504ce2388e8bef641afb6c439c8cfad0207e1220ddeb604602f",
+      "0xb6a17cb81bb411f7c532ce1a38881a33f44f0614c4710255b2f7e3450f010548"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -63,11 +63,11 @@
     "numerator_definition": "Distinct event keys",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
-      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
-      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+      "0x22d68f1bd9c9fc95e45e45b51b2052ff00b06260bd254bd9c5bf0643a7127b36",
+      "0x05349d50d4c76504ce2388e8bef641afb6c439c8cfad0207e1220ddeb604602f",
+      "0xb6a17cb81bb411f7c532ce1a38881a33f44f0614c4710255b2f7e3450f010548"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -77,11 +77,11 @@
     "numerator_definition": "Distinct wallet addresses",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x0e47ed931a122c5fc8a22899c3b81f237e2e228f9a504db70c726f02c95e5be4",
-      "0x00b1bbebd54efa51f3fb2901e1525380e9e4cba96311e35a84fe453fbeb1a33e",
-      "0x600d8c786b99bbe3ec7b85454f79045a079547fe9e1a1c9612e1c4b5e1238732"
+      "0x22d68f1bd9c9fc95e45e45b51b2052ff00b06260bd254bd9c5bf0643a7127b36",
+      "0x05349d50d4c76504ce2388e8bef641afb6c439c8cfad0207e1220ddeb604602f",
+      "0xb6a17cb81bb411f7c532ce1a38881a33f44f0614c4710255b2f7e3450f010548"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -91,11 +91,11 @@
     "numerator_definition": "Wallets first touching this market",
     "denominator_definition": "All sampled wallets",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
-      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
-      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+      "0x924b1bc2c553ae41c507de83aab4009d8bac0e0720caf39532b6a60fb3a0c399",
+      "0x93dbacf2c2c338453d019e05f707ee50eaf42f1d4563c82fbfc7c9114c7aea8c",
+      "0xd42c6933866b504e7c70c0361003d24823d428f8a87e1400426c9a6497f7d586"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -105,11 +105,11 @@
     "numerator_definition": "Sum of exact contribution gwei",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
-      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
-      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+      "0x924b1bc2c553ae41c507de83aab4009d8bac0e0720caf39532b6a60fb3a0c399",
+      "0x93dbacf2c2c338453d019e05f707ee50eaf42f1d4563c82fbfc7c9114c7aea8c",
+      "0xd42c6933866b504e7c70c0361003d24823d428f8a87e1400426c9a6497f7d586"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -119,11 +119,11 @@
     "numerator_definition": "Distinct event keys",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
-      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
-      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+      "0x924b1bc2c553ae41c507de83aab4009d8bac0e0720caf39532b6a60fb3a0c399",
+      "0x93dbacf2c2c338453d019e05f707ee50eaf42f1d4563c82fbfc7c9114c7aea8c",
+      "0xd42c6933866b504e7c70c0361003d24823d428f8a87e1400426c9a6497f7d586"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -133,11 +133,11 @@
     "numerator_definition": "Distinct wallet addresses",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x8fae69fc5376f033cf317ea37af101f187e7710aa8c7e69073376b353212da8c",
-      "0xb544156baa6b9eed47ea074557d34a2bcbbeab000ae4e4de9c3512d79b4d2414",
-      "0x819672f8edfeaac1c5569f1093c1513661a131a73b59af4c8298f3d454f2901c"
+      "0x924b1bc2c553ae41c507de83aab4009d8bac0e0720caf39532b6a60fb3a0c399",
+      "0x93dbacf2c2c338453d019e05f707ee50eaf42f1d4563c82fbfc7c9114c7aea8c",
+      "0xd42c6933866b504e7c70c0361003d24823d428f8a87e1400426c9a6497f7d586"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -147,10 +147,11 @@
     "numerator_definition": "Wallets first touching this market",
     "denominator_definition": "All sampled wallets",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
-      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+      "0xa1fc784ed89357a3d9335fdbc3011f7ac03c82d72dbefd6e68dfe33c8a5709f4",
+      "0xc4f26b0f3505a02fc144989fda7ee48a595660c052bb66125ab782f158f30840",
+      "0x5671ac6434cebde4c4039e01d07dbe86490bef86b8e91cd1e53cbb5cb3ec61f0"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -160,10 +161,11 @@
     "numerator_definition": "Sum of exact contribution gwei",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
-      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+      "0xa1fc784ed89357a3d9335fdbc3011f7ac03c82d72dbefd6e68dfe33c8a5709f4",
+      "0xc4f26b0f3505a02fc144989fda7ee48a595660c052bb66125ab782f158f30840",
+      "0x5671ac6434cebde4c4039e01d07dbe86490bef86b8e91cd1e53cbb5cb3ec61f0"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -173,10 +175,11 @@
     "numerator_definition": "Distinct event keys",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
-      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+      "0xa1fc784ed89357a3d9335fdbc3011f7ac03c82d72dbefd6e68dfe33c8a5709f4",
+      "0xc4f26b0f3505a02fc144989fda7ee48a595660c052bb66125ab782f158f30840",
+      "0x5671ac6434cebde4c4039e01d07dbe86490bef86b8e91cd1e53cbb5cb3ec61f0"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   },
@@ -186,10 +189,11 @@
     "numerator_definition": "Distinct wallet addresses",
     "denominator_definition": "not_applicable",
     "sql_file": "market_activity.sql",
-    "sample_size": 6,
+    "sample_size": 8,
     "sample_tx_hashes": [
-      "0x558a6440e9bd27bf8d818f8a0c7c925378c6a7dd41e0ec16c614dd3c0ffb411b",
-      "0x3a33c6fcc6bbe583c3ee694bd52bf29f355c7eea4b45befc0a16793f3bf0118c"
+      "0xa1fc784ed89357a3d9335fdbc3011f7ac03c82d72dbefd6e68dfe33c8a5709f4",
+      "0xc4f26b0f3505a02fc144989fda7ee48a595660c052bb66125ab782f158f30840",
+      "0x5671ac6434cebde4c4039e01d07dbe86490bef86b8e91cd1e53cbb5cb3ec61f0"
     ],
     "limitations": "Address-level, first-seen-in-sample evidence from the configured block/time window. Seeded local-fork data is a reproducibility fixture, not product evidence."
   }
