@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "analysisRunId": "analysis-3ebe1e24-914f-433b-ad68-d5e0e0028624",
+  "analysisRunId": "analysis-08125857-96a6-4e4d-878c-e247c593fe57",
   "publishable": true,
-  "chainId": 143,
-  "contractAddress": "0xa4d0806d597146df93796a38435abb2a3cb96677",
-  "fromBlock": 90057010,
-  "toBlock": 90057042,
-  "windowStart": "2026-07-26T00:00:00Z",
-  "windowEnd": "2026-07-30T00:00:00Z",
-  "pipelineVersion": "marketlens-pipeline-v1",
-  "generatedAt": "2026-07-25T01:10:59Z",
+  "chainId": 31337,
+  "contractAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  "fromBlock": 1,
+  "toBlock": 44,
+  "windowStart": "2026-07-26T06:00:00Z",
+  "windowEnd": "2026-07-30T18:00:00Z",
+  "pipelineVersion": "marketlens-pipeline-v1.1-baseline",
+  "generatedAt": "2026-07-25T05:12:38Z",
   "qualityChecks": [
     {
       "name": "claimed_payout_wei",
       "status": "PASS",
-      "sqlValue": "19000000000000000000",
-      "pandasValue": "19000000000000000000"
+      "sqlValue": "27200000000000000000",
+      "pandasValue": "27200000000000000000"
     },
     {
       "name": "cohort_sum_equals_distinct_wallets",
       "status": "PASS",
-      "sqlValue": "6",
-      "pandasValue": "6"
+      "sqlValue": "8",
+      "pandasValue": "8"
     },
     {
       "name": "decode_errors",
@@ -32,20 +32,20 @@
     {
       "name": "distinct_wallet_count",
       "status": "PASS",
-      "sqlValue": "6",
-      "pandasValue": "6"
+      "sqlValue": "8",
+      "pandasValue": "8"
     },
     {
       "name": "per_market_volume_gwei",
       "status": "PASS",
-      "sqlValue": "{\"1\": 10000000000, \"2\": 6000000000, \"3\": 3000000000}",
-      "pandasValue": "{\"1\": 10000000000, \"2\": 6000000000, \"3\": 3000000000}"
+      "sqlValue": "{\"1\": 8000000000, \"2\": 6000000000, \"3\": 7000000000}",
+      "pandasValue": "{\"1\": 8000000000, \"2\": 6000000000, \"3\": 7000000000}"
     },
     {
       "name": "yes_plus_no_equals_total",
       "status": "PASS",
-      "sqlValue": "19000000000",
-      "pandasValue": "19000000000"
+      "sqlValue": "21000000000",
+      "pandasValue": "21000000000"
     }
   ]
 }

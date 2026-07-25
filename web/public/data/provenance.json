@@ -1,0 +1,46 @@
+{
+  "source": "local_anvil",
+  "data_status": "REAL_LOCAL_DEMO",
+  "chain_id": 31337,
+  "rpc_external": false,
+  "fork_used": false,
+  "contract_address": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  "block_from": 1,
+  "block_to": 44,
+  "block_count": 44,
+  "generated_at_utc": "2026-07-25T05:14:23Z",
+  "transaction_attempts": 36,
+  "successful_transactions": 35,
+  "reverted_transactions": 1,
+  "preflight_rejections": 0,
+  "successful_by_action": {
+    "deploy": 1,
+    "create_market": 3,
+    "buy_position": 18,
+    "resolve_market": 3,
+    "claim_reward": 10
+  },
+  "failed_by_action": {
+    "claim_reward": 1
+  },
+  "raw_event_count": 34,
+  "decoded_event_count": 34,
+  "decode_error_count": 0,
+  "event_breakdown": {
+    "MarketCreated": 3,
+    "PositionBought": 18,
+    "MarketResolved": 3,
+    "RewardClaimed": 10
+  },
+  "sqlite_schema": "analytics/sql/schema.sql",
+  "analytics_version": "marketlens-pipeline-v1.1-baseline",
+  "action_status": "MOCK",
+  "moss_status": "NOT_ENABLED",
+  "monad_status": "NOT_DEPLOYED",
+  "wallet_count": 8,
+  "market_count": 3,
+  "d1_eligible_wallets": 5,
+  "d1_returned_wallets": 3,
+  "d1_sample_window_repeat_rate": 0.6,
+  "observation_window": "2026-07-26T06:00:00Z to 2026-07-30T18:00:00Z"
+}

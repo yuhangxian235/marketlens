@@ -34,3 +34,8 @@ analytics/reports/*.json
 web/public/data/generated/
 
 work/
+
+# Phase 2A
+cache/
+demo/generated/
+config/deployments/local-anvil.json
