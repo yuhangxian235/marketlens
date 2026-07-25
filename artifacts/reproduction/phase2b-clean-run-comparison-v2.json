@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "comparison_date": "2026-07-25T08:55:12Z",
+  "run1": {
+    "contract": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "protocol_tests": 64,
+    "protocol_files": 8,
+    "foundry": 44,
+    "analytics": 16,
+    "action": 6,
+    "residual": 0
+  },
+  "run2": {
+    "contract": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "protocol_tests": 64,
+    "protocol_files": 8,
+    "foundry": 44,
+    "analytics": 16,
+    "action": 6,
+    "residual": 0
+  },
+  "deterministic_fields": [
+    "contract_address",
+    "protocol_test_count",
+    "protocol_file_count",
+    "success_scenarios",
+    "failure_scenarios",
+    "foundry",
+    "analytics",
+    "action",
+    "residual_anvil"
+  ],
+  "matching": 9,
+  "mismatching": 0,
+  "protocol_required_skipped": 0,
+  "comparison_status": "PASS"
+}
