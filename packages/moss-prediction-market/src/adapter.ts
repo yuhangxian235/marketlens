@@ -16,7 +16,7 @@ import { z } from "zod/v4";
 import { PredictionMarketAbi } from "./abis/prediction-market.js";
 
 export const MARKETLENS_LOCAL_ADDRESS: AddressValue =
-  "0xa4d0806d597146df93796a38435abb2a3cb96677";
+  "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
 
 const positiveInteger = UnsignedIntegerString.refine(
   (value) => BigInt(value) > 0n,
