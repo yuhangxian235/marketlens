@@ -1,0 +1,119 @@
+[
+  {
+    "marketId": "eth-q3-3000",
+    "question": "Will ETH be above $3,000 by end of Q3 2026?",
+    "slug": "eth-above-3000-q3-2026",
+    "conditionId": "0xeth3000",
+    "outcomes": [
+      {
+        "label": "Yes",
+        "tokenId": "token_eth_yes",
+        "price": 0.65
+      },
+      {
+        "label": "No",
+        "tokenId": "token_eth_no",
+        "price": 0.35
+      }
+    ],
+    "outcomePrices": [
+      "0.65",
+      "0.35"
+    ],
+    "volume": "1250000.50",
+    "liquidity": "85000.00",
+    "active": true,
+    "closed": false,
+    "acceptingOrders": true,
+    "resolved": false,
+    "endDate": "2026-09-30T23:59:59Z",
+    "negRisk": false,
+    "negRiskMarketId": null,
+    "tags": [
+      "crypto",
+      "ethereum"
+    ],
+    "tokenIds": [
+      "token_eth_yes",
+      "token_eth_no"
+    ]
+  },
+  {
+    "marketId": "btc-100k-q3",
+    "question": "Will BTC reach $100K this quarter?",
+    "slug": "btc-100k-q3-2026",
+    "conditionId": "0xbtc100k",
+    "outcomes": [
+      {
+        "label": "Yes",
+        "tokenId": "token_btc_yes",
+        "price": 0.42
+      },
+      {
+        "label": "No",
+        "tokenId": "token_btc_no",
+        "price": 0.58
+      }
+    ],
+    "outcomePrices": [
+      "0.42",
+      "0.58"
+    ],
+    "volume": "3400000.00",
+    "liquidity": "210000.00",
+    "active": true,
+    "closed": false,
+    "acceptingOrders": true,
+    "resolved": false,
+    "endDate": "2026-09-30T23:59:59Z",
+    "negRisk": false,
+    "negRiskMarketId": null,
+    "tags": [
+      "crypto",
+      "bitcoin"
+    ],
+    "tokenIds": [
+      "token_btc_yes",
+      "token_btc_no"
+    ]
+  },
+  {
+    "marketId": "fed-cut-sep",
+    "question": "Will the Fed cut rates in September 2026?",
+    "slug": "fed-cut-sep-2026",
+    "conditionId": "0xfedcut",
+    "outcomes": [
+      {
+        "label": "Yes",
+        "tokenId": "token_fed_yes",
+        "price": 0.78
+      },
+      {
+        "label": "No",
+        "tokenId": "token_fed_no",
+        "price": 0.22
+      }
+    ],
+    "outcomePrices": [
+      "0.78",
+      "0.22"
+    ],
+    "volume": "890000.00",
+    "liquidity": "45000.00",
+    "active": true,
+    "closed": false,
+    "acceptingOrders": true,
+    "resolved": false,
+    "endDate": "2026-09-17T18:00:00Z",
+    "negRisk": false,
+    "negRiskMarketId": null,
+    "tags": [
+      "macro",
+      "fed"
+    ],
+    "tokenIds": [
+      "token_fed_yes",
+      "token_fed_no"
+    ]
+  }
+]

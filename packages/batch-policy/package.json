@@ -1,0 +1,38 @@
+{
+  "name": "@marketlens/batch-policy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/browser.ts --format esm --dts --sourcemap --clean --target es2022",
+    "typecheck": "tsc --noEmit",
+    "pretest": "pnpm --filter @marketlens/agent-planner build && pnpm --filter @marketlens/moss-prediction-market build",
+    "test": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/test-with-anvil.ps1",
+    "test:watch": "vitest",
+    "generate": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/generate-artifacts.ps1",
+    "preverify:artifacts": "pnpm build",
+    "verify:artifacts": "node ./scripts/verify-artifacts.mjs"
+  },
+  "dependencies": {
+    "@marketlens/agent-planner": "workspace:*",
+    "@marketlens/moss-prediction-market": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.6"
+  }
+}

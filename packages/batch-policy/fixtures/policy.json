@@ -1,0 +1,22 @@
+{
+  "policy_id": "demo-batch-policy-v1",
+  "max_actions": 5,
+  "max_total_payment": "500000000000000000",
+  "max_payment_per_action": "500000000000000000",
+  "max_payment_per_market": "500000000000000000",
+  "allowed_capabilities": [
+    "buy_position",
+    "claim_reward"
+  ],
+  "allowed_outcomes": [
+    "YES",
+    "NO",
+    "NOT_APPLICABLE"
+  ],
+  "block_conflicting_outcomes_same_market": true,
+  "require_simulation_success": true,
+  "require_receipt": true,
+  "require_intent_match": true,
+  "fail_closed_on_missing_data": true,
+  "execution_mode": "ALLOW_ELIGIBLE_ONLY"
+}

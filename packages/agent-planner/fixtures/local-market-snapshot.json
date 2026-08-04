@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "snapshot_id": "local-market-snapshot-v1",
+  "observed_at": "2026-07-26T00:00:00.000Z",
+  "agent_id": "marketlens-local-agent-v1",
+  "policy_reference": "standard-trade-policy",
+  "actors": {
+    "momentum": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "contrarian": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "claimant": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+  },
+  "markets": [
+    {
+      "market_id": "1",
+      "question": "Will ETH exceed $5,000 by December 2026?",
+      "status": "OPEN",
+      "reference_outcome": "YES",
+      "momentum_signal_bps": 8200,
+      "contrarian_signal_bps": 3100,
+      "momentum_stake_wei": "100000000000000000",
+      "contrarian_stake_wei": "100000000000000000",
+      "momentum_budget_wei": "200000000000000000",
+      "contrarian_budget_wei": "200000000000000000",
+      "minimum_stake_wei": "50000000000000000"
+    },
+    {
+      "market_id": "2",
+      "question": "Will BTC reach $150K before the next halving?",
+      "status": "OPEN",
+      "reference_outcome": "YES",
+      "momentum_signal_bps": 3600,
+      "contrarian_signal_bps": 9100,
+      "momentum_stake_wei": "8000000000000000000",
+      "contrarian_stake_wei": "8000000000000000000",
+      "momentum_budget_wei": "10000000000000000000",
+      "contrarian_budget_wei": "10000000000000000000",
+      "minimum_stake_wei": "50000000000000000"
+    },
+    {
+      "market_id": "3",
+      "question": "Resolved YES market; claimant holds only the losing NO side",
+      "status": "RESOLVED_YES",
+      "reference_outcome": "YES",
+      "momentum_signal_bps": 0,
+      "contrarian_signal_bps": 0,
+      "momentum_stake_wei": "0",
+      "contrarian_stake_wei": "0",
+      "momentum_budget_wei": "0",
+      "contrarian_budget_wei": "0",
+      "minimum_stake_wei": "0",
+      "claim_index": {
+        "candidate": true,
+        "confidence_bps": 7800
+      }
+    },
+    {
+      "market_id": "4",
+      "question": "Will Solana flip Ethereum in TVL by 2027?",
+      "status": "OPEN",
+      "reference_outcome": "YES",
+      "momentum_signal_bps": 8400,
+      "contrarian_signal_bps": 7600,
+      "momentum_stake_wei": "150000000000000000",
+      "contrarian_stake_wei": "150000000000000000",
+      "momentum_budget_wei": "200000000000000000",
+      "contrarian_budget_wei": "200000000000000000",
+      "minimum_stake_wei": "50000000000000000"
+    }
+  ]
+}

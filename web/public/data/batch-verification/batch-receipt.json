@@ -1,0 +1,1100 @@
+{
+  "receipt_version": "1.0.0",
+  "batch_id": "0xa7b03a983e478d28b4804b922f80d9cb2493ce5f7d08cd2a29564aec04d9e0b7",
+  "policy_id": "demo-batch-policy-v1",
+  "policy_hash": "0xb457c3bd4ede5a988e4c21f0d58c30fa5e74ad818db12e6b8a20c002d274ccc6",
+  "generated_at": "2026-08-03T14:26:27.371Z",
+  "execution_mode": "ALLOW_ELIGIBLE_ONLY",
+  "proposed_count": 5,
+  "action_pass_count": 3,
+  "action_blocked_count": 2,
+  "batch_blocked_count": 1,
+  "eligible_count": 2,
+  "final_blocked_count": 3,
+  "signed_count": 0,
+  "broadcast_count": 0,
+  "total_proposed_payment": "8400000000000000000",
+  "total_eligible_payment": "250000000000000000",
+  "payment_by_market": {
+    "1": "100000000000000000",
+    "4": "150000000000000000"
+  },
+  "conflicting_outcomes": [
+    "4"
+  ],
+  "proposal_order": [
+    "prop-001",
+    "prop-002",
+    "prop-003",
+    "prop-004",
+    "prop-005"
+  ],
+  "action_receipts": [
+    {
+      "receipt_version": "1.0.0",
+      "proposal_id": "prop-001",
+      "agent_id": "marketlens-local-agent-v1",
+      "capability": "buy_position",
+      "market_id": "1",
+      "outcome": "YES",
+      "requested_amount": "100000000000000000",
+      "max_payment": "200000000000000000",
+      "min_stake": "50000000000000000",
+      "simulation_success": true,
+      "moss_evidence": {
+        "engine": "@themoss/simulator",
+        "adapter": "@marketlens/moss-prediction-market",
+        "protocol": "marketlens",
+        "method": "buyPosition",
+        "rpc_url": "http://127.0.0.1:8546",
+        "chain_id": 143,
+        "trace_method": "debug_traceCall",
+        "trace_call_count": 1,
+        "moss_trace_call_count": 1,
+        "block_number_before": "0",
+        "block_number_after": "0",
+        "state_unchanged": true,
+        "transaction": {
+          "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+          "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001",
+          "value": "0x16345785d8a0000"
+        },
+        "reverted": false,
+        "warnings": [],
+        "receipt": {
+          "protocol": "marketlens",
+          "text": "Bought YES in Market 1",
+          "outcome": {
+            "operation": "buy_position",
+            "marketId": "1",
+            "wallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+            "outcome": "YES",
+            "amount": "100000000000000000",
+            "positionUnits": "100000000000000000",
+            "yesPoolAfter": "100000000000000000",
+            "noPoolAfter": "0"
+          },
+          "change_count": 2
+        },
+        "gas": "78740",
+        "unsigned": true,
+        "not_broadcast": true
+      },
+      "intent_checks": [
+        {
+          "rule": "moss_adapter_invoked",
+          "expected": "@marketlens/moss-prediction-market",
+          "actual": "@marketlens/moss-prediction-market",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_capability_matches",
+          "expected": "buyPosition",
+          "actual": "buyPosition",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_not_reverted",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_receipt_exists",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_warnings_empty",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_state_unchanged",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_operation_matches",
+          "expected": "buy_position",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_market_matches",
+          "expected": "1",
+          "actual": "1",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_actor_matches",
+          "expected": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+          "actual": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_outcome_matches",
+          "expected": "YES",
+          "actual": "YES",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_amount_matches",
+          "expected": "100000000000000000",
+          "actual": "100000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_policy_checks": [
+        {
+          "rule": "capability_allowed",
+          "expected": "buy_position,claim_reward",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "outcome_allowed",
+          "expected": "YES,NO,NOT_APPLICABLE",
+          "actual": "YES",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "agent_payment_constraint",
+          "expected": "<= 200000000000000000",
+          "actual": "100000000000000000",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "payment_within_action_limit",
+          "expected": "<= 500000000000000000",
+          "actual": "100000000000000000",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_required",
+          "expected": "PASS",
+          "actual": "PASS",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "minimum_stake_satisfied",
+          "expected": ">= 50000000000000000",
+          "actual": "100000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_level_verdict": "PASS",
+      "batch_level_verdict": "PASS",
+      "final_verdict": "PASS",
+      "verdict_reason": "ELIGIBLE",
+      "receipt_hash": "0xb99079c0fe9d2d60131cad736fef108374877be32aebc834dc7c4c18c3e01378",
+      "unsigned": true,
+      "not_broadcast": true,
+      "source_boundaries": {
+        "proposal": "SYNTHETIC AGENT PROPOSAL",
+        "moss_action": "REAL LOCAL ADAPTER",
+        "simulation": "REAL LOCAL debug_traceCall",
+        "receipt": "RUNTIME COMPUTED FROM MOSS EVIDENCE",
+        "intent_checks": "DETERMINISTIC RULES OVER MOSS RECEIPT",
+        "signing": "UNSIGNED",
+        "broadcast": "NOT BROADCAST",
+        "monad_deployment": "NOT DEPLOYED ON MONAD"
+      }
+    },
+    {
+      "receipt_version": "1.0.0",
+      "proposal_id": "prop-002",
+      "agent_id": "marketlens-local-agent-v1",
+      "capability": "buy_position",
+      "market_id": "2",
+      "outcome": "NO",
+      "requested_amount": "8000000000000000000",
+      "max_payment": "10000000000000000000",
+      "min_stake": "50000000000000000",
+      "simulation_success": true,
+      "moss_evidence": {
+        "engine": "@themoss/simulator",
+        "adapter": "@marketlens/moss-prediction-market",
+        "protocol": "marketlens",
+        "method": "buyPosition",
+        "rpc_url": "http://127.0.0.1:8546",
+        "chain_id": 143,
+        "trace_method": "debug_traceCall",
+        "trace_call_count": 1,
+        "moss_trace_call_count": 1,
+        "block_number_before": "0",
+        "block_number_after": "0",
+        "state_unchanged": true,
+        "transaction": {
+          "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+          "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002",
+          "value": "0x6f05b59d3b200000"
+        },
+        "reverted": false,
+        "warnings": [],
+        "receipt": {
+          "protocol": "marketlens",
+          "text": "Bought NO in Market 2",
+          "outcome": {
+            "operation": "buy_position",
+            "marketId": "2",
+            "wallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+            "outcome": "NO",
+            "amount": "8000000000000000000",
+            "positionUnits": "8000000000000000000",
+            "yesPoolAfter": "0",
+            "noPoolAfter": "8000000000000000000"
+          },
+          "change_count": 2
+        },
+        "gas": "78767",
+        "unsigned": true,
+        "not_broadcast": true
+      },
+      "intent_checks": [
+        {
+          "rule": "moss_adapter_invoked",
+          "expected": "@marketlens/moss-prediction-market",
+          "actual": "@marketlens/moss-prediction-market",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_capability_matches",
+          "expected": "buyPosition",
+          "actual": "buyPosition",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_not_reverted",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_receipt_exists",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_warnings_empty",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_state_unchanged",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_operation_matches",
+          "expected": "buy_position",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_market_matches",
+          "expected": "2",
+          "actual": "2",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_actor_matches",
+          "expected": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+          "actual": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_outcome_matches",
+          "expected": "NO",
+          "actual": "NO",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_amount_matches",
+          "expected": "8000000000000000000",
+          "actual": "8000000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_policy_checks": [
+        {
+          "rule": "capability_allowed",
+          "expected": "buy_position,claim_reward",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "outcome_allowed",
+          "expected": "YES,NO,NOT_APPLICABLE",
+          "actual": "NO",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "agent_payment_constraint",
+          "expected": "<= 10000000000000000000",
+          "actual": "8000000000000000000",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "payment_within_action_limit",
+          "expected": "<= 500000000000000000",
+          "actual": "8000000000000000000",
+          "status": "BLOCKED",
+          "reason": "PAYMENT_LIMIT_EXCEEDED"
+        },
+        {
+          "rule": "simulation_required",
+          "expected": "PASS",
+          "actual": "PASS",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "minimum_stake_satisfied",
+          "expected": ">= 50000000000000000",
+          "actual": "8000000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_level_verdict": "BLOCKED",
+      "batch_level_verdict": "NOT_APPLICABLE",
+      "final_verdict": "BLOCKED",
+      "verdict_reason": "PAYMENT_LIMIT_EXCEEDED",
+      "receipt_hash": "0x3ca7baa877278fefde3c093289666ffe80c55c7ed437edee61830bff9e11cfbf",
+      "unsigned": true,
+      "not_broadcast": true,
+      "source_boundaries": {
+        "proposal": "SYNTHETIC AGENT PROPOSAL",
+        "moss_action": "REAL LOCAL ADAPTER",
+        "simulation": "REAL LOCAL debug_traceCall",
+        "receipt": "RUNTIME COMPUTED FROM MOSS EVIDENCE",
+        "intent_checks": "DETERMINISTIC RULES OVER MOSS RECEIPT",
+        "signing": "UNSIGNED",
+        "broadcast": "NOT BROADCAST",
+        "monad_deployment": "NOT DEPLOYED ON MONAD"
+      }
+    },
+    {
+      "receipt_version": "1.0.0",
+      "proposal_id": "prop-003",
+      "agent_id": "marketlens-local-agent-v1",
+      "capability": "claim_reward",
+      "market_id": "3",
+      "outcome": "NOT_APPLICABLE",
+      "requested_amount": "0",
+      "max_payment": "0",
+      "min_stake": "0",
+      "simulation_success": false,
+      "revert_reason": "execution reverted",
+      "moss_evidence": {
+        "engine": "@themoss/simulator",
+        "adapter": "@marketlens/moss-prediction-market",
+        "protocol": "marketlens",
+        "method": "claimReward",
+        "rpc_url": "http://127.0.0.1:8546",
+        "chain_id": 143,
+        "trace_method": "debug_traceCall",
+        "trace_call_count": 2,
+        "moss_trace_call_count": 1,
+        "block_number_before": "0",
+        "block_number_after": "0",
+        "state_unchanged": true,
+        "transaction": {
+          "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+          "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "data": "0xae169a500000000000000000000000000000000000000000000000000000000000000003",
+          "value": "0x0"
+        },
+        "reverted": true,
+        "revert_reason": "execution reverted",
+        "raw_revert_evidence": {
+          "block_number": "0",
+          "type": "CALL",
+          "from": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+          "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "input": "0xae169a500000000000000000000000000000000000000000000000000000000000000003",
+          "output": "0xb361b5fb00000000000000000000000000000000000000000000000000000000000000030000000000000000000000003c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+          "error": "execution reverted",
+          "decoded_error": {
+            "name": "NothingToClaim",
+            "args": [
+              "3",
+              "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+            ]
+          }
+        },
+        "warnings": [
+          {
+            "code": "REVERTED",
+            "message": "transaction reverted: execution reverted"
+          }
+        ],
+        "gas": null,
+        "unsigned": true,
+        "not_broadcast": true
+      },
+      "intent_checks": [
+        {
+          "rule": "moss_adapter_invoked",
+          "expected": "@marketlens/moss-prediction-market",
+          "actual": "@marketlens/moss-prediction-market",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_capability_matches",
+          "expected": "claimReward",
+          "actual": "claimReward",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_not_reverted",
+          "expected": "true",
+          "actual": "false",
+          "status": "BLOCKED",
+          "reason": "SIMULATION_REVERTED:NothingToClaim"
+        },
+        {
+          "rule": "moss_receipt_exists",
+          "expected": "true",
+          "actual": "false",
+          "status": "BLOCKED",
+          "reason": "MOSS_RECEIPT_MISSING"
+        },
+        {
+          "rule": "simulation_warnings_empty",
+          "expected": "0",
+          "actual": "1",
+          "status": "BLOCKED",
+          "reason": "REVERTED"
+        },
+        {
+          "rule": "simulation_state_unchanged",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_operation_matches",
+          "expected": "claim_reward",
+          "actual": "",
+          "status": "BLOCKED",
+          "reason": "RECEIPT_OPERATION_MISMATCH"
+        },
+        {
+          "rule": "receipt_market_matches",
+          "expected": "3",
+          "actual": "",
+          "status": "BLOCKED",
+          "reason": "RECEIPT_MARKET_MISMATCH"
+        }
+      ],
+      "action_policy_checks": [
+        {
+          "rule": "capability_allowed",
+          "expected": "buy_position,claim_reward",
+          "actual": "claim_reward",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "outcome_allowed",
+          "expected": "YES,NO,NOT_APPLICABLE",
+          "actual": "NOT_APPLICABLE",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "agent_payment_constraint",
+          "expected": "<= 0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "payment_within_action_limit",
+          "expected": "<= 500000000000000000",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_required",
+          "expected": "PASS",
+          "actual": "BLOCKED",
+          "status": "BLOCKED",
+          "reason": "SIMULATION_REVERTED:NothingToClaim"
+        },
+        {
+          "rule": "claim_has_zero_payment",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_level_verdict": "BLOCKED",
+      "batch_level_verdict": "NOT_APPLICABLE",
+      "final_verdict": "BLOCKED",
+      "verdict_reason": "SIMULATION_REVERTED:NothingToClaim",
+      "receipt_hash": "0x61769843f3b8f5db33c1aa9e2b19bab8446f602007842a6ba015507d463db024",
+      "unsigned": true,
+      "not_broadcast": true,
+      "source_boundaries": {
+        "proposal": "SYNTHETIC AGENT PROPOSAL",
+        "moss_action": "REAL LOCAL ADAPTER",
+        "simulation": "REAL LOCAL debug_traceCall",
+        "receipt": "RUNTIME COMPUTED FROM MOSS EVIDENCE",
+        "intent_checks": "DETERMINISTIC RULES OVER MOSS RECEIPT",
+        "signing": "UNSIGNED",
+        "broadcast": "NOT BROADCAST",
+        "monad_deployment": "NOT DEPLOYED ON MONAD"
+      }
+    },
+    {
+      "receipt_version": "1.0.0",
+      "proposal_id": "prop-004",
+      "agent_id": "marketlens-local-agent-v1",
+      "capability": "buy_position",
+      "market_id": "4",
+      "outcome": "YES",
+      "requested_amount": "150000000000000000",
+      "max_payment": "200000000000000000",
+      "min_stake": "50000000000000000",
+      "simulation_success": true,
+      "moss_evidence": {
+        "engine": "@themoss/simulator",
+        "adapter": "@marketlens/moss-prediction-market",
+        "protocol": "marketlens",
+        "method": "buyPosition",
+        "rpc_url": "http://127.0.0.1:8546",
+        "chain_id": 143,
+        "trace_method": "debug_traceCall",
+        "trace_call_count": 1,
+        "moss_trace_call_count": 1,
+        "block_number_before": "0",
+        "block_number_after": "0",
+        "state_unchanged": true,
+        "transaction": {
+          "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+          "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000001",
+          "value": "0x214e8348c4f0000"
+        },
+        "reverted": false,
+        "warnings": [],
+        "receipt": {
+          "protocol": "marketlens",
+          "text": "Bought YES in Market 4",
+          "outcome": {
+            "operation": "buy_position",
+            "marketId": "4",
+            "wallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+            "outcome": "YES",
+            "amount": "150000000000000000",
+            "positionUnits": "150000000000000000",
+            "yesPoolAfter": "150000000000000000",
+            "noPoolAfter": "0"
+          },
+          "change_count": 2
+        },
+        "gas": "78740",
+        "unsigned": true,
+        "not_broadcast": true
+      },
+      "intent_checks": [
+        {
+          "rule": "moss_adapter_invoked",
+          "expected": "@marketlens/moss-prediction-market",
+          "actual": "@marketlens/moss-prediction-market",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_capability_matches",
+          "expected": "buyPosition",
+          "actual": "buyPosition",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_not_reverted",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_receipt_exists",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_warnings_empty",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_state_unchanged",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_operation_matches",
+          "expected": "buy_position",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_market_matches",
+          "expected": "4",
+          "actual": "4",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_actor_matches",
+          "expected": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+          "actual": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_outcome_matches",
+          "expected": "YES",
+          "actual": "YES",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_amount_matches",
+          "expected": "150000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_policy_checks": [
+        {
+          "rule": "capability_allowed",
+          "expected": "buy_position,claim_reward",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "outcome_allowed",
+          "expected": "YES,NO,NOT_APPLICABLE",
+          "actual": "YES",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "agent_payment_constraint",
+          "expected": "<= 200000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "payment_within_action_limit",
+          "expected": "<= 500000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_required",
+          "expected": "PASS",
+          "actual": "PASS",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "minimum_stake_satisfied",
+          "expected": ">= 50000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_level_verdict": "PASS",
+      "batch_level_verdict": "PASS",
+      "final_verdict": "PASS",
+      "verdict_reason": "ELIGIBLE",
+      "receipt_hash": "0xdc7e68f44c681598d5bcf56c7a4dbdf278baed773cdf74b21046221dce859ec9",
+      "unsigned": true,
+      "not_broadcast": true,
+      "source_boundaries": {
+        "proposal": "SYNTHETIC AGENT PROPOSAL",
+        "moss_action": "REAL LOCAL ADAPTER",
+        "simulation": "REAL LOCAL debug_traceCall",
+        "receipt": "RUNTIME COMPUTED FROM MOSS EVIDENCE",
+        "intent_checks": "DETERMINISTIC RULES OVER MOSS RECEIPT",
+        "signing": "UNSIGNED",
+        "broadcast": "NOT BROADCAST",
+        "monad_deployment": "NOT DEPLOYED ON MONAD"
+      }
+    },
+    {
+      "receipt_version": "1.0.0",
+      "proposal_id": "prop-005",
+      "agent_id": "marketlens-local-agent-v1",
+      "capability": "buy_position",
+      "market_id": "4",
+      "outcome": "NO",
+      "requested_amount": "150000000000000000",
+      "max_payment": "200000000000000000",
+      "min_stake": "50000000000000000",
+      "simulation_success": true,
+      "moss_evidence": {
+        "engine": "@themoss/simulator",
+        "adapter": "@marketlens/moss-prediction-market",
+        "protocol": "marketlens",
+        "method": "buyPosition",
+        "rpc_url": "http://127.0.0.1:8546",
+        "chain_id": 143,
+        "trace_method": "debug_traceCall",
+        "trace_call_count": 1,
+        "moss_trace_call_count": 1,
+        "block_number_before": "0",
+        "block_number_after": "0",
+        "state_unchanged": true,
+        "transaction": {
+          "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+          "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000002",
+          "value": "0x214e8348c4f0000"
+        },
+        "reverted": false,
+        "warnings": [],
+        "receipt": {
+          "protocol": "marketlens",
+          "text": "Bought NO in Market 4",
+          "outcome": {
+            "operation": "buy_position",
+            "marketId": "4",
+            "wallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+            "outcome": "NO",
+            "amount": "150000000000000000",
+            "positionUnits": "150000000000000000",
+            "yesPoolAfter": "0",
+            "noPoolAfter": "150000000000000000"
+          },
+          "change_count": 2
+        },
+        "gas": "78767",
+        "unsigned": true,
+        "not_broadcast": true
+      },
+      "intent_checks": [
+        {
+          "rule": "moss_adapter_invoked",
+          "expected": "@marketlens/moss-prediction-market",
+          "actual": "@marketlens/moss-prediction-market",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_capability_matches",
+          "expected": "buyPosition",
+          "actual": "buyPosition",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_not_reverted",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "moss_receipt_exists",
+          "expected": "true",
+          "actual": "true",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_warnings_empty",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_state_unchanged",
+          "expected": "0",
+          "actual": "0",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_operation_matches",
+          "expected": "buy_position",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_market_matches",
+          "expected": "4",
+          "actual": "4",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_actor_matches",
+          "expected": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+          "actual": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_outcome_matches",
+          "expected": "NO",
+          "actual": "NO",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "receipt_amount_matches",
+          "expected": "150000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_policy_checks": [
+        {
+          "rule": "capability_allowed",
+          "expected": "buy_position,claim_reward",
+          "actual": "buy_position",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "outcome_allowed",
+          "expected": "YES,NO,NOT_APPLICABLE",
+          "actual": "NO",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "agent_payment_constraint",
+          "expected": "<= 200000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "payment_within_action_limit",
+          "expected": "<= 500000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "simulation_required",
+          "expected": "PASS",
+          "actual": "PASS",
+          "status": "PASS",
+          "reason": ""
+        },
+        {
+          "rule": "minimum_stake_satisfied",
+          "expected": ">= 50000000000000000",
+          "actual": "150000000000000000",
+          "status": "PASS",
+          "reason": ""
+        }
+      ],
+      "action_level_verdict": "PASS",
+      "batch_level_verdict": "BLOCKED",
+      "final_verdict": "BLOCKED",
+      "verdict_reason": "BATCH_POLICY_CONFLICT",
+      "receipt_hash": "0x55d8736aeff6002f394d44c7dd9bfc16b1722e5c80542d5b8bcc78a014a98ec0",
+      "unsigned": true,
+      "not_broadcast": true,
+      "source_boundaries": {
+        "proposal": "SYNTHETIC AGENT PROPOSAL",
+        "moss_action": "REAL LOCAL ADAPTER",
+        "simulation": "REAL LOCAL debug_traceCall",
+        "receipt": "RUNTIME COMPUTED FROM MOSS EVIDENCE",
+        "intent_checks": "DETERMINISTIC RULES OVER MOSS RECEIPT",
+        "signing": "UNSIGNED",
+        "broadcast": "NOT BROADCAST",
+        "monad_deployment": "NOT DEPLOYED ON MONAD"
+      }
+    }
+  ],
+  "batch_policy_checks": [
+    {
+      "rule": "max_actions",
+      "proposal_id": "prop-001",
+      "expected": "<= 5",
+      "actual": "1",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_total_payment",
+      "proposal_id": "prop-001",
+      "expected": "<= 500000000000000000",
+      "actual": "100000000000000000",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_payment_per_market",
+      "proposal_id": "prop-001",
+      "expected": "<= 500000000000000000",
+      "actual": "100000000000000000",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "block_conflicting_outcomes_same_market",
+      "proposal_id": "prop-001",
+      "expected": "no conflict with earlier eligible action",
+      "actual": "none",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_actions",
+      "proposal_id": "prop-004",
+      "expected": "<= 5",
+      "actual": "2",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_total_payment",
+      "proposal_id": "prop-004",
+      "expected": "<= 500000000000000000",
+      "actual": "250000000000000000",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_payment_per_market",
+      "proposal_id": "prop-004",
+      "expected": "<= 500000000000000000",
+      "actual": "150000000000000000",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "block_conflicting_outcomes_same_market",
+      "proposal_id": "prop-004",
+      "expected": "no conflict with earlier eligible action",
+      "actual": "none",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_actions",
+      "proposal_id": "prop-005",
+      "expected": "<= 5",
+      "actual": "3",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_total_payment",
+      "proposal_id": "prop-005",
+      "expected": "<= 500000000000000000",
+      "actual": "400000000000000000",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "max_payment_per_market",
+      "proposal_id": "prop-005",
+      "expected": "<= 500000000000000000",
+      "actual": "300000000000000000",
+      "status": "PASS",
+      "reason": ""
+    },
+    {
+      "rule": "block_conflicting_outcomes_same_market",
+      "proposal_id": "prop-005",
+      "expected": "no conflict with earlier eligible action",
+      "actual": "4:YES vs NO",
+      "status": "BLOCKED",
+      "reason": "BATCH_POLICY_CONFLICT"
+    }
+  ],
+  "eligible_proposal_ids": [
+    "prop-001",
+    "prop-004"
+  ],
+  "blocked_proposal_ids": [
+    "prop-002",
+    "prop-003",
+    "prop-005"
+  ],
+  "final_verdict": "PARTIALLY_ELIGIBLE",
+  "unsigned": true,
+  "not_broadcast": true,
+  "not_deployed_on_monad": true,
+  "limitations": [
+    "SYNTHETIC AGENT PROPOSAL",
+    "REAL LOCAL ANVIL SIMULATION — NOT MONAD",
+    "UNSIGNED",
+    "NOT BROADCAST",
+    "NOT DEPLOYED ON MONAD"
+  ],
+  "receipt_hash": "0x5b01a6d97f342be267492faff61e8a4719aa326a2b075b5b7c1d74bc637993ea"
+}

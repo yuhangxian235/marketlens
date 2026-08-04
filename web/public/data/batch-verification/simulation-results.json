@@ -1,0 +1,209 @@
+{
+  "prop-001": {
+    "engine": "@themoss/simulator",
+    "adapter": "@marketlens/moss-prediction-market",
+    "protocol": "marketlens",
+    "method": "buyPosition",
+    "rpc_url": "http://127.0.0.1:8546",
+    "chain_id": 143,
+    "trace_method": "debug_traceCall",
+    "trace_call_count": 1,
+    "moss_trace_call_count": 1,
+    "block_number_before": "0",
+    "block_number_after": "0",
+    "state_unchanged": true,
+    "transaction": {
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001",
+      "value": "0x16345785d8a0000"
+    },
+    "reverted": false,
+    "warnings": [],
+    "receipt": {
+      "protocol": "marketlens",
+      "text": "Bought YES in Market 1",
+      "outcome": {
+        "operation": "buy_position",
+        "marketId": "1",
+        "wallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "outcome": "YES",
+        "amount": "100000000000000000",
+        "positionUnits": "100000000000000000",
+        "yesPoolAfter": "100000000000000000",
+        "noPoolAfter": "0"
+      },
+      "change_count": 2
+    },
+    "gas": "78740",
+    "unsigned": true,
+    "not_broadcast": true
+  },
+  "prop-002": {
+    "engine": "@themoss/simulator",
+    "adapter": "@marketlens/moss-prediction-market",
+    "protocol": "marketlens",
+    "method": "buyPosition",
+    "rpc_url": "http://127.0.0.1:8546",
+    "chain_id": 143,
+    "trace_method": "debug_traceCall",
+    "trace_call_count": 1,
+    "moss_trace_call_count": 1,
+    "block_number_before": "0",
+    "block_number_after": "0",
+    "state_unchanged": true,
+    "transaction": {
+      "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002",
+      "value": "0x6f05b59d3b200000"
+    },
+    "reverted": false,
+    "warnings": [],
+    "receipt": {
+      "protocol": "marketlens",
+      "text": "Bought NO in Market 2",
+      "outcome": {
+        "operation": "buy_position",
+        "marketId": "2",
+        "wallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "outcome": "NO",
+        "amount": "8000000000000000000",
+        "positionUnits": "8000000000000000000",
+        "yesPoolAfter": "0",
+        "noPoolAfter": "8000000000000000000"
+      },
+      "change_count": 2
+    },
+    "gas": "78767",
+    "unsigned": true,
+    "not_broadcast": true
+  },
+  "prop-003": {
+    "engine": "@themoss/simulator",
+    "adapter": "@marketlens/moss-prediction-market",
+    "protocol": "marketlens",
+    "method": "claimReward",
+    "rpc_url": "http://127.0.0.1:8546",
+    "chain_id": 143,
+    "trace_method": "debug_traceCall",
+    "trace_call_count": 2,
+    "moss_trace_call_count": 1,
+    "block_number_before": "0",
+    "block_number_after": "0",
+    "state_unchanged": true,
+    "transaction": {
+      "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "data": "0xae169a500000000000000000000000000000000000000000000000000000000000000003",
+      "value": "0x0"
+    },
+    "reverted": true,
+    "revert_reason": "execution reverted",
+    "raw_revert_evidence": {
+      "block_number": "0",
+      "type": "CALL",
+      "from": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+      "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "input": "0xae169a500000000000000000000000000000000000000000000000000000000000000003",
+      "output": "0xb361b5fb00000000000000000000000000000000000000000000000000000000000000030000000000000000000000003c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+      "error": "execution reverted",
+      "decoded_error": {
+        "name": "NothingToClaim",
+        "args": [
+          "3",
+          "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+        ]
+      }
+    },
+    "warnings": [
+      {
+        "code": "REVERTED",
+        "message": "transaction reverted: execution reverted"
+      }
+    ],
+    "gas": null,
+    "unsigned": true,
+    "not_broadcast": true
+  },
+  "prop-004": {
+    "engine": "@themoss/simulator",
+    "adapter": "@marketlens/moss-prediction-market",
+    "protocol": "marketlens",
+    "method": "buyPosition",
+    "rpc_url": "http://127.0.0.1:8546",
+    "chain_id": 143,
+    "trace_method": "debug_traceCall",
+    "trace_call_count": 1,
+    "moss_trace_call_count": 1,
+    "block_number_before": "0",
+    "block_number_after": "0",
+    "state_unchanged": true,
+    "transaction": {
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000001",
+      "value": "0x214e8348c4f0000"
+    },
+    "reverted": false,
+    "warnings": [],
+    "receipt": {
+      "protocol": "marketlens",
+      "text": "Bought YES in Market 4",
+      "outcome": {
+        "operation": "buy_position",
+        "marketId": "4",
+        "wallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "outcome": "YES",
+        "amount": "150000000000000000",
+        "positionUnits": "150000000000000000",
+        "yesPoolAfter": "150000000000000000",
+        "noPoolAfter": "0"
+      },
+      "change_count": 2
+    },
+    "gas": "78740",
+    "unsigned": true,
+    "not_broadcast": true
+  },
+  "prop-005": {
+    "engine": "@themoss/simulator",
+    "adapter": "@marketlens/moss-prediction-market",
+    "protocol": "marketlens",
+    "method": "buyPosition",
+    "rpc_url": "http://127.0.0.1:8546",
+    "chain_id": 143,
+    "trace_method": "debug_traceCall",
+    "trace_call_count": 1,
+    "moss_trace_call_count": 1,
+    "block_number_before": "0",
+    "block_number_after": "0",
+    "state_unchanged": true,
+    "transaction": {
+      "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "to": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "data": "0x9f56382600000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000002",
+      "value": "0x214e8348c4f0000"
+    },
+    "reverted": false,
+    "warnings": [],
+    "receipt": {
+      "protocol": "marketlens",
+      "text": "Bought NO in Market 4",
+      "outcome": {
+        "operation": "buy_position",
+        "marketId": "4",
+        "wallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "outcome": "NO",
+        "amount": "150000000000000000",
+        "positionUnits": "150000000000000000",
+        "yesPoolAfter": "0",
+        "noPoolAfter": "150000000000000000"
+      },
+      "change_count": 2
+    },
+    "gas": "78767",
+    "unsigned": true,
+    "not_broadcast": true
+  }
+}

@@ -1,0 +1,290 @@
+{
+  "token_eth_yes": {
+    "tokenId": "token_eth_yes",
+    "conditionId": "0xeth3000",
+    "outcome": "Yes",
+    "timestamp": 1753473600000,
+    "capturedAt": "2026-07-25T12:00:00Z",
+    "bids": [
+      {
+        "price": "64",
+        "size": "500"
+      },
+      {
+        "price": "63",
+        "size": "1000"
+      },
+      {
+        "price": "62",
+        "size": "1500"
+      },
+      {
+        "price": "61",
+        "size": "2000"
+      }
+    ],
+    "asks": [
+      {
+        "price": "66",
+        "size": "400"
+      },
+      {
+        "price": "67",
+        "size": "800"
+      },
+      {
+        "price": "68",
+        "size": "1200"
+      },
+      {
+        "price": "69",
+        "size": "1600"
+      }
+    ],
+    "tickSize": "0.5",
+    "minOrderSize": "50",
+    "negRisk": false,
+    "bookHash": "a2a239aba5713357efe07f2d3fa8c5611bff090589a7784231abc96f09a8147c",
+    "responseSha256": "a2a239aba5713357efe07f2d3fa8c5611bff090589a7784231abc96f09a8147c"
+  },
+  "token_eth_no": {
+    "tokenId": "token_eth_no",
+    "conditionId": "0xeth3000",
+    "outcome": "No",
+    "timestamp": 1753473600000,
+    "capturedAt": "2026-07-25T12:00:00Z",
+    "bids": [
+      {
+        "price": "34",
+        "size": "500"
+      },
+      {
+        "price": "33",
+        "size": "1000"
+      },
+      {
+        "price": "32",
+        "size": "1500"
+      },
+      {
+        "price": "31",
+        "size": "2000"
+      }
+    ],
+    "asks": [
+      {
+        "price": "36",
+        "size": "400"
+      },
+      {
+        "price": "37",
+        "size": "800"
+      },
+      {
+        "price": "38",
+        "size": "1200"
+      },
+      {
+        "price": "39",
+        "size": "1600"
+      }
+    ],
+    "tickSize": "0.5",
+    "minOrderSize": "50",
+    "negRisk": false,
+    "bookHash": "cd15e85fcd3050c98644d81cb4642c611203d6309e0d4e5f7e8f01eeb386b6bb",
+    "responseSha256": "cd15e85fcd3050c98644d81cb4642c611203d6309e0d4e5f7e8f01eeb386b6bb"
+  },
+  "token_btc_yes": {
+    "tokenId": "token_btc_yes",
+    "conditionId": "0xbtc100k",
+    "outcome": "Yes",
+    "timestamp": 1753473600000,
+    "capturedAt": "2026-07-25T12:00:00Z",
+    "bids": [
+      {
+        "price": "41",
+        "size": "500"
+      },
+      {
+        "price": "40",
+        "size": "1000"
+      },
+      {
+        "price": "39",
+        "size": "1500"
+      },
+      {
+        "price": "38",
+        "size": "2000"
+      }
+    ],
+    "asks": [
+      {
+        "price": "43",
+        "size": "400"
+      },
+      {
+        "price": "44",
+        "size": "800"
+      },
+      {
+        "price": "45",
+        "size": "1200"
+      },
+      {
+        "price": "46",
+        "size": "1600"
+      }
+    ],
+    "tickSize": "0.5",
+    "minOrderSize": "50",
+    "negRisk": false,
+    "bookHash": "99b6adb28cc2588350f65c8c0255d8e00de1b7ba86c85f9800e7978f8d149d19",
+    "responseSha256": "99b6adb28cc2588350f65c8c0255d8e00de1b7ba86c85f9800e7978f8d149d19"
+  },
+  "token_btc_no": {
+    "tokenId": "token_btc_no",
+    "conditionId": "0xbtc100k",
+    "outcome": "No",
+    "timestamp": 1753473600000,
+    "capturedAt": "2026-07-25T12:00:00Z",
+    "bids": [
+      {
+        "price": "56",
+        "size": "500"
+      },
+      {
+        "price": "55",
+        "size": "1000"
+      },
+      {
+        "price": "54",
+        "size": "1500"
+      },
+      {
+        "price": "53",
+        "size": "2000"
+      }
+    ],
+    "asks": [
+      {
+        "price": "58",
+        "size": "400"
+      },
+      {
+        "price": "59",
+        "size": "800"
+      },
+      {
+        "price": "60",
+        "size": "1200"
+      },
+      {
+        "price": "61",
+        "size": "1600"
+      }
+    ],
+    "tickSize": "0.5",
+    "minOrderSize": "50",
+    "negRisk": false,
+    "bookHash": "f8e82a7f487737bc95265f716818cbb52f31c5d93f8d3a3bb59cf419c9d99dd7",
+    "responseSha256": "f8e82a7f487737bc95265f716818cbb52f31c5d93f8d3a3bb59cf419c9d99dd7"
+  },
+  "token_fed_yes": {
+    "tokenId": "token_fed_yes",
+    "conditionId": "0xfedcut",
+    "outcome": "Yes",
+    "timestamp": 1753473600000,
+    "capturedAt": "2026-07-25T12:00:00Z",
+    "bids": [
+      {
+        "price": "77",
+        "size": "500"
+      },
+      {
+        "price": "76",
+        "size": "1000"
+      },
+      {
+        "price": "75",
+        "size": "1500"
+      },
+      {
+        "price": "74",
+        "size": "2000"
+      }
+    ],
+    "asks": [
+      {
+        "price": "79",
+        "size": "400"
+      },
+      {
+        "price": "80",
+        "size": "800"
+      },
+      {
+        "price": "81",
+        "size": "1200"
+      },
+      {
+        "price": "82",
+        "size": "1600"
+      }
+    ],
+    "tickSize": "0.5",
+    "minOrderSize": "50",
+    "negRisk": false,
+    "bookHash": "799d293cd8e71e6addc8cceded0afec602d32f1dabf2b018f80ef4c56c465104",
+    "responseSha256": "799d293cd8e71e6addc8cceded0afec602d32f1dabf2b018f80ef4c56c465104"
+  },
+  "token_fed_no": {
+    "tokenId": "token_fed_no",
+    "conditionId": "0xfedcut",
+    "outcome": "No",
+    "timestamp": 1753473600000,
+    "capturedAt": "2026-07-25T12:00:00Z",
+    "bids": [
+      {
+        "price": "21",
+        "size": "500"
+      },
+      {
+        "price": "20",
+        "size": "1000"
+      },
+      {
+        "price": "19",
+        "size": "1500"
+      },
+      {
+        "price": "18",
+        "size": "2000"
+      }
+    ],
+    "asks": [
+      {
+        "price": "23",
+        "size": "400"
+      },
+      {
+        "price": "24",
+        "size": "800"
+      },
+      {
+        "price": "25",
+        "size": "1200"
+      },
+      {
+        "price": "26",
+        "size": "1600"
+      }
+    ],
+    "tickSize": "0.5",
+    "minOrderSize": "50",
+    "negRisk": false,
+    "bookHash": "8f1552054585319d8451b92ef52b30d9f300423ab1d4291b190956ceec64c307",
+    "responseSha256": "8f1552054585319d8451b92ef52b30d9f300423ab1d4291b190956ceec64c307"
+  }
+}

@@ -1,0 +1,117 @@
+[
+  {
+    "proposal_id": "prop-001",
+    "agent_id": "marketlens-local-agent-v1",
+    "actor_address": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "generated_at": "2026-07-26T00:00:00.000Z",
+    "market_id": "1",
+    "market_question": "Will ETH exceed $5,000 by December 2026?",
+    "capability": "buy_position",
+    "outcome": "YES",
+    "requested_amount": "100000000000000000",
+    "max_payment": "200000000000000000",
+    "min_stake": "50000000000000000",
+    "rationale": "Momentum signal 8200 bps supports YES; Moss will verify the unsigned call.",
+    "policy_reference": "standard-trade-policy",
+    "source_type": "SYNTHETIC_AGENT_PROPOSAL",
+    "planner_evidence": {
+      "planner": "@marketlens/agent-planner",
+      "strategy": "MOMENTUM",
+      "snapshot_id": "local-market-snapshot-v1",
+      "signal_bps": 8200,
+      "deterministic": true
+    }
+  },
+  {
+    "proposal_id": "prop-002",
+    "agent_id": "marketlens-local-agent-v1",
+    "actor_address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "generated_at": "2026-07-26T00:00:01.000Z",
+    "market_id": "2",
+    "market_question": "Will BTC reach $150K before the next halving?",
+    "capability": "buy_position",
+    "outcome": "NO",
+    "requested_amount": "8000000000000000000",
+    "max_payment": "10000000000000000000",
+    "min_stake": "50000000000000000",
+    "rationale": "Contrarian signal 9100 bps supports NO independently of other strategies.",
+    "policy_reference": "standard-trade-policy",
+    "source_type": "SYNTHETIC_AGENT_PROPOSAL",
+    "planner_evidence": {
+      "planner": "@marketlens/agent-planner",
+      "strategy": "CONTRARIAN",
+      "snapshot_id": "local-market-snapshot-v1",
+      "signal_bps": 9100,
+      "deterministic": true
+    }
+  },
+  {
+    "proposal_id": "prop-003",
+    "agent_id": "marketlens-local-agent-v1",
+    "actor_address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "generated_at": "2026-07-26T00:00:02.000Z",
+    "market_id": "3",
+    "market_question": "Resolved YES market; claimant holds only the losing NO side",
+    "capability": "claim_reward",
+    "outcome": "NOT_APPLICABLE",
+    "requested_amount": "0",
+    "max_payment": "0",
+    "min_stake": "0",
+    "rationale": "Local reward index marks market 3 as claimable; Moss will check execution truth.",
+    "policy_reference": "standard-trade-policy",
+    "source_type": "SYNTHETIC_AGENT_PROPOSAL",
+    "planner_evidence": {
+      "planner": "@marketlens/agent-planner",
+      "strategy": "CLAIM_INDEX",
+      "snapshot_id": "local-market-snapshot-v1",
+      "signal_bps": 7800,
+      "deterministic": true
+    }
+  },
+  {
+    "proposal_id": "prop-004",
+    "agent_id": "marketlens-local-agent-v1",
+    "actor_address": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "generated_at": "2026-07-26T00:00:03.000Z",
+    "market_id": "4",
+    "market_question": "Will Solana flip Ethereum in TVL by 2027?",
+    "capability": "buy_position",
+    "outcome": "YES",
+    "requested_amount": "150000000000000000",
+    "max_payment": "200000000000000000",
+    "min_stake": "50000000000000000",
+    "rationale": "Momentum signal 8400 bps supports YES; Moss will verify the unsigned call.",
+    "policy_reference": "standard-trade-policy",
+    "source_type": "SYNTHETIC_AGENT_PROPOSAL",
+    "planner_evidence": {
+      "planner": "@marketlens/agent-planner",
+      "strategy": "MOMENTUM",
+      "snapshot_id": "local-market-snapshot-v1",
+      "signal_bps": 8400,
+      "deterministic": true
+    }
+  },
+  {
+    "proposal_id": "prop-005",
+    "agent_id": "marketlens-local-agent-v1",
+    "actor_address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "generated_at": "2026-07-26T00:00:04.000Z",
+    "market_id": "4",
+    "market_question": "Will Solana flip Ethereum in TVL by 2027?",
+    "capability": "buy_position",
+    "outcome": "NO",
+    "requested_amount": "150000000000000000",
+    "max_payment": "200000000000000000",
+    "min_stake": "50000000000000000",
+    "rationale": "Contrarian signal 7600 bps supports NO independently of other strategies.",
+    "policy_reference": "standard-trade-policy",
+    "source_type": "SYNTHETIC_AGENT_PROPOSAL",
+    "planner_evidence": {
+      "planner": "@marketlens/agent-planner",
+      "strategy": "CONTRARIAN",
+      "snapshot_id": "local-market-snapshot-v1",
+      "signal_bps": 7600,
+      "deterministic": true
+    }
+  }
+]
