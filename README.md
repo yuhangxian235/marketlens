@@ -14,14 +14,23 @@ wallet, load private keys, sign transactions, or broadcast Agent actions.
 | Capability | Status | Boundary |
 | --- | --- | --- |
 | Solidity prediction market | **REAL LOCAL** | Foundry contract and tests |
-| Event indexing and analytics | **REAL PIPELINE** | Local/static demo evidence |
+| Event indexing and analytics | **PARTIALLY VERIFIED** | Local pipeline implemented; current submission tests not revalidated |
 | Moss protocol adapter | **REAL LOCAL** | Source-pinned `@themoss/core` integration |
 | Moss simulation | **REAL LOCAL** | Unsigned local Anvil `debug_traceCall` |
 | Batch policy firewall | **REAL LOCAL** | Action and batch policy verdicts |
-| Web workflow | **REAL UI** | Runtime-generated local JSON artifacts |
+| Web workflow | **REAL UI** | Consumes pre-generated local simulation artifacts |
 | Wallet signing | **NOT IMPLEMENTED** | No signer or private-key path |
 | Broadcasting | **NOT IMPLEMENTED** | No send path |
 | Monad deployment | **NOT DEPLOYED** | Local evidence only |
+
+## Verified in the current submission build
+
+- Foundry: 44 passed, 0 failed
+- Batch-policy Vitest: 10 passed, 0 failed
+- Live-Anvil integration tests: 12 skipped in the offline run
+- Next.js build: 8 routes built successfully
+- Analytics dependencies: repaired
+- Analytics pytest: not independently revalidated in this submission build
 
 ## Agent Batch Policy Firewall
 
@@ -42,6 +51,10 @@ The verified fixture produces:
 - 3 blocked
 - 0 signed
 - 0 broadcast
+
+The local Moss/Anvil simulation implementation is real. The current browser
+demo consumes pre-generated local simulation outputs rather than triggering a
+new Anvil simulation on demand.
 
 See [Phase 4A-R2 audit](docs/phase4a-batch-implementation-audit.md) for the
 execution chain, evidence, hashes, reproduction commands, and safety boundaries.
