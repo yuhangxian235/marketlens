@@ -1,14 +1,10 @@
 # 60-Second Pitch
 
-## English
-
-**Problem:** Onchain analytics shows what happened, but users who want to act have no way to verify their action matches their intent before signing.
-
-**Solution:** MarketLens connects product analytics to real Moss trace simulation. You see the data, form an intent, simulate the exact transaction on a local Anvil, inspect every change in the receipt, and verify your constraints — all before touching a wallet.
-
-**Why Moss:** Moss provides deterministic action construction with transparent capability discovery, structured receipts, and ordered change tracking.
-
-**Status today:** Local contract, event indexing, analytics, Moss Protocol integration, and trace simulation are all real and verified. Wallet signing, broadcasting, and Monad deployment are not implemented.
-
-**Next:** Monad testnet fork verification.
+> Onchain Agents can prepare transactions faster than people can inspect them. But a transaction that is safe alone may become unsafe inside a batch.
+>
+> MarketLens is a pre-sign policy firewall for Onchain Agent batches. A deterministic Agent proposes five unsigned actions. The user sets payment, evidence, and conflict rules. Every proposal carries Moss adapter evidence generated through real local Anvil `debug_traceCall`. The batch engine then produces canonical Action Receipts and one Batch Receipt.
+>
+> In this demo, five proposals become two eligible and three blocked: one exceeds the payment limit, one hits a real `NothingToClaim` revert, and one passes Moss plus every action-level rule but is still blocked because it conflicts with another action in the batch.
+>
+> Nothing is signed. Nothing is broadcast. Nothing is deployed on Monad. The point is simple: let the Agent propose, let Moss prove execution truth, and let the user’s policy keep control before the wallet signs.
 

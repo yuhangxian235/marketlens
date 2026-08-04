@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import argparse
-import os
 import hashlib
 import json
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -58,7 +58,6 @@ def deploy_and_seed_local(paths: ProjectPaths, rpc_url: str) -> dict[str, Any]:
     deploy_block = deploy_receipt.blockNumber
     deploy_block_hash = Web3.to_hex(web3.eth.get_block(deploy_block).hash)
     tx_hashes = [Web3.to_hex(deploy_receipt.transactionHash)]
-    all_attempts = [{"action": "deploy", "tx_hash": Web3.to_hex(deploy_receipt.transactionHash), "status": 1, "block": deploy_block}]
 
     # Create 3 markets
     close_ts = _utc_timestamp("2026-07-30T12:00:00Z")
@@ -69,7 +68,9 @@ def deploy_and_seed_local(paths: ProjectPaths, rpc_url: str) -> dict[str, Any]:
     )
     market_ids = []
     for q in questions:
-        r = _wait(web3, contract.functions.createMarket(q, close_ts).transact({"from": accounts[0]}))
+        r = _wait(
+            web3, contract.functions.createMarket(q, close_ts).transact({"from": accounts[0]})
+        )
         ev = contract.events.MarketCreated().process_receipt(r)[0]
         market_ids.append(int(ev["args"]["marketId"]))
         tx_hashes.append(Web3.to_hex(r.transactionHash))
@@ -77,59 +78,103 @@ def deploy_and_seed_local(paths: ProjectPaths, rpc_url: str) -> dict[str, Any]:
     # Multi-date trade plan: 8 wallets, 5 UTC days, 3 markets
     YES, NO = 1, 2
     trade_plan = (
-        ("2026-07-26T01:00:00Z", (
-            (accounts[1], market_ids[0], YES, 2), (accounts[2], market_ids[0], NO, 3),
-            (accounts[3], market_ids[1], YES, 1), (accounts[4], market_ids[1], NO, 2),
-        )),
-        ("2026-07-27T01:00:00Z", (
-            (accounts[1], market_ids[1], YES, 1), (accounts[4], market_ids[0], YES, 2),
-            (accounts[5], market_ids[2], YES, 1), (accounts[6], market_ids[1], NO, 1),
-        )),
-        ("2026-07-28T01:00:00Z", (
-            (accounts[1], market_ids[2], YES, 2), (accounts[2], market_ids[1], NO, 1),
-            (accounts[5], market_ids[0], NO, 2), (accounts[6], market_ids[0], YES, 1),
-        )),
-        ("2026-07-29T01:00:00Z", (
-            (accounts[3], market_ids[2], NO, 1), (accounts[7], market_ids[0], YES, 3),
-            (accounts[8], market_ids[1], YES, 2), (accounts[4], market_ids[2], NO, 1),
-        )),
-        ("2026-07-30T01:00:00Z", (
-            (accounts[1], market_ids[1], NO, 1), (accounts[8], market_ids[2], NO, 2),
-        )),
+        (
+            "2026-07-26T01:00:00Z",
+            (
+                (accounts[1], market_ids[0], YES, 2),
+                (accounts[2], market_ids[0], NO, 3),
+                (accounts[3], market_ids[1], YES, 1),
+                (accounts[4], market_ids[1], NO, 2),
+            ),
+        ),
+        (
+            "2026-07-27T01:00:00Z",
+            (
+                (accounts[1], market_ids[1], YES, 1),
+                (accounts[4], market_ids[0], YES, 2),
+                (accounts[5], market_ids[2], YES, 1),
+                (accounts[6], market_ids[1], NO, 1),
+            ),
+        ),
+        (
+            "2026-07-28T01:00:00Z",
+            (
+                (accounts[1], market_ids[2], YES, 2),
+                (accounts[2], market_ids[1], NO, 1),
+                (accounts[5], market_ids[0], NO, 2),
+                (accounts[6], market_ids[0], YES, 1),
+            ),
+        ),
+        (
+            "2026-07-29T01:00:00Z",
+            (
+                (accounts[3], market_ids[2], NO, 1),
+                (accounts[7], market_ids[0], YES, 3),
+                (accounts[8], market_ids[1], YES, 2),
+                (accounts[4], market_ids[2], NO, 1),
+            ),
+        ),
+        (
+            "2026-07-30T01:00:00Z",
+            (
+                (accounts[1], market_ids[1], NO, 1),
+                (accounts[8], market_ids[2], NO, 2),
+            ),
+        ),
     )
     for ts, trades in trade_plan:
         _set_next_timestamp(rpc, _utc_timestamp(ts))
         for wallet, mid, outcome, mon in trades:
-            r = _wait(web3, contract.functions.buyPosition(mid, outcome).transact(
-                {"from": wallet, "value": mon * 10**18}))
+            r = _wait(
+                web3,
+                contract.functions.buyPosition(mid, outcome).transact(
+                    {"from": wallet, "value": mon * 10**18}
+                ),
+            )
             tx_hashes.append(Web3.to_hex(r.transactionHash))
 
     # Resolve
     _set_next_timestamp(rpc, close_ts)
     for mid, result in ((market_ids[0], YES), (market_ids[1], NO), (market_ids[2], NO)):
-        r = _wait(web3, contract.functions.resolveMarket(mid, result).transact({"from": accounts[0]}))
+        r = _wait(
+            web3,
+            contract.functions.resolveMarket(mid, result).transact({"from": accounts[0]}),
+        )
         tx_hashes.append(Web3.to_hex(r.transactionHash))
 
     # Claims
     claims = (
-        (accounts[1], market_ids[0]), (accounts[4], market_ids[0]),
-        (accounts[6], market_ids[0]), (accounts[7], market_ids[0]),
-        (accounts[2], market_ids[1]), (accounts[3], market_ids[1]),
-        (accounts[4], market_ids[1]), (accounts[6], market_ids[1]),
-        (accounts[3], market_ids[2]), (accounts[4], market_ids[2]),
+        (accounts[1], market_ids[0]),
+        (accounts[4], market_ids[0]),
+        (accounts[6], market_ids[0]),
+        (accounts[7], market_ids[0]),
+        (accounts[2], market_ids[1]),
+        (accounts[3], market_ids[1]),
+        (accounts[4], market_ids[1]),
+        (accounts[6], market_ids[1]),
+        (accounts[3], market_ids[2]),
+        (accounts[4], market_ids[2]),
         (accounts[8], market_ids[2]),
     )
     failed_attempts = []
     for wallet, mid in claims:
         try:
-            r = _wait(web3, contract.functions.claimReward(mid).transact(
-                {"from": wallet, "gas": 300000, "gasPrice": 0}))
+            r = _wait(
+                web3,
+                contract.functions.claimReward(mid).transact(
+                    {"from": wallet, "gas": 300000, "gasPrice": 0}
+                ),
+            )
             tx_hashes.append(Web3.to_hex(r.transactionHash))
         except RuntimeError as e:
-            failed_attempts.append({
-                "action": "claim_reward", "wallet": wallet.lower(),
-                "market_id": mid, "error": str(e)
-            })
+            failed_attempts.append(
+                {
+                    "action": "claim_reward",
+                    "wallet": wallet.lower(),
+                    "market_id": mid,
+                    "error": str(e),
+                }
+            )
 
     # Advance to boundary
     _set_next_timestamp(rpc, _utc_timestamp("2026-07-31T00:00:00Z"))
@@ -140,17 +185,22 @@ def deploy_and_seed_local(paths: ProjectPaths, rpc_url: str) -> dict[str, Any]:
 
     # Deployment manifest
     deployment = {
-        "schemaVersion": 1, "status": "deployed",
-        "environment": "local_anvil", "dataStatus": "REAL_LOCAL_DEMO",
-        "chainId": network.chain_id, "contractName": "PredictionMarket",
-        "address": addr, "deploymentBlock": deploy_block,
+        "schemaVersion": 1,
+        "status": "deployed",
+        "environment": "local_anvil",
+        "dataStatus": "REAL_LOCAL_DEMO",
+        "chainId": network.chain_id,
+        "contractName": "PredictionMarket",
+        "address": addr,
+        "deploymentBlock": deploy_block,
         "deploymentBlockHash": deploy_block_hash,
         "transactionHash": Web3.to_hex(deploy_receipt.transactionHash),
         "deployer": accounts[0].lower(),
         "runtimeBytecodeHash": Web3.to_hex(web3.keccak(runtime_code)),
         "abiHash": _json_hash(artifact["abi"]),
         "generatedAt": generated_at,
-        "externalRpcUsed": False, "forkUsed": False,
+        "externalRpcUsed": False,
+        "forkUsed": False,
     }
     paths.deployment_manifest.parent.mkdir(parents=True, exist_ok=True)
     paths.deployment_manifest.write_text(json.dumps(deployment, indent=2) + "\n", encoding="utf-8")
@@ -158,18 +208,25 @@ def deploy_and_seed_local(paths: ProjectPaths, rpc_url: str) -> dict[str, Any]:
     # Local deployment + transactions manifests
     os.makedirs(paths.generated_dir, exist_ok=True)
     (paths.generated_dir / "local-deployment.json").write_text(
-        json.dumps(deployment, indent=2) + "\n", encoding="utf-8")
+        json.dumps(deployment, indent=2) + "\n", encoding="utf-8"
+    )
 
     demo = {
-        "schemaVersion": 1, "environment": "local_anvil",
+        "schemaVersion": 1,
+        "environment": "local_anvil",
         "dataStatus": "REAL_LOCAL_DEMO",
-        "chainId": network.chain_id, "contractAddress": addr,
+        "chainId": network.chain_id,
+        "contractAddress": addr,
         "marketIds": market_ids,
         "walletAddresses": [accounts[i].lower() for i in range(1, 9)],
-        "fromBlock": deploy_block, "toBlock": to_block,
-        "windowStart": "2026-07-26T06:00:00Z", "windowEnd": "2026-07-30T18:00:00Z",
-        "transactionHashes": tx_hashes, "generatedAt": generated_at,
-        "externalRpcUsed": False, "forkUsed": False,
+        "fromBlock": deploy_block,
+        "toBlock": to_block,
+        "windowStart": "2026-07-26T06:00:00Z",
+        "windowEnd": "2026-07-30T18:00:00Z",
+        "transactionHashes": tx_hashes,
+        "generatedAt": generated_at,
+        "externalRpcUsed": False,
+        "forkUsed": False,
         "transactionAttempts": len(tx_hashes) + len(failed_attempts),
         "successfulTransactions": len(tx_hashes),
         "revertedTransactions": len(failed_attempts),
@@ -178,11 +235,12 @@ def deploy_and_seed_local(paths: ProjectPaths, rpc_url: str) -> dict[str, Any]:
             "Clean local Anvil demo; not production behavior.",
             "Resolution is manual and trusted.",
             "Wallet addresses are not natural-person identities.",
-            "D1 is sample-window repeat rate, not platform retention."
+            "D1 is sample-window repeat rate, not platform retention.",
         ],
     }
     (paths.generated_dir / "local-transactions.json").write_text(
-        json.dumps(demo, indent=2) + "\n", encoding="utf-8")
+        json.dumps(demo, indent=2) + "\n", encoding="utf-8"
+    )
     return demo
 
 
@@ -198,7 +256,9 @@ def run_local_repro(paths: ProjectPaths, database: Path, rpc_url: str) -> dict[s
     artifact = load_contract_artifact(paths.contract_artifact)
     decoder = AbiEventDecoder(artifact["abi"])
     indexer = EventIndexer(
-        Web3RpcAdapter(rpc_url), store, decoder,
+        Web3RpcAdapter(rpc_url),
+        store,
+        decoder,
         abi_json=json.dumps(artifact["abi"], sort_keys=True),
         normalize_sql_path=paths.sql / "normalize_events.sql",
     )
@@ -208,15 +268,26 @@ def run_local_repro(paths: ProjectPaths, database: Path, rpc_url: str) -> dict[s
     sync2 = indexer.sync(demo["contractAddress"], int(demo["fromBlock"]), int(demo["toBlock"]))
 
     from .transform import AnalysisWindow, AnalyticsPipeline
+
     analysis = AnalyticsPipeline(store.connection, paths.sql).run(
-        AnalysisWindow(demo["chainId"], demo["contractAddress"],
-                       demo["fromBlock"], demo["toBlock"],
-                       demo["windowStart"], demo["windowEnd"]))
-    outputs = EvidenceCatalog(store.connection).export(analysis.analysis_run_id, paths.evidence_output)
+        AnalysisWindow(
+            demo["chainId"],
+            demo["contractAddress"],
+            demo["fromBlock"],
+            demo["toBlock"],
+            demo["windowStart"],
+            demo["windowEnd"],
+        )
+    )
+    outputs = EvidenceCatalog(store.connection).export(
+        analysis.analysis_run_id, paths.evidence_output
+    )
     return {
         "deployment": demo["contractAddress"],
-        "fromBlock": demo["fromBlock"], "toBlock": demo["toBlock"],
-        "fetchedLogs": sync.fetched_log_count, "uniqueLogs": sync.unique_log_count,
+        "fromBlock": demo["fromBlock"],
+        "toBlock": demo["toBlock"],
+        "fetchedLogs": sync.fetched_log_count,
+        "uniqueLogs": sync.unique_log_count,
         "decodeErrors": sync.decode_error_count,
         "idempotency": {
             "firstRunInserted": sync.unique_log_count,
@@ -228,8 +299,7 @@ def run_local_repro(paths: ProjectPaths, database: Path, rpc_url: str) -> dict[s
         "analysisRunId": analysis.analysis_run_id,
         "publishable": analysis.publishable,
         "validationChecks": [
-            {"name": c.name, "status": c.status}
-            for c in analysis.validation.checks
+            {"name": c.name, "status": c.status} for c in analysis.validation.checks
         ],
         "outputs": {k: str(v) for k, v in outputs.items()},
     }

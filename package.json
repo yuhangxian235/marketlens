@@ -6,6 +6,8 @@
     "build": "pnpm --recursive build",
     "typecheck": "pnpm --recursive typecheck",
     "test": "pnpm --recursive test",
-    "lint": "pnpm --recursive lint"
+    "lint": "pnpm --recursive lint",
+    "verify:phase4a": "pnpm --filter @marketlens/batch-policy generate && pnpm --filter @marketlens/batch-policy verify:artifacts && pnpm --filter @marketlens/batch-policy test && pnpm typecheck && pnpm lint && pnpm --filter @marketlens/web build",
+    "verify:phase4a:full": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/verify-phase4a-full.ps1"
   }
 }

@@ -6,7 +6,11 @@ import { describe, it, expect } from "vitest";
 import { Registry, type Change, type Hex } from "@themoss/core";
 import { encodeEventTopics, encodeAbiParameters, getAddress } from "viem";
 import { PredictionMarketAbi } from "../src/abis/prediction-market.js";
-import { MARKETLENS_LOCAL_ADDRESS, MarketLensPredictionMarketProtocol } from "../src/index.js";
+import {
+  MARKETLENS_LOCAL_ADDRESS,
+  MarketLensPredictionMarketProtocol,
+  verifyPredictionMarketReceipt,
+} from "../src/index.js";
 
 const account = getAddress("0xcccccccccccccccccccccccccccccccccccccccc");
 const WRONG = getAddress("0xdddddddddddddddddddddddddddddddddddddddd");
@@ -29,20 +33,22 @@ function makeNative(from: string, to: string, value: string): Change {
 
 describe("Receipt Coverage", () => {
   const registry = new Registry(runtime).use(MarketLensPredictionMarketProtocol);
+  const parseReceipt = (capability: Parameters<typeof registry.parseReceipt>[0], changes: Change[]) =>
+    verifyPredictionMarketReceipt(capability, registry.parseReceipt(capability, changes));
 
   it("buyPosition: correct nativeTransfer + event → success", async () => {
     const cap = (await registry.action("marketlens", "buyPosition", account, { marketId: "7", outcome: "YES", paymentWei: "1000000000" })) as any;
     const native = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
-    const receipt = registry.parseReceipt(cap, [native, event]);
-    expect(receipt.outcome.operation).toBe("buy_position");
+    const receipt = parseReceipt(cap, [native, event]);
+    expect(receipt.outcome).toMatchObject({ operation: "buy_position" });
     expect(receipt.changes).toHaveLength(2);
   });
 
   it("buyPosition: missing nativeTransfer → fail closed", async () => {
     const cap = (await registry.action("marketlens", "buyPosition", account, { marketId: "7", outcome: "YES", paymentWei: "1000000000" })) as any;
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
-    expect(() => registry.parseReceipt(cap, [event])).toThrow("requires matching PositionBought");
+    expect(() => parseReceipt(cap, [event])).toThrow("requires matching PositionBought");
   });
 
   it("buyPosition: duplicate nativeTransfer → fail closed", async () => {
@@ -50,7 +56,7 @@ describe("Receipt Coverage", () => {
     const n1 = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const n2 = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
-    expect(() => registry.parseReceipt(cap, [n1, n2, event])).toThrow("multiple native transfers");
+    expect(() => parseReceipt(cap, [n1, n2, event])).toThrow("multiple native transfers");
   });
 
   it("buyPosition: duplicate event → fail closed", async () => {
@@ -58,7 +64,7 @@ describe("Receipt Coverage", () => {
     const native = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const e1 = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
     const e2 = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 2_000_000_000, noAfter: 0 });
-    expect(() => registry.parseReceipt(cap, [native, e1, e2])).toThrow("multiple events");
+    expect(() => parseReceipt(cap, [native, e1, e2])).toThrow("multiple events");
   });
 
   it("buyPosition: wrong contract address → fail closed", async () => {
@@ -70,38 +76,43 @@ describe("Receipt Coverage", () => {
       topics: encodeEventTopics({ abi: PredictionMarketAbi, eventName: "PositionBought", args: { marketId: 7n, wallet: getAddress(account), outcome: 1 } }) as readonly Hex[],
       data: encodeAbiParameters([{type:"bytes32"},{type:"uint256"},{type:"uint256"},{type:"uint256"},{type:"uint256"}], [`0x${"ab".repeat(32)}`, 1_000_000_000n, 1_000_000_000n, 1_000_000_000n, 0n])
     } satisfies Change;
-    expect(() => registry.parseReceipt(cap, [native, event])).toThrow("unverified address");
+    expect(() => parseReceipt(cap, [native, event])).toThrow("unverified address");
   });
 
   it("buyPosition: wrong buyer (native from ≠ event wallet) → fail closed", async () => {
     const cap = (await registry.action("marketlens", "buyPosition", account, { marketId: "7", outcome: "YES", paymentWei: "1000000000" })) as any;
     const native = makeNative(WRONG, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
-    expect(() => registry.parseReceipt(cap, [native, event])).toThrow("requires matching PositionBought");
+    expect(() => parseReceipt(cap, [native, event])).toThrow("requires matching PositionBought");
   });
 
   it("buyPosition: amount mismatch (native ≠ event amount) → fail closed", async () => {
     const cap = (await registry.action("marketlens", "buyPosition", account, { marketId: "7", outcome: "YES", paymentWei: "1000000000" })) as any;
     const native = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "2000000000");
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
-    expect(() => registry.parseReceipt(cap, [native, event])).toThrow("requires matching PositionBought");
+    expect(() => parseReceipt(cap, [native, event])).toThrow("requires matching PositionBought");
   });
 
   it("buyPosition: wrong outcome (event says NO, params say YES) → fail", async () => {
     const cap = (await registry.action("marketlens", "buyPosition", account, { marketId: "7", outcome: "NO", paymentWei: "1000000000" })) as any;
     const native = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
-    expect(() => registry.parseReceipt(cap, [native, event])).toThrow(); // receipt sees YES from event, mismatch
+    expect(() => parseReceipt(cap, [native, event])).toThrow(
+      "Receipt outcome does not match Capability params: outcome",
+    );
   });
 
   it("buyPosition: reordered Changes (event before native) → still works (order-preserving)", async () => {
     const cap = (await registry.action("marketlens", "buyPosition", account, { marketId: "7", outcome: "YES", paymentWei: "1000000000" })) as any;
     const native = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
-    const receipt = registry.parseReceipt(cap, [event, native]);
-    expect(receipt.outcome.operation).toBe("buy_position");
-    expect(receipt.changes[0].change.kind).toBe("event");
-    expect(receipt.changes[1].change.kind).toBe("nativeTransfer");
+    const receipt = parseReceipt(cap, [event, native]);
+    expect(receipt.outcome).toMatchObject({ operation: "buy_position" });
+    expect(receipt.changes[0]).toMatchObject({ kind: "change", change: { kind: "event" } });
+    expect(receipt.changes[1]).toMatchObject({
+      kind: "change",
+      change: { kind: "nativeTransfer" },
+    });
   });
 
   it("buyPosition: extra unknown Change → fail closed", async () => {
@@ -109,7 +120,7 @@ describe("Receipt Coverage", () => {
     const native = makeNative(account, MARKETLENS_LOCAL_ADDRESS, "1000000000");
     const event = makePositionBought({ marketId: 7, wallet: account, outcome: 1, amount: 1_000_000_000, yesAfter: 1_000_000_000, noAfter: 0 });
     const extra: Change = { kind: "event", address: WRONG, topics: [], data: "0x" };
-    expect(() => registry.parseReceipt(cap, [native, event, extra])).toThrow();
+    expect(() => parseReceipt(cap, [native, event, extra])).toThrow();
   });
 
   it("claimReward: wrong payout (native ≠ event payout) → fail closed", async () => {
@@ -117,9 +128,12 @@ describe("Receipt Coverage", () => {
     const event: Change = {
       kind: "event", address: MARKETLENS_LOCAL_ADDRESS,
       topics: encodeEventTopics({ abi: PredictionMarketAbi, eventName: "RewardClaimed", args: { marketId: 3n, wallet: getAddress(account), outcome: 1 } }) as readonly Hex[],
-      data: encodeAbiParameters([{type:"bytes32"},{type:"uint256"},{type:"uint256"},{type:"bool"}], [`0x${"cd".repeat(32)}`, 1_000_000_000n, 1_000_000_000n, false])
+      data: encodeAbiParameters(
+        [{type:"uint256"},{type:"uint256"},{type:"bool"}],
+        [1_000_000_000n, 1_000_000_000n, false],
+      )
     } satisfies Change;
     const native: Change = makeNative(MARKETLENS_LOCAL_ADDRESS, account, "2000000000");
-    expect(() => registry.parseReceipt(cap, [native, event])).toThrow("requires matching RewardClaimed");
+    expect(() => parseReceipt(cap, [native, event])).toThrow("requires matching RewardClaimed");
   });
 });

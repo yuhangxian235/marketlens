@@ -19,7 +19,7 @@ export const MARKETLENS_LOCAL_ADDRESS: AddressValue =
   "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
 
 const positiveInteger = UnsignedIntegerString.refine(
-  (value) => BigInt(value) > 0n,
+  (value: string) => BigInt(value) > 0n,
   "Expected a positive integer.",
 ).describe("A positive base-10 integer string.");
 const question = z.string().refine(
@@ -53,7 +53,7 @@ const buyPositionParams = {
   },
   paymentWei: {
     type: positiveInteger.refine(
-      (value) => BigInt(value) % 1_000_000_000n === 0n,
+      (value: string) => BigInt(value) % 1_000_000_000n === 0n,
       "Expected a value aligned to 1 gwei.",
     ).describe("A positive base-10 wei amount aligned to 1 gwei."),
     description: "Exact native MON payment in wei, aligned to 1 gwei.",

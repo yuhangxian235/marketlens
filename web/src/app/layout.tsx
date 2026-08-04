@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MarketLens · Evidence-backed market analysis",
+  title: "MarketLens · Pre-sign policy firewall for agent batches",
   description:
-    "Trace prediction-market behavior from contract event to product finding. Local Anvil, not Monad.",
+    "See why an agent action can pass alone but still be blocked when the whole batch violates user policy.",
 };
-
-const nav = [
-  ["Demo", "/demo"],
-  ["Markets", "/markets"],
-  ["Analytics", "/product-analytics"],
-  ["Evidence", "/evidence/global.unique_wallets"],
-  ["Action", "/action"],
-] as const;
 
 export default function RootLayout({
   children,
@@ -21,24 +13,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="siteHeader">
-          <Link className="brand" href="/" aria-label="MarketLens home">
+        <header className="siteHeader firewallSiteHeader">
+          <span className="brand">
             <span className="brandMark">ML</span>
             <span>
               MarketLens
-              <small>evidence → simulation</small>
+              <small>Agent batch policy firewall</small>
             </span>
-          </Link>
-          <nav aria-label="Primary navigation">
-            {nav.map(([label, href]) => (
-              <Link key={href} href={href}>
-                {label}
-              </Link>
-            ))}
-          </nav>
-          <div className="headerStatus">
+          </span>
+          <div className="headerStatus" aria-label="Execution boundaries">
             <span className="statusBadge statusBadge-verified">REAL LOCAL</span>
-            <span className="statusBadge statusBadge-warning">NOT MONAD</span>
+            <span className="statusBadge statusBadge-warning">UNSIGNED</span>
+            <span className="statusBadge statusBadge-warning">NOT BROADCAST</span>
           </div>
         </header>
         {children}
@@ -46,4 +32,3 @@ export default function RootLayout({
     </html>
   );
 }
-

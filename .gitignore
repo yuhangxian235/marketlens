@@ -45,3 +45,6 @@ external/
 source-cache/
 !source-cache/README.md
 !source-cache/checksums.txt
+
+.turbo
+build/

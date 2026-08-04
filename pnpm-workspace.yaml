@@ -1,5 +1,11 @@
 packages:
   - packages/prediction-market-actions
+  - external/moss/packages/core
+  - external/moss/packages/simulator
+  - packages/moss-prediction-market
+  - packages/agent-planner
+  - packages/batch-policy
+  - packages/polymarket-shadow
   - web
 
 allowBuilds:

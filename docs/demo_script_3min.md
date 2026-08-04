@@ -1,47 +1,47 @@
-# 3-Minute Demo Script
+# 90-Second Champion Demo Script
 
-## 0:00–0:20 — Problem
-> "Analytics tells us what happened, but not whether an onchain action matches the user's intent."
+## 0:00–0:12 — The problem
 
-- Open /demo
-- Explain: prediction markets have real money at stake
-- The gap: data → insight → action verification
+> “An onchain action can be safe alone and unsafe inside an Agent batch. MarketLens stops that batch before a wallet signs.”
 
-## 0:20–0:45 — Evidence (Steps 1-2)
-- Show local demo sample analytics
-- Unique wallets observed (emphasize: addresses, not persons)
-- Open Evidence drawer: show SQL definition, sample window, limitations
-- Product insight: "Market 1 has strongest observed participation"
+- Open the root route directly.
+- Point out `SYNTHETIC AGENT PROPOSAL`, `REAL LOCAL`, `UNSIGNED`, `NOT BROADCAST`, and `NOT DEPLOYED ON MONAD`.
 
-## 0:45–1:05 — Intent (Steps 3-4)
-- User selects: Buy YES on Market 1, max 1,000,000,000 wei
-- Show intent parameters
-- Show Moss Action: capability, protocol, method
-- Show manual builder match confirmation
+## 0:12–0:25 — Five Agent proposals
 
-## 1:05–1:35 — Simulation (Steps 5-6)
-- debug_traceCall on local Anvil chain 143
-- reverted = false, warnings = 0
-- Ordered Changes: nativeTransfer + PositionBought
-- Receipt: all Changes covered, order preserved
+- Show five intents created by the deterministic, policy-blind planner.
+- Do not reveal the final verdict yet.
+- Say: “The Agent may propose. It does not approve or send.”
 
-## 1:35–2:10 — Verification (Steps 7-8)
-- Intent checks: 7/7 passed
-- buyer/marketId/outcome/payment/stake all match
-- State unchanged: block, balance, nonce, stake all preserved
-- "LOCAL SIMULATION PASSED"
+## 0:25–0:38 — User policy
 
-## 2:10–2:35 — What This Means
-- Not a real transaction
-- No wallet signing
-- No broadcasting
-- Local Anvil only
-- But: the calldata, simulation, and intent checks are REAL
+- Show the 0.5 MON limits, required evidence, fail-closed behavior, and opposing-outcome conflict rule.
+- Say: “The user—not the Agent—defines what can survive.”
 
-## 2:35–2:50 — Optional: failure scenario
-- Switch to losing_claim
-- Show SIMULATION BLOCKED, DO NOT SIGN
+## 0:38–0:52 — Moss execution evidence
 
-## 2:50–3:00 — Conclusion
-> "Evidence before recommendation. Simulation before signing. Receipt before trust."
+- Reveal the five published Moss execution receipts.
+- Point to `@marketlens/moss-prediction-market`, `@themoss/simulator`, `debug_traceCall`, and chain 143.
+- Say: “These receipts were generated through real local Moss and Anvil, then re-verified in this browser. This animation is evidence reveal, not a fake frontend simulation.”
 
+## 0:52–1:08 — Two receipts that prove the product
+
+- Select `prop-003`: show decoded `NothingToClaim` plus raw `debug_traceCall` output.
+- Select `prop-005`: show `SIMULATION PASS`, `ACTION LEVEL PASS`, `BATCH LEVEL BLOCKED`.
+- Say: “Moss proves execution truth. The batch firewall adds user context that a single-action simulator cannot see.”
+
+## 1:08–1:22 — Final verdict
+
+- Show `2 OF 5 ACTIONS ELIGIBLE`.
+- Read the three real reasons: payment limit, simulation revert, batch conflict.
+- Point to `0 Signed` and `0 Broadcast`.
+
+## 1:22–1:30 — Close
+
+> “Let the Agent propose. Let Moss prove. Let the user’s policy decide—before the wallet signs.”
+
+## Demo safety boundary
+
+- Synthetic Agent proposals
+- Real local Anvil evidence, not Monad deployment
+- No wallet, private key, signing, broadcast, or execution feature
