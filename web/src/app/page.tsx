@@ -707,7 +707,8 @@ export default function BatchFirewallPage() {
                   type="button"
                   className={appliedPreset === key ? "presetActive" : ""}
                   onClick={() => {
-                    setPolicyControls({ ...POLICY_PRESETS[key] });
+                    const { label: _label, ...controls } = POLICY_PRESETS[key];
+                    setPolicyControls(controls);
                     setAppliedPreset(key);
                     setMaxStep((current) => (current > 2 ? 2 : current) as Step);
                     setSimulationComplete(false);

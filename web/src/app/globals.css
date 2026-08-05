@@ -1720,6 +1720,55 @@ button,input,select,summary{font:inherit}
   font:800 7px/1 var(--fw-mono);
 }
 .policyEvidenceNote{margin:9px 0 0;color:#61767e;font-size:10px;line-height:1.45}
+
+/* ── Policy preset segmented control ── */
+.policyPresetStrip{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:15px;
+}
+.policyPresetStrip > span{
+  color:#587681;
+  font:700 8px/1 var(--fw-mono);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-right:8px;
+}
+.policyPresetStrip button{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:0 18px;
+  border:1px solid #315664;
+  border-radius:7px;
+  background:var(--fw-panel);
+  color:var(--fw-muted);
+  font:700 10px/1 var(--fw-mono);
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.policyPresetStrip button:first-of-type{border-radius:7px 0 0 7px}
+.policyPresetStrip button:last-of-type{border-radius:0 7px 7px 0}
+.policyPresetStrip button + button{margin-left:-1px}
+.policyPresetStrip button:hover{
+  border-color:var(--fw-cyan);
+  color:var(--fw-cyan);
+  background:var(--fw-cyan-soft);
+  z-index:1;
+}
+.policyPresetStrip button.presetActive{
+  border-color:var(--fw-cyan);
+  background:var(--fw-cyan-soft);
+  color:var(--fw-cyan);
+  z-index:2;
+  box-shadow:0 0 0 1px var(--fw-cyan);
+}
+
 .policyError{margin:9px 0 0;color:#b43f39;font:700 9px/1.4 var(--fw-mono)}
 .primaryCta:disabled{cursor:wait;opacity:.65;transform:none}
 
