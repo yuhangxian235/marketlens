@@ -88,6 +88,9 @@ importers:
       '@themoss/core':
         specifier: workspace:*
         version: link:../../external/moss/packages/core
+      '@themoss/simulator':
+        specifier: workspace:*
+        version: link:../../external/moss/packages/simulator
       viem:
         specifier: ^2.54.3
         version: 2.55.8(typescript@5.9.3)(zod@3.25.76)
@@ -95,9 +98,6 @@ importers:
         specifier: ^3.25.0
         version: 3.25.76
     devDependencies:
-      '@themoss/simulator':
-        specifier: workspace:*
-        version: link:../../external/moss/packages/simulator
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.22)(typescript@5.9.3)
