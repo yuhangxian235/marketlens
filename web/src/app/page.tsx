@@ -535,16 +535,43 @@ export default function BatchFirewallPage() {
       <main className="firewallPage">
         <div className="loadState">
           <span>INCOMING AGENT BATCH</span>
-          <h1>No batch has been loaded for pre-sign review.</h1>
+          <h1>A verified Agent batch is ready for pre-sign review.</h1>
           <p>
-            Load a verified synthetic Agent batch to inspect proposals, set policy,
-            and run pre-sign verification.
+            Review five unsigned synthetic Agent actions before any wallet signing or transaction broadcast.
           </p>
+          <div className="batchSummaryCard" aria-label="Demo batch summary">
+            <div className="batchSummaryStatus">
+              <span className="statusDot" aria-hidden="true" />
+              Ready for review
+            </div>
+            <dl className="batchSummaryFields">
+              <div>
+                <dt>Batch ID</dt>
+                <dd>ML-DEMO-001</dd>
+              </div>
+              <div>
+                <dt>Source</dt>
+                <dd>Synthetic Agent fixture</dd>
+              </div>
+              <div>
+                <dt>Unsigned actions</dt>
+                <dd>5</dd>
+              </div>
+              <div>
+                <dt>Verified Moss evidence</dt>
+                <dd>5 receipts</dd>
+              </div>
+              <div>
+                <dt>Execution mode</dt>
+                <dd>Pre-sign review only</dd>
+              </div>
+            </dl>
+          </div>
           <button className="primaryCta" type="button" onClick={loadVerifiedDemoBatch}>
-            Load verified demo batch <span>→</span>
+            Review incoming batch <span>→</span>
           </button>
-          <div className="batchMeta" style={{ marginTop: "1.5rem" }}>
-            <span>SYNTHETIC AGENT PROPOSALS</span>
+          <div className="batchMeta" aria-label="Safety boundaries">
+            <span>SYNTHETIC PROPOSALS</span>
             <span>VERIFIED LOCAL EVIDENCE</span>
             <span>UNSIGNED</span>
             <span>NO TRANSACTION WILL BE SENT</span>
@@ -558,12 +585,12 @@ export default function BatchFirewallPage() {
     return (
       <main className="firewallPage">
         <div className="loadState">
-          <span>{loadPhase === "LOADING" ? "LOADING VERIFIED DEMO BATCH" : "VERIFYING PUBLISHED ARTIFACT HASHES"}</span>
+          <span>{loadPhase === "LOADING" ? "LOADING VERIFIED DEMO ARTIFACTS" : "VERIFYING ARTIFACT INTEGRITY"}</span>
           <div className="loadingBar" />
           {loadPhase === "LOADING" ? (
             <div className="loadingSteps">
+              <p>Loading verified demo artifacts</p>
               <p>Validating proposal schema</p>
-              <p>Verifying published artifact hashes</p>
             </div>
           ) : (
             <p>Batch ready for review</p>
@@ -768,12 +795,13 @@ export default function BatchFirewallPage() {
                   </select>
                 </label>
                 <div className="policyControl conflictControl">
-                  <span><strong>03</strong> Opposing outcomes</span>
-                  <small>Stop a later YES/NO action when the same market is already eligible.</small>
+                  <span><strong>03</strong> Prevent opposing positions</span>
+                  <small>Block an Agent from taking both YES and NO positions in the same market within one batch.</small>
                   <button
                     type="button"
                     role="switch"
                     aria-checked={policyControls.block_conflicting_outcomes_same_market}
+                    aria-label={policyControls.block_conflicting_outcomes_same_market ? "Conflict protection is on. Click to allow both sides." : "Conflict protection is off. Click to prevent opposing positions."}
                     className={policyControls.block_conflicting_outcomes_same_market ? "active" : ""}
                     onClick={() => updatePolicyControls({
                       block_conflicting_outcomes_same_market:
@@ -782,9 +810,14 @@ export default function BatchFirewallPage() {
                   >
                     <i aria-hidden="true" />
                     {policyControls.block_conflicting_outcomes_same_market
-                      ? "BLOCK CONFLICTS"
-                      : "ALLOW CONFLICTS"}
+                      ? "Conflict protection ON"
+                      : "Both sides allowed"}
                   </button>
+                  <span className="conflictHint" aria-live="polite">
+                    {policyControls.block_conflicting_outcomes_same_market
+                      ? "A later opposing action will be blocked at batch level."
+                      : "YES and NO actions may both remain eligible if all other checks pass."}
+                  </span>
                 </div>
               </div>
             </div>
