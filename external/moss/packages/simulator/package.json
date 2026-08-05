@@ -1,8 +1,7 @@
 {
-  "name": "@marketlens/moss-prediction-market",
+  "name": "@themoss/simulator",
   "version": "0.1.0",
-  "private": true,
-  "description": "Source-pinned experimental Moss Protocol for MarketLens",
+  "description": "Moss trace simulation, ordered Change extraction, and Receipt verification",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -21,12 +20,9 @@
   },
   "dependencies": {
     "@themoss/core": "workspace:*",
-    "viem": "^2.54.3",
-    "zod": "^3.25.0",
-    "@themoss/simulator": "workspace:*"
+    "viem": "^2.54.3"
   },
   "devDependencies": {
-    "@themoss/simulator": "workspace:*",
     "tsup": "^8.5.1",
     "typescript": "~5.9.0",
     "vitest": "^3.2.6"

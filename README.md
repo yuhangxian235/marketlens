@@ -65,6 +65,7 @@ execution chain, evidence, hashes, reproduction commands, and safety boundaries.
 marketlens/
 ├── contracts/                         # Solidity contract and Foundry tests
 ├── analytics/                         # RPC indexer, SQLite, SQL/pandas analytics
+├── external/moss/                     # Vendored Moss @themoss/core and @themoss/simulator
 ├── packages/
 │   ├── prediction-market-actions/     # Action calldata and application seam
 │   ├── moss-prediction-market/        # Source-pinned Moss protocol adapter
@@ -80,10 +81,29 @@ marketlens/
 ## Install
 
 ```powershell
-pnpm install
+# Requirements: Node >= 22, pnpm 11.10.0 (via corepack)
+pnpm install --frozen-lockfile
 ```
 
+This resolves all workspace packages including the vendored `@themoss/core` and
+`@themoss/simulator` under `external/moss/`. No git submodule or external clone
+step is required.
+
 Analytics uses Python 3.11 and `uv`; contracts use Foundry in WSL.
+
+## Moss dependency provenance
+
+MarketLens vendors `@themoss/core` and `@themoss/simulator` from the Moss
+upstream repository.
+
+- **Upstream:** <https://github.com/nishuzumi/moss>
+- **Pinned commit:** `d09b38cbc44ee7f5722c5d09e7224f7750187762` (2026-07-22)
+- **License:** MIT
+- **Included:** `packages/core/`, `packages/simulator/`
+- **Vendored under:** `external/moss/`
+- **Modifications:** None — vendored as-is from the pinned upstream commit
+
+See `external/moss/UPSTREAM.md` for the full provenance record.
 
 ## Verify Phase 4A
 
@@ -104,6 +124,12 @@ pnpm --filter @marketlens/batch-policy generate
 pnpm --filter @marketlens/batch-policy verify:artifacts
 pnpm --filter @marketlens/web dev --port 3300
 ```
+
+Open <http://localhost:3300> to see the batch policy firewall demo.
+
+The `predev` script automatically builds all workspace dependencies
+(`@themoss/core` → `@themoss/simulator` → `@marketlens/moss-prediction-market` →
+prediction-market-actions → agent-planner → batch-policy) before starting Next.js.
 
 ## Full local verification
 
