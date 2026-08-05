@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "pnpm --filter @marketlens/prediction-market-actions build && pnpm --filter @marketlens/agent-planner build && pnpm --filter @marketlens/batch-policy build",
+    "predev": "pnpm --filter @themoss/core build && pnpm --filter @themoss/simulator build && pnpm --filter @marketlens/moss-prediction-market build && pnpm --filter @marketlens/prediction-market-actions build && pnpm --filter @marketlens/agent-planner build && pnpm --filter @marketlens/batch-policy build",
     "dev": "next dev",
-    "prebuild": "pnpm --filter @marketlens/prediction-market-actions build && pnpm --filter @marketlens/agent-planner build && pnpm --filter @marketlens/batch-policy build",
+    "prebuild": "pnpm --filter @themoss/core build && pnpm --filter @themoss/simulator build && pnpm --filter @marketlens/moss-prediction-market build && pnpm --filter @marketlens/prediction-market-actions build && pnpm --filter @marketlens/agent-planner build && pnpm --filter @marketlens/batch-policy build",
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "test": "tsc --noEmit",

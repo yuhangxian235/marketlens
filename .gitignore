@@ -41,8 +41,8 @@ demo/generated/
 config/deployments/local-anvil.json
 
 # Phase 2B
-external/
-source-cache/
+external/*
+!external/moss/
 !source-cache/README.md
 !source-cache/checksums.txt
 

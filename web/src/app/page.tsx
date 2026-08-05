@@ -158,6 +158,8 @@ type PolicyControls = {
   max_total_payment: string;
   block_conflicting_outcomes_same_market: boolean;
 };
+type BatchLoadState = "EMPTY" | "LOADING" | "LOADED" | "ERROR";
+type VerificationPhase = "IDLE" | "RUNNING" | "COMPLETE" | "ERROR";
 
 type EvaluationResponse = {
   policy: Policy;
@@ -172,6 +174,27 @@ const STEPS = [
   { number: 4, short: "Receipts" },
   { number: 5, short: "Verdict" },
 ] as const;
+
+const POLICY_PRESETS = {
+  strict: {
+    max_payment_per_action: "100000000000000000",
+    max_total_payment: "250000000000000000",
+    block_conflicting_outcomes_same_market: true,
+    label: "Strict",
+  },
+  default: {
+    max_payment_per_action: "500000000000000000",
+    max_total_payment: "500000000000000000",
+    block_conflicting_outcomes_same_market: true,
+    label: "Default",
+  },
+  permissive: {
+    max_payment_per_action: "10000000000000000000",
+    max_total_payment: "10000000000000000000",
+    block_conflicting_outcomes_same_market: false,
+    label: "Permissive",
+  },
+} as const;
 
 const WEI_PER_MON = 1_000_000_000_000_000_000n;
 const ACTION_LIMIT_OPTIONS = [
@@ -244,6 +267,9 @@ export default function BatchFirewallPage() {
   const [integrity, setIntegrity] =
     useState<BrowserArtifactVerification | null>(null);
   const [loadPhase, setLoadPhase] = useState<"LOADING" | "VERIFYING">("LOADING");
+  const [batchState, setBatchState] = useState<BatchLoadState>("EMPTY");
+  const [verificationPhase, setVerificationPhase] = useState<VerificationPhase>("IDLE");
+  const [appliedPreset, setAppliedPreset] = useState<keyof typeof POLICY_PRESETS | null>(null);
   const [error, setError] = useState("");
   const [simulatedCount, setSimulatedCount] = useState(0);
   const [simulationRunning, setSimulationRunning] = useState(false);
@@ -253,65 +279,86 @@ export default function BatchFirewallPage() {
   const technicalTriggerRef = useRef<HTMLButtonElement>(null);
   const technicalCloseRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const [
-          proposalResponse,
-          policyResponse,
-          simulationResponse,
-          receiptResponse,
-          manifestResponse,
-        ] =
-          await Promise.all([
-            fetch("/data/batch-verification/proposals.json"),
-            fetch("/data/batch-verification/policy.json"),
-            fetch("/data/batch-verification/simulation-results.json"),
-            fetch("/data/batch-verification/batch-receipt.json"),
-            fetch("/data/batch-verification/manifest.json"),
-          ]);
-        for (const response of [
-          proposalResponse,
-          policyResponse,
-          simulationResponse,
-          receiptResponse,
-          manifestResponse,
-        ]) {
-          if (!response.ok) throw new Error(`${response.url}: HTTP ${response.status}`);
-        }
-        const [nextProposals, nextPolicy, nextSimulations, nextReceipt, nextManifest] =
-          await Promise.all([
-            proposalResponse.json(),
-            policyResponse.json(),
-            simulationResponse.json(),
-            receiptResponse.json(),
-            manifestResponse.json(),
-          ]);
-        setLoadPhase("VERIFYING");
-        const artifacts = {
-          proposals: nextProposals,
-          policy: nextPolicy,
-          simulations: nextSimulations,
-          receipt: nextReceipt,
-          manifest: nextManifest,
-        } as PublishedBatchArtifactSet;
-        const verification = await verifyPublishedBatchArtifacts(artifacts);
-        setProposals(artifacts.proposals as Proposal[]);
-        setPolicy(artifacts.policy as Policy);
-        setReceipt(artifacts.receipt as BatchReceipt);
-        setPolicyControls({
-          max_payment_per_action: (artifacts.policy as Policy).max_payment_per_action,
-          max_total_payment: (artifacts.policy as Policy).max_total_payment,
-          block_conflicting_outcomes_same_market:
-            (artifacts.policy as Policy).block_conflicting_outcomes_same_market,
-        });
-        setIntegrity(verification);
-      } catch (caught) {
-        setError(caught instanceof Error ? caught.message : String(caught));
+  const loadVerifiedDemoBatch = async () => {
+    setBatchState("LOADING");
+    setError("");
+    try {
+      const [
+        proposalResponse,
+        policyResponse,
+        simulationResponse,
+        receiptResponse,
+        manifestResponse,
+      ] =
+        await Promise.all([
+          fetch("/data/batch-verification/proposals.json"),
+          fetch("/data/batch-verification/policy.json"),
+          fetch("/data/batch-verification/simulation-results.json"),
+          fetch("/data/batch-verification/batch-receipt.json"),
+          fetch("/data/batch-verification/manifest.json"),
+        ]);
+      for (const response of [
+        proposalResponse,
+        policyResponse,
+        simulationResponse,
+        receiptResponse,
+        manifestResponse,
+      ]) {
+        if (!response.ok) throw new Error(`${response.url}: HTTP ${response.status}`);
       }
-    };
-    void load();
-  }, []);
+      const [nextProposals, nextPolicy, nextSimulations, nextReceipt, nextManifest] =
+        await Promise.all([
+          proposalResponse.json(),
+          policyResponse.json(),
+          simulationResponse.json(),
+          receiptResponse.json(),
+          manifestResponse.json(),
+        ]);
+      setLoadPhase("VERIFYING");
+      const artifacts = {
+        proposals: nextProposals,
+        policy: nextPolicy,
+        simulations: nextSimulations,
+        receipt: nextReceipt,
+        manifest: nextManifest,
+      } as PublishedBatchArtifactSet;
+      const verification = await verifyPublishedBatchArtifacts(artifacts);
+      setProposals(artifacts.proposals as Proposal[]);
+      setPolicy(artifacts.policy as Policy);
+      setReceipt(artifacts.receipt as BatchReceipt);
+      setPolicyControls({
+        max_payment_per_action: (artifacts.policy as Policy).max_payment_per_action,
+        max_total_payment: (artifacts.policy as Policy).max_total_payment,
+        block_conflicting_outcomes_same_market:
+          (artifacts.policy as Policy).block_conflicting_outcomes_same_market,
+      });
+      setIntegrity(verification);
+      setBatchState("LOADED");
+      setStep(1);
+      setMaxStep(1);
+    } catch (caught) {
+      setBatchState("ERROR");
+      setError(caught instanceof Error ? caught.message : String(caught));
+    }
+  };
+
+  const resetDemo = () => {
+    setBatchState("EMPTY");
+    setStep(1);
+    setMaxStep(1);
+    setProposals([]);
+    setPolicy(null);
+    setReceipt(null);
+    setAllowlist(null);
+    setIntegrity(null);
+    setError("");
+    setPolicyError("");
+    setDownloadMessage("");
+    setSimulationComplete(false);
+    setSimulatedCount(0);
+    setVerificationPhase("IDLE");
+    setAppliedPreset(null);
+  };
 
   const receiptsById = useMemo(
     () =>
@@ -475,6 +522,79 @@ export default function BatchFirewallPage() {
           <span>RECEIPT CHAIN REJECTED</span>
           <h1>The policy firewall stayed locked.</h1>
           <p>{error}</p>
+          <button className="primaryCta" type="button" onClick={resetDemo}>
+            Retry
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  if (batchState === "EMPTY") {
+    return (
+      <main className="firewallPage">
+        <div className="loadState">
+          <span>INCOMING AGENT BATCH</span>
+          <h1>A verified Agent batch is ready for pre-sign review.</h1>
+          <p>
+            Review five unsigned synthetic Agent actions before any wallet signing or transaction broadcast.
+          </p>
+          <div className="batchSummaryCard" aria-label="Demo batch summary">
+            <div className="batchSummaryStatus">
+              <span className="statusDot" aria-hidden="true" />
+              Ready for review
+            </div>
+            <dl className="batchSummaryFields">
+              <div>
+                <dt>Batch ID</dt>
+                <dd>ML-DEMO-001</dd>
+              </div>
+              <div>
+                <dt>Source</dt>
+                <dd>Synthetic Agent fixture</dd>
+              </div>
+              <div>
+                <dt>Unsigned actions</dt>
+                <dd>5</dd>
+              </div>
+              <div>
+                <dt>Verified Moss evidence</dt>
+                <dd>5 receipts</dd>
+              </div>
+              <div>
+                <dt>Execution mode</dt>
+                <dd>Pre-sign review only</dd>
+              </div>
+            </dl>
+          </div>
+          <button className="primaryCta" type="button" onClick={loadVerifiedDemoBatch}>
+            Review incoming batch <span>→</span>
+          </button>
+          <div className="batchMeta" aria-label="Safety boundaries">
+            <span>SYNTHETIC PROPOSALS</span>
+            <span>VERIFIED LOCAL EVIDENCE</span>
+            <span>UNSIGNED</span>
+            <span>NO TRANSACTION WILL BE SENT</span>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (batchState === "LOADING") {
+    return (
+      <main className="firewallPage">
+        <div className="loadState">
+          <span>{loadPhase === "LOADING" ? "LOADING VERIFIED DEMO ARTIFACTS" : "VERIFYING ARTIFACT INTEGRITY"}</span>
+          <div className="loadingBar" />
+          {loadPhase === "LOADING" ? (
+            <div className="loadingSteps">
+              <p>Loading verified demo artifacts</p>
+              <p>Validating proposal schema</p>
+            </div>
+          ) : (
+            <p>Batch ready for review</p>
+          )}
         </div>
       </main>
     );
@@ -484,11 +604,7 @@ export default function BatchFirewallPage() {
     return (
       <main className="firewallPage">
         <div className="loadState">
-          <span>
-            {loadPhase === "LOADING"
-              ? "LOADING RUNTIME RECEIPT"
-              : "VERIFYING CANONICAL RECEIPT CHAIN"}
-          </span>
+          <span>LOADING RUNTIME RECEIPT</span>
           <div className="loadingBar" />
         </div>
       </main>
@@ -610,6 +726,29 @@ export default function BatchFirewallPage() {
               title="Apply the user’s safety policy"
               description="The user—not the agent—sets payment limits, allowed actions, required evidence, and batch conflict rules."
             />
+            <div className="policyPresetStrip">
+              <span>POLICY PRESETS</span>
+              {(Object.keys(POLICY_PRESETS) as Array<keyof typeof POLICY_PRESETS>).map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  className={appliedPreset === key ? "presetActive" : ""}
+                  onClick={() => {
+                    const { label: _label, ...controls } = POLICY_PRESETS[key];
+                    setPolicyControls(controls);
+                    setAppliedPreset(key);
+                    setMaxStep((current) => (current > 2 ? 2 : current) as Step);
+                    setSimulationComplete(false);
+                    setSimulatedCount(0);
+                    setAllowlist(null);
+                    setPolicyError("");
+                    setDownloadMessage("");
+                  }}
+                >
+                  {POLICY_PRESETS[key].label}
+                </button>
+              ))}
+            </div>
             <div className="policyLayout">
               <div className="policyHero">
                 <span className="policyId">USER CONTROL · PRE-SIGN</span>
@@ -656,12 +795,13 @@ export default function BatchFirewallPage() {
                   </select>
                 </label>
                 <div className="policyControl conflictControl">
-                  <span><strong>03</strong> Opposing outcomes</span>
-                  <small>Stop a later YES/NO action when the same market is already eligible.</small>
+                  <span><strong>03</strong> Prevent opposing positions</span>
+                  <small>Block an Agent from taking both YES and NO positions in the same market within one batch.</small>
                   <button
                     type="button"
                     role="switch"
                     aria-checked={policyControls.block_conflicting_outcomes_same_market}
+                    aria-label={policyControls.block_conflicting_outcomes_same_market ? "Conflict protection is on. Click to allow both sides." : "Conflict protection is off. Click to prevent opposing positions."}
                     className={policyControls.block_conflicting_outcomes_same_market ? "active" : ""}
                     onClick={() => updatePolicyControls({
                       block_conflicting_outcomes_same_market:
@@ -670,9 +810,14 @@ export default function BatchFirewallPage() {
                   >
                     <i aria-hidden="true" />
                     {policyControls.block_conflicting_outcomes_same_market
-                      ? "BLOCK CONFLICTS"
-                      : "ALLOW CONFLICTS"}
+                      ? "Conflict protection ON"
+                      : "Both sides allowed"}
                   </button>
+                  <span className="conflictHint" aria-live="polite">
+                    {policyControls.block_conflicting_outcomes_same_market
+                      ? "A later opposing action will be blocked at batch level."
+                      : "YES and NO actions may both remain eligible if all other checks pass."}
+                  </span>
                 </div>
               </div>
             </div>
@@ -684,14 +829,15 @@ export default function BatchFirewallPage() {
               <strong>FAIL CLOSED</strong>
             </div>
             <p className="policyEvidenceNote">
-              Applying this policy re-runs the real Batch Engine over the exact
-              verified Moss traces. It does not simulate in the browser or send a transaction.
+              Changing this policy re-runs the real Batch Policy Engine over the
+              verified Moss evidence. It does not trigger a new Anvil simulation or
+              send a transaction.
             </p>
             {policyError && <p className="policyError" role="alert">{policyError}</p>}
             <div className="stageActions withBack">
               <button className="quietAction" type="button" onClick={() => setStep(1)}>← Back</button>
               <button className="primaryCta" type="button" onClick={applyPolicy} disabled={policySubmitting}>
-                {policySubmitting ? "Applying policy…" : "Apply policy & verify evidence"} <span>→</span>
+                {policySubmitting ? "Running verification…" : "Run pre-sign verification"} <span>→</span>
               </button>
             </div>
           </div>
@@ -702,7 +848,7 @@ export default function BatchFirewallPage() {
             <StepHeading
               index={3}
               title="Verify execution truth with Moss"
-              description="The firewall re-used five browser- and server-verified Moss traces, then recomputed every rule and Receipt for your policy. No transaction was sent."
+              description="Replay and verify pre-generated local Moss simulation evidence. The firewall recomputes every rule and Receipt for your policy. No new simulation or transaction was sent."
             />
             <div className="engineBanner">
               <div className="enginePulse" aria-hidden="true" />
@@ -938,17 +1084,23 @@ export default function BatchFirewallPage() {
             <p className="downloadStatus" aria-live="polite">{downloadMessage}</p>
             <div className="stageActions withBack">
               <button className="quietAction" type="button" onClick={() => {
-                setStep(1);
-                setMaxStep(1);
+                setStep(4);
+                scrollToTop();
+                focusCurrentStep();
+              }}>
+                ← Back to receipts
+              </button>
+              <button className="quietAction" type="button" onClick={() => {
+                setStep(2);
+                setMaxStep((current) => Math.max(current, 2) as Step);
                 setSimulatedCount(0);
                 setSimulationComplete(false);
-                setSelectedReceipt("prop-001");
                 setAllowlist(null);
                 setDownloadMessage("");
                 scrollToTop();
                 focusCurrentStep();
               }}>
-                ↺ Review proposals
+                Run again with another policy
               </button>
               {allowlistDownload && (
                 <a
@@ -962,6 +1114,11 @@ export default function BatchFirewallPage() {
                   Download unsigned allowlist <span>↓</span>
                 </a>
               )}
+            </div>
+            <div className="stageActions" style={{ marginTop: "1rem" }}>
+              <button className="quietAction" type="button" onClick={resetDemo}>
+                Reset demo
+              </button>
             </div>
           </div>
         )}
