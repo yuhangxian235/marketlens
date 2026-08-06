@@ -44,6 +44,24 @@ pnpm --filter @marketlens/web dev --port 3300
 
 Open <http://localhost:3300> to see the five-step batch policy firewall demo. The `predev` script automatically builds all workspace dependencies (`@themoss/core` → `@themoss/simulator` → `@marketlens/moss-prediction-market` → prediction-market-actions → agent-planner → batch-policy) before starting Next.js.
 
+## Why batch-level matters
+
+**Single-transaction simulation:**
+```
+Action A → PASS
+Action B → PASS
+Result → Looks safe
+```
+
+**MarketLens batch-level policy firewall:**
+```
+Action A → PASS ─┐
+                  ├→ Batch Policy Conflict → BLOCK
+Action B → PASS ─┘
+```
+
+The current reference implementation targets prediction markets. The batch-policy architecture is designed for future protocol adapters.
+
 ## Verified in this submission build
 
 | Check | Result |
