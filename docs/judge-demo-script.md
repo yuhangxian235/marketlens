@@ -81,5 +81,25 @@ MarketLens is built around a **deterministic batch policy engine** that evaluate
 
 The browser demo **does not** trigger a new live Anvil simulation on demand. It re-verifies published canonical artifacts.
 
-### Safety boundaries (on every screen)
+#
+
+## Live Local Lab demo (30–45 seconds)
+
+### 0:00–0:10 — Enter Live Lab
+- **Click:** "Live Local Lab →" in the demo masthead
+- **See:** Mode switches. Editable proposal cards appear with Market/Outcome/Amount controls.
+
+### 0:10–0:20 — Load conflict example
+- **Click:** "Load conflict example"
+- **See:** Two proposals on Market 4 with opposite outcomes (YES/NO). Both would pass individually.
+
+### 0:20–0:30 — Run fresh verification
+- **Click:** "Run fresh verification"
+- **See:** Fresh Anvil evidence generated. One proposal shows `SIMULATION PASS / ACTION PASS / BATCH BLOCKED` with reason `BATCH_POLICY_CONFLICT`.
+
+### 0:30–0:45 — Resolve and re-verify
+- **Click:** "Resolve conflict" (changes NO to YES)
+- **Click:** "Run fresh verification" again
+- **See:** Both now eligible. The verdict changes from blocked to passed. Fresh `generated_at` timestamp proves new evidence was generated.
+## Safety boundaries (on every screen)
 `SYNTHETIC AGENT PROPOSAL` · `REAL LOCAL` · `UNSIGNED` · `NOT BROADCAST` · `NOT DEPLOYED ON MONAD`

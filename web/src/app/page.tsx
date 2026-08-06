@@ -6,6 +6,7 @@ import {
   type BrowserArtifactVerification,
   type PublishedBatchArtifactSet,
 } from "@marketlens/batch-policy/browser";
+import LiveLab from "@/components/live-lab";
 
 type Step = 1 | 2 | 3 | 4 | 5;
 type Verdict = "PASS" | "BLOCKED" | "NOT_APPLICABLE";
@@ -250,6 +251,7 @@ function StepHeading({
 }
 
 export default function BatchFirewallPage() {
+  const [mode, setMode] = useState<"demo" | "live">("demo");
   const [step, setStep] = useState<Step>(1);
   const [maxStep, setMaxStep] = useState<Step>(1);
   const [proposals, setProposals] = useState<Proposal[]>([]);
@@ -601,6 +603,28 @@ export default function BatchFirewallPage() {
   }
 
   if (!policy || !receipt || !integrity || proposals.length === 0) {
+  if (mode === "live") {
+    return (
+      <main className="firewallPage" style={{ background: "#0f1117", minHeight: "100vh", paddingTop: 20 }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 16 }}>
+          <button
+            onClick={() => setMode("demo")}
+            style={{
+              padding: "6px 18px", borderRadius: 6, border: "1px solid #2d3148",
+              background: "#1a1d2e", color: "#94a3b8", cursor: "pointer", fontSize: 13, fontWeight: 600,
+            }}
+          >
+            ← Verified Demo
+          </button>
+          <span style={{ padding: "4px 12px", borderRadius: 6, background: "#7c3aed", color: "#fff", fontSize: 13, fontWeight: 700 }}>
+            Live Local Lab
+          </span>
+        </div>
+        <LiveLab />
+      </main>
+    );
+  }
+
     return (
       <main className="firewallPage">
         <div className="loadState">
@@ -620,6 +644,7 @@ export default function BatchFirewallPage() {
           <p>Stop unsafe onchain agent batches before a wallet ever signs.</p>
         </div>
         <div className="mastheadControls">
+            <button onClick={() => setMode("live")} className="primaryButton" style={{ background: "#1a1d2e", border: "1px solid #7c3aed", color: "#7c3aed", marginRight: 8 }}>Live Local Lab →</button>
           <div
             className="integritySeal"
             data-artifact-integrity="verified"

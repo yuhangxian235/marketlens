@@ -53,7 +53,7 @@ Open <http://localhost:3300> to see the five-step batch policy firewall demo. Th
 | Live-Anvil integration tests | 12 skipped (requires local Anvil; skip in offline CI) |
 | Typecheck | 0 errors |
 | Lint | 0 errors, 2 warnings |
-| Next.js build | 10 routes total (9 static + 1 dynamic API) |
+| Next.js build | 11 routes total (9 static + 2 dynamic API) |
 | Analytics pytest | not independently revalidated in this submission build |
 
 Full Next.js route table from build output:
@@ -167,6 +167,20 @@ The full command installs the locked JavaScript dependencies, runs the focused P
 ![Default verdict](docs/assets/demo/04-default-verdict.png)
 *Steps 4–5 — Action Receipts and Batch Verdict: 2 eligible, 3 blocked under Default policy. Zero signed, zero broadcast.*
 
+
+
+## Live Local Proposal Lab
+
+The default **Verified Demo** uses pre-generated Moss evidence artifacts. The **Live Local Lab** calls a local Anvil fixture to generate fresh evidence per verification run.
+
+- **Run:** `pnpm demo:live` (starts Anvil, seeds contract, starts Next.js)
+- **Mode switch:** Click "Live Local Lab →" in the demo masthead
+- **Conflict example:** Loads two proposals on the same market with opposite outcomes
+- **Resolve conflict:** Modifies one outcome so both align — then re-run to see the verdict change
+- **API:** `POST /api/verify-live-batch` — validates inputs, calls `verifyBatch()` with live `debug_traceCall`, returns policy-specific Batch Receipt
+- **Safety:** Local Anvil only. No wallet, no signing, no broadcast, no Monad deployment. If Anvil is unavailable, returns 503.
+
+Both modes remain **UNSIGNED**, **NOT BROADCAST**, and **NOT DEPLOYED ON MONAD**.
 ## Safety boundaries
 
 - `SYNTHETIC AGENT PROPOSAL`
