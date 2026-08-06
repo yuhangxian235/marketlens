@@ -176,12 +176,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400, headers: { "Cache-Control": "no-store" } });
   }
 
-  // Validate proposals
+  // Validate proposals — locked to exactly 2 for Live Lab
   if (!Array.isArray(input.proposals)) {
     return NextResponse.json({ error: "proposals must be an array" }, { status: 400, headers: { "Cache-Control": "no-store" } });
   }
-  if (input.proposals.length < 2 || input.proposals.length > 5) {
-    return NextResponse.json({ error: "proposals must contain 2-5 items" }, { status: 400, headers: { "Cache-Control": "no-store" } });
+  if (input.proposals.length !== 2) {
+    return NextResponse.json({ error: "Live Lab accepts exactly 2 proposals" }, { status: 422, headers: { "Cache-Control": "no-store" } });
   }
 
   const seenIds = new Set<string>();

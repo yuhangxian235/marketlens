@@ -164,6 +164,9 @@ export default function LiveLab() {
 
       {/* Proposals */}
       <div style={styles.section}>
+        <p style={{ color: "#94a3b8", fontSize: 13, marginBottom: 12 }}>
+          The Live Local Lab verifies a focused two-action batch for a reliable fresh-evidence demonstration.
+        </p>
         <h3 style={styles.h3}>Proposals ({proposals.length})</h3>
         {proposals.map((p, i) => (
           <div key={p.proposal_id} style={styles.proposalCard}>

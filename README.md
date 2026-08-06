@@ -171,16 +171,25 @@ The full command installs the locked JavaScript dependencies, runs the focused P
 
 ## Live Local Proposal Lab
 
-The default **Verified Demo** uses pre-generated Moss evidence artifacts. The **Live Local Lab** calls a local Anvil fixture to generate fresh evidence per verification run.
+The default **Verified Demo** uses pre-generated Moss evidence artifacts. The **Live Local Lab** calls a local Anvil fixture to generate fresh evidence per verification run. It is locked to exactly **two proposals** — a focused two-action batch for reliable fresh-evidence demonstration.
 
 - **Run:** `pnpm demo:live` (starts Anvil, seeds contract, starts Next.js)
 - **Mode switch:** Click "Live Local Lab →" in the demo masthead
 - **Conflict example:** Loads two proposals on the same market with opposite outcomes
 - **Resolve conflict:** Modifies one outcome so both align — then re-run to see the verdict change
-- **API:** `POST /api/verify-live-batch` — validates inputs, calls `verifyBatch()` with live `debug_traceCall`, returns policy-specific Batch Receipt
+- **API:** `POST /api/verify-live-batch` — accepts exactly 2 proposals, validates inputs, calls `verifyBatch()` with live `debug_traceCall`, returns policy-specific Batch Receipt. Returns 422 for non-2 proposal counts.
 - **Safety:** Local Anvil only. No wallet, no signing, no broadcast, no Monad deployment. If Anvil is unavailable, returns 503.
 
 Both modes remain **UNSIGNED**, **NOT BROADCAST**, and **NOT DEPLOYED ON MONAD**.
+
+## Fixture security
+
+**Legacy reproduction scripts** (`scripts/deploy-moss-local-state.ps1`, `scripts/reproduce-moss-local.py`) contain well-known Anvil development keys for ephemeral local fixture initialization only. They are not production secrets and must never be used on any real network or with real funds.
+
+**The Live Lab fixture** (`scripts/fixture.sh`) uses local Anvil state-injection RPC methods (`anvil_setStorageAt`, `anvil_setCode`, `anvil_setBalance`) — no raw private keys, no `cast send`, no `eth_sendTransaction`.
+
+**The Live verification API** performs `debug_traceCall` only and never signs, sends, or broadcasts transactions.
+
 ## Safety boundaries
 
 - `SYNTHETIC AGENT PROPOSAL`

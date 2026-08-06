@@ -87,7 +87,7 @@ The browser demo **does not** trigger a new live Anvil simulation on demand. It 
 
 ### 0:00–0:10 — Enter Live Lab
 - **Click:** "Live Local Lab →" in the demo masthead
-- **See:** Mode switches. Editable proposal cards appear with Market/Outcome/Amount controls.
+- **See:** Mode switches. Two editable proposal cards appear with Market/Outcome/Amount controls. The Live Lab is locked to exactly two proposals for a focused fresh-evidence demonstration.
 
 ### 0:10–0:20 — Load conflict example
 - **Click:** "Load conflict example"
@@ -101,5 +101,9 @@ The browser demo **does not** trigger a new live Anvil simulation on demand. It 
 - **Click:** "Resolve conflict" (changes NO to YES)
 - **Click:** "Run fresh verification" again
 - **See:** Both now eligible. The verdict changes from blocked to passed. Fresh `generated_at` timestamp proves new evidence was generated.
+## Fixture boundary
+
+Legacy reproduction scripts (`scripts/deploy-moss-local-state.ps1`, `scripts/reproduce-moss-local.py`) contain well-known Anvil development keys for ephemeral local fixture initialization only. The Live Lab fixture (`scripts/fixture.sh`) uses local Anvil state-injection RPC methods (`anvil_setStorageAt`, `anvil_setCode`, `anvil_setBalance`) — no raw private keys, no `cast send`, no `eth_sendTransaction`. The Live verification API performs `debug_traceCall` only and never signs or sends transactions.
+
 ## Safety boundaries (on every screen)
 `SYNTHETIC AGENT PROPOSAL` · `REAL LOCAL` · `UNSIGNED` · `NOT BROADCAST` · `NOT DEPLOYED ON MONAD`
