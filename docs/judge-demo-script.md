@@ -81,5 +81,29 @@ MarketLens is built around a **deterministic batch policy engine** that evaluate
 
 The browser demo **does not** trigger a new live Anvil simulation on demand. It re-verifies published canonical artifacts.
 
-### Safety boundaries (on every screen)
+#
+
+## Live Local Lab demo (30–45 seconds)
+
+### 0:00–0:10 — Enter Live Lab
+- **Click:** "Live Local Lab →" in the demo masthead
+- **See:** Mode switches. Two editable proposal cards appear with Market/Outcome/Amount controls. The Live Lab is locked to exactly two proposals for a focused fresh-evidence demonstration.
+
+### 0:10–0:20 — Load conflict example
+- **Click:** "Load conflict example"
+- **See:** Two proposals on Market 4 with opposite outcomes (YES/NO). Both would pass individually.
+
+### 0:20–0:30 — Run fresh verification
+- **Click:** "Run fresh verification"
+- **See:** Fresh Anvil evidence generated. One proposal shows `SIMULATION PASS / ACTION PASS / BATCH BLOCKED` with reason `BATCH_POLICY_CONFLICT`.
+
+### 0:30–0:45 — Resolve and re-verify
+- **Click:** "Resolve conflict" (changes NO to YES)
+- **Click:** "Run fresh verification" again
+- **See:** Both now eligible. The verdict changes from blocked to passed. Fresh `generated_at` timestamp proves new evidence was generated.
+## Fixture boundary
+
+Legacy reproduction scripts (`scripts/deploy-moss-local-state.ps1`, `scripts/reproduce-moss-local.py`) contain well-known Anvil development keys for ephemeral local fixture initialization only. The Live Lab fixture (`scripts/fixture.sh`) uses local Anvil state-injection RPC methods (`anvil_setStorageAt`, `anvil_setCode`, `anvil_setBalance`) — no raw private keys, no `cast send`, no `eth_sendTransaction`. The Live verification API performs `debug_traceCall` only and never signs or sends transactions.
+
+## Safety boundaries (on every screen)
 `SYNTHETIC AGENT PROPOSAL` · `REAL LOCAL` · `UNSIGNED` · `NOT BROADCAST` · `NOT DEPLOYED ON MONAD`
