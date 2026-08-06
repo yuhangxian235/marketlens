@@ -53,9 +53,8 @@ MarketLens is built around a **deterministic batch policy engine** that evaluate
 
 **Moss evidence** is generated through `@marketlens/moss-prediction-market` (a source-pinned Protocol adapter), `@themoss/simulator` (vendored Moss simulator), and local Anvil `debug_traceCall` on chain 143. Each proposal produces a structured `ActionReceipt` with: simulation result, decoded revert reason, trace provenance, state changes, and a canonical SHA-256 hash.
 
-**The batch engine** (`packages/batch-policy/src/engine.ts`) calls `evaluateBatchWithEvidence()` which:
-1. Verifies all Moss evidence via `verifyBatchArtifacts()` (99 integrity checks at release time)
-2. Applies action-level policy rules (payment limits, outcome validation, simulation success)
+**The API route** (`POST /api/evaluate-batch`) first verifies the published source artifacts, then calls `evaluateBatchWithEvidence()` which:
+1. Applies action-level policy rules (payment limits, outcome validation, simulation success) (payment limits, outcome validation, simulation success)
 3. Applies batch-level rules (total payment limit, same-market conflict detection)
 4. Assigns structured reason codes: `PAYMENT_LIMIT_EXCEEDED`, `SIMULATION_REVERTED`, `BATCH_POLICY_CONFLICT`
 5. Produces a `BatchReceipt` with eligible/blocked lists, per-proposal verdicts, and a canonical hash
@@ -78,7 +77,7 @@ MarketLens is built around a **deterministic batch policy engine** that evaluate
 ### What is pre-generated (not browser-triggered)
 - Moss simulation outputs (generated during artifact build, verified at release time)
 - Agent proposals (deterministic planner from snapshot fixture)
-- Batch receipts (computed at artifact generation, re-verified at page load)
+- Batch receipts: dynamically evaluated for the selected policy from verified proposals and pre-generated Moss evidence
 
 The browser demo **does not** trigger a new live Anvil simulation on demand. It re-verifies published canonical artifacts.
 

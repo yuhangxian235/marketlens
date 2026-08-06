@@ -64,7 +64,7 @@ Yuhang Xian — 全栈开发：Solidity / Foundry、Moss 适配、批次策略�
 ## 当前可提交材料
 
 - GitHub Repo：https://github.com/yuhangxian235/marketlens
-- Demo 截图：`artifacts/champion-audit/final/`（9 张，覆盖五步流程 + 移动端）
+- Demo 截图：`artifacts/champion-audit/final/`（9 张源工件，4 张用于 docs/assets/demo/）
 - 技术边界与证据：`docs/phase4a-batch-implementation-audit.md`
 - 验证结果：Foundry 44 passed | Batch-policy 10 passed, 12 skipped | Next.js 10 routes | CI 通过
 

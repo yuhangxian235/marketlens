@@ -53,7 +53,7 @@ The browser consumes pre-generated local Moss simulation artifacts and re-verifi
 
 - Agent proposals: deterministic planner from synthetic market snapshot
 - Moss simulation outputs: pre-generated during artifact build, verified at release time
-- Batch receipts: computed at artifact generation, re-verified at page load
+- Batch receipts: dynamically evaluated for the selected policy from verified proposals and pre-generated Moss evidence; the published Default receipt remains part of the source-artifact integrity set
 
 The browser does not trigger new live Anvil simulation. It re-verifies published canonical artifacts.
 

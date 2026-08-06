@@ -49,4 +49,4 @@ The final verdict: `2 OF 5 ACTIONS ELIGIBLE` (Default policy). Three real blocki
 - Full audit: `docs/phase4a-batch-implementation-audit.md`
 - Architecture diagram: `docs/judge_architecture.md`
 - FAQ: `docs/judge_faq.md`
-- Screenshots: `artifacts/champion-audit/final/`
+- Screenshots: `artifacts/champion-audit/final/` (4 judge-facing screenshots in `docs/assets/demo/`) `artifacts/champion-audit/final/`
