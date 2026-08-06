@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build workspace dependencies
+        run: |
+          pnpm --filter @themoss/core build
+          pnpm --filter @themoss/simulator build
+          pnpm --filter @marketlens/moss-prediction-market build
+          pnpm --filter @marketlens/prediction-market-actions build
+          pnpm --filter @marketlens/agent-planner build
+          pnpm --filter @marketlens/batch-policy build
+
+      - name: Batch-policy unit tests (offline)
+        run: |
+          cd packages/batch-policy
+          npx vitest run --reporter=verbose
+
+      - name: Typecheck
+        run: pnpm --filter @marketlens/web typecheck
+
+      - name: Lint
+        run: pnpm --filter @marketlens/web lint
+
+      - name: Build Next.js
+        run: pnpm --filter @marketlens/web build

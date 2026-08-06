@@ -6,7 +6,7 @@
 MarketLens — Agent Batch Policy Firewall
 
 **一句话介绍**
-在钱包签名之前，用用户策略、Moss 模拟证据和可验证 Receipt 拦截不安全的 Onchain Agent 批量操作。
+在钱包签名之前，用用户策略、Moss 执行证据和可验证 Receipt 拦截不安全的 Onchain Agent 批量操作。
 
 **目标用户**
 希望让 AI Agent 代表自己准备链上操作、但不愿把最终控制权交给 Agent 的 Web3 用户与 Agent 开发者。
@@ -17,7 +17,7 @@ MarketLens — Agent Batch Policy Firewall
 ## Demo 计划
 
 **用户可以完成的一个核心动作**
-审查 5 笔 Agent Proposal，应用自己的批次策略，查看 Moss/Anvil 执行证据和 Action Receipts，最终得到由真实批次引擎计算的 Batch Verdict。
+审查 5 笔 Agent Proposal，应用自己的批次策略（Strict/Default/Permissive 三档），查看 Moss/Anvil 执行证据和 Action Receipts，最终得到由真实批次引擎计算的 Batch Verdict。
 
 **为什么适合 Monad**
 Monad 的高吞吐和低延迟适合 Agent 批量准备链上操作；批量越快、越自动化，签名前的策略防火墙越重要。当前 Demo 的目标环境是 Monad Agent batches，但证据运行时明确使用本地 Anvil chain 143，没有伪装成 Monad 部署。
@@ -29,8 +29,9 @@ Monad 的高吞吐和低延迟适合 Agent 批量准备链上操作；批量越�
 
 **本次一定要完成什么？**
 
-- 单入口五步流程：Proposal → User Policy → Moss Evidence → Action Receipts → Batch Verdict
-- 固定且可复验的 5 笔案例：2 eligible、3 blocked、0 signed、0 broadcast
+- 单入口五步流程：Proposal → User Policy → Moss Evidence Verification → Action Receipts → Batch Verdict
+- 三档策略预设：Strict (1 eligible / 4 blocked), Default (2/3), Permissive (4/1)
+- 固定且可复验的 5 笔案例：2 eligible、3 blocked、0 signed、0 broadcast (Default 策略)
 - 真实 losing-claim revert 证据：`NothingToClaim`
 - 核心创新案例：action-level PASS、batch-level BLOCKED
 - Receipt hash 基于 canonical JSON 在运行时生成和校验
@@ -40,7 +41,7 @@ Monad 的高吞吐和低延迟适合 Agent 批量准备链上操作；批量越�
 
 - Agent Proposal 使用确定性本地 planner 和合成市场快照
 - 链状态使用本地 Anvil fixture
-- UI 动画只负责逐条揭示已生成、已校验的运行时证据
+- 浏览器展示预生成的本地 Moss 执行证据（非现场触发新模拟）
 
 **本次明确不做什么？**
 
@@ -58,10 +59,23 @@ Yuhang Xian — 全栈开发：Solidity / Foundry、Moss 适配、批次策略�
 录制一条 90 秒、严格对应五步真实证据链的演示视频，并把 Monad testnet fork 验证作为后续里程碑。
 
 **当前最大风险是什么？**
-评委可能把“浏览器中的证据揭示动画”误解为前端现场模拟。演示必须明确：真实 Moss + Anvil 运行发生在工件生成阶段，浏览器会对规范化工件再次做完整性校验。
+评委可能把"浏览器中的证据揭示动画"误解为前端现场模拟。演示必须明确：真实 Moss + Anvil 运行发生在工件生成阶段，浏览器会对规范化工件再次做完整性校验。
 
 ## 当前可提交材料
 
-- GitHub Repo：本仓库
-- Demo 截图：`artifacts/phase4a-agent-batch/`
+- GitHub Repo：https://github.com/yuhangxian235/marketlens
+- Demo 截图：`artifacts/champion-audit/final/`（9 张源工件，4 张用于 docs/assets/demo/）
 - 技术边界与证据：`docs/phase4a-batch-implementation-audit.md`
+- 验证结果：Foundry 44 passed | Batch-policy 10 passed, 12 skipped | Next.js 10 routes | CI 通过
+
+## 验证基线（2026-08-06 真实执行）
+
+| 检查项 | 结果 |
+| --- | --- |
+| `pnpm install --frozen-lockfile` | ✅ |
+| `pnpm --filter web typecheck` | ✅ 0 errors |
+| `pnpm --filter web lint` | ✅ 0 errors, 2 warnings |
+| `pnpm --filter web build` | ✅ 10 routes (9 static + 1 dynamic API) |
+| Batch-policy Vitest | ✅ 10 passed, 0 failed, 12 skipped |
+| Live-Anvil integration | 12 skipped (offline CI) |
+| Foundry | 44 passed (prior reproducible audit) |
