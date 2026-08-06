@@ -4,6 +4,8 @@ MarketLens is a pre-sign policy firewall for AI-agent-prepared prediction-market
 
 The current demo uses deterministic synthetic Agent proposals and pre-generated local Moss simulation evidence.
 
+![MarketLens batch policy firewall — default verdict](docs/assets/demo/04-default-verdict.png)
+
 ## Problem
 
 AI Agents can prepare transaction actions faster than users can manually inspect them. MarketLens inserts a deterministic policy and evidence-verification layer before signing.
@@ -148,6 +150,20 @@ pnpm verify:phase4a:full
 ```
 
 The full command installs the locked JavaScript dependencies, runs the focused Phase 4A verification plus Analytics, Action, Moss core/simulator/protocol, shadow-market, Foundry unit/fuzz/invariant, format, secret, and Git whitespace checks. Its protocol fixture starts a no-key local Anvil on port `8546` and always stops it, including after a failed check.
+
+## Demo walkthrough
+
+![Incoming batch](docs/assets/demo/01-incoming-batch.png)
+*Step 1 — Five synthetic Agent proposals arrive. The Agent proposes; it does not approve or send.*
+
+![Policy controls](docs/assets/demo/02-policy-controls.png)
+*Step 2 — User policy controls: three presets (Strict/Default/Permissive) with configurable payment limits and conflict rules.*
+
+![Moss evidence verification](docs/assets/demo/03-moss-evidence.png)
+*Step 3 — Pre-generated Moss evidence is revealed and re-verified in the browser (60 Web Crypto integrity checks).*
+
+![Default verdict](docs/assets/demo/04-default-verdict.png)
+*Steps 4–5 — Action Receipts and Batch Verdict: 2 eligible, 3 blocked under Default policy. Zero signed, zero broadcast.*
 
 ## Safety boundaries
 
