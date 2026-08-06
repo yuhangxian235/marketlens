@@ -36,6 +36,41 @@ const CONFLICT_EXAMPLE = [
   },
 ];
 
+
+// ─── Cumulative budget example: two individually-safe buys that exceed batch total ───
+const CUMULATIVE_BUDGET_EXAMPLE = [
+  {
+    proposal_id: "live-budget-1",
+    agent_id: "live-lab-agent",
+    actor_address: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    market_id: "1",
+    market_question: "Will ETH reach $10k by end of 2027?",
+    capability: "buy_position",
+    outcome: "YES",
+    requested_amount: "300000000000000000",
+    max_payment: "400000000000000000",
+    min_stake: "50000000000000000",
+    rationale: "Budget example: 0.3 MON YES on market 1",
+    policy_reference: "live-lab",
+    source_type: "SYNTHETIC_AGENT_PROPOSAL",
+  },
+  {
+    proposal_id: "live-budget-2",
+    agent_id: "live-lab-agent",
+    actor_address: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    market_id: "2",
+    market_question: "Will BTC reach $200k by end of 2027?",
+    capability: "buy_position",
+    outcome: "YES",
+    requested_amount: "300000000000000000",
+    max_payment: "400000000000000000",
+    min_stake: "50000000000000000",
+    rationale: "Budget example: 0.3 MON YES on market 2",
+    policy_reference: "live-lab",
+    source_type: "SYNTHETIC_AGENT_PROPOSAL",
+  },
+];
+
 const DEFAULT_POLICY = {
   max_payment_per_action: "500000000000000000",
   max_total_payment: "500000000000000000",
@@ -74,20 +109,33 @@ export default function LiveLab() {
   const [result, setResult] = useState<VerdictResult | null>(null);
   const [error, setError] = useState("");
 
-  function loadConflict() {
-    setProposals(JSON.parse(JSON.stringify(CONFLICT_EXAMPLE)));
+  function loadCumulativeBudget() {
+    setProposals(JSON.parse(JSON.stringify(CUMULATIVE_BUDGET_EXAMPLE)));
     setResult(null);
     setError("");
   }
 
-  function resolveConflict() {
+  function resolveCurrentRisk() {
     const copy = JSON.parse(JSON.stringify(proposals));
-    // Change the second proposal's outcome to match the first
+    const firstOutcome = copy[0]?.outcome;
     if (copy.length >= 2) {
-      copy[1].outcome = copy[0].outcome;
-      copy[1].rationale = "Resolved: same outcome as proposal 1";
+      // For conflict: align outcomes
+      if (copy[0].market_id === copy[1].market_id && copy[0].outcome !== copy[1].outcome) {
+        copy[1].outcome = firstOutcome;
+        copy[1].rationale = "Resolved: same outcome as proposal 1";
+      } else {
+        // For cumulative budget: reduce second amount to fit total
+        copy[1].requested_amount = "200000000000000000";
+        copy[1].rationale = "Resolved: reduced amount to fit batch budget";
+      }
     }
     setProposals(copy);
+    setResult(null);
+    setError("");
+  }
+
+  function loadConflict() {
+    setProposals(JSON.parse(JSON.stringify(CONFLICT_EXAMPLE)));
     setResult(null);
     setError("");
   }
@@ -148,10 +196,13 @@ export default function LiveLab() {
       {/* Actions */}
       <div style={styles.actions}>
         <button style={styles.btn} onClick={loadConflict}>
-          Load conflict example
+          Load direction conflict
         </button>
-        <button style={styles.btn} onClick={resolveConflict}>
-          Resolve conflict
+        <button style={styles.btn} onClick={loadCumulativeBudget}>
+          Load cumulative budget risk
+        </button>
+        <button style={styles.btn} onClick={resolveCurrentRisk}>
+          Resolve current risk
         </button>
         <button
           style={{ ...styles.btn, ...styles.primary }}
