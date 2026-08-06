@@ -1,13 +1,71 @@
 # MarketLens
 
-MarketLens is a local prediction-market evidence pipeline and pre-sign Agent
-policy firewall. It combines a Solidity market, RPC event indexing,
-SQLite/SQL/pandas analytics, a source-pinned Moss protocol adapter, real local
-`debug_traceCall` simulation, deterministic policy evaluation, and a Next.js
-evidence UI.
+MarketLens is a pre-sign policy firewall for AI-agent-prepared prediction-market actions.
 
-The repository does **not** claim a Monad deployment. It does not connect a
-wallet, load private keys, sign transactions, or broadcast Agent actions.
+The current demo uses deterministic synthetic Agent proposals and pre-generated local Moss simulation evidence.
+
+## Problem
+
+AI Agents can prepare transaction actions faster than users can manually inspect them. MarketLens inserts a deterministic policy and evidence-verification layer before signing.
+
+## How it works
+
+```
+Synthetic Agent Batch
+  → User Policy
+  → Moss Evidence Verification
+  → Structured Receipts
+  → Batch Verdict
+  → Unsigned Allowlist
+```
+
+The browser demo consumes pre-generated local Moss simulation outputs. It does **not** trigger a new live Anvil simulation on demand, and it does **not** connect to Monad.
+
+## Policy presets
+
+| Policy | Eligible | Blocked | Main behavior |
+| --- | --- | --- | --- |
+| Strict | 1 | 4 | Low action (0.10 MON) and batch (0.25 MON) limits; conflicts blocked |
+| Default | 2 | 3 | Moderate limits (0.50 MON); conflicts blocked |
+| Permissive | 4 | 1 | High limits (10.00 MON); opposing positions allowed |
+
+The verified fixture produces: 5 proposed, 2 eligible, 3 blocked, 0 signed, 0 broadcast (Default policy).
+
+## 30-second judge path
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @marketlens/web dev --port 3300
+```
+
+Open <http://localhost:3300> to see the five-step batch policy firewall demo. The `predev` script automatically builds all workspace dependencies (`@themoss/core` → `@themoss/simulator` → `@marketlens/moss-prediction-market` → prediction-market-actions → agent-planner → batch-policy) before starting Next.js.
+
+## Verified in this submission build
+
+| Check | Result |
+| --- | --- |
+| Foundry | 44 passed, 0 failed (from prior reproducible audit) |
+| Batch-policy Vitest | 10 passed, 0 failed, 12 skipped |
+| Live-Anvil integration tests | 12 skipped (requires local Anvil; skip in offline CI) |
+| Typecheck | 0 errors |
+| Lint | 0 errors, 2 warnings |
+| Next.js build | 10 routes total (9 static + 1 dynamic API) |
+| Analytics pytest | not independently revalidated in this submission build |
+
+Full Next.js route table from build output:
+
+```
+○  /                          static
+○  /_not-found                static
+○  /action                    static
+○  /analytics                 static
+ƒ  /api/evaluate-batch        dynamic
+○  /architecture              static
+○  /demo                      static
+○  /icon.svg                  static
+○  /product-analytics         static
+○  /verification              static
+```
 
 ## Current status
 
@@ -16,48 +74,12 @@ wallet, load private keys, sign transactions, or broadcast Agent actions.
 | Solidity prediction market | **REAL LOCAL** | Foundry contract and tests |
 | Event indexing and analytics | **PARTIALLY VERIFIED** | Local pipeline implemented; current submission tests not revalidated |
 | Moss protocol adapter | **REAL LOCAL** | Source-pinned `@themoss/core` integration |
-| Moss simulation | **REAL LOCAL** | Unsigned local Anvil `debug_traceCall` |
+| Moss Evidence Verification | **REAL LOCAL** | Unsigned local Anvil `debug_traceCall`; pre-generated outputs |
 | Batch policy firewall | **REAL LOCAL** | Action and batch policy verdicts |
 | Web workflow | **REAL UI** | Consumes pre-generated local simulation artifacts |
 | Wallet signing | **NOT IMPLEMENTED** | No signer or private-key path |
 | Broadcasting | **NOT IMPLEMENTED** | No send path |
 | Monad deployment | **NOT DEPLOYED** | Local evidence only |
-
-## Verified in the current submission build
-
-- Foundry: 44 passed, 0 failed
-- Batch-policy Vitest: 10 passed, 0 failed
-- Live-Anvil integration tests: 12 skipped in the offline run
-- Next.js build: 8 routes built successfully
-- Analytics dependencies: repaired
-- Analytics pytest: not independently revalidated in this submission build
-
-## Agent Batch Policy Firewall
-
-The root Web route presents one five-step flow:
-
-```text
-5 Agent Proposals
-  → User Policy
-  → Moss Simulation
-  → Action Receipts
-  → Batch Verdict
-```
-
-The verified fixture produces:
-
-- 5 proposed
-- 2 eligible
-- 3 blocked
-- 0 signed
-- 0 broadcast
-
-The local Moss/Anvil simulation implementation is real. The current browser
-demo consumes pre-generated local simulation outputs rather than triggering a
-new Anvil simulation on demand.
-
-See [Phase 4A-R2 audit](docs/phase4a-batch-implementation-audit.md) for the
-execution chain, evidence, hashes, reproduction commands, and safety boundaries.
 
 ## Repository layout
 
@@ -70,6 +92,7 @@ marketlens/
 │   ├── prediction-market-actions/     # Action calldata and application seam
 │   ├── moss-prediction-market/        # Source-pinned Moss protocol adapter
 │   ├── batch-policy/                  # Phase 4A action/batch policy firewall
+│   ├── agent-planner/                 # Deterministic Agent proposal generator
 │   └── polymarket-shadow/             # Shadow-market research implementation
 ├── web/                               # Next.js evidence and firewall UI
 ├── config/                            # Network and deployment manifests
@@ -85,16 +108,13 @@ marketlens/
 pnpm install --frozen-lockfile
 ```
 
-This resolves all workspace packages including the vendored `@themoss/core` and
-`@themoss/simulator` under `external/moss/`. No git submodule or external clone
-step is required.
+This resolves all workspace packages including the vendored `@themoss/core` and `@themoss/simulator` under `external/moss/`. No git submodule or external clone step is required.
 
 Analytics uses Python 3.11 and `uv`; contracts use Foundry in WSL.
 
 ## Moss dependency provenance
 
-MarketLens vendors `@themoss/core` and `@themoss/simulator` from the Moss
-upstream repository.
+MarketLens vendors `@themoss/core` and `@themoss/simulator` from the Moss upstream repository.
 
 - **Upstream:** <https://github.com/nishuzumi/moss>
 - **Pinned commit:** `d09b38cbc44ee7f5722c5d09e7224f7750187762` (2026-07-22)
@@ -111,10 +131,7 @@ See `external/moss/UPSTREAM.md` for the full provenance record.
 pnpm verify:phase4a
 ```
 
-This regenerates Batch artifacts from a no-key local Anvil fixture, verifies 99
-release-time and 60 browser-time integrity conditions, runs Batch Policy and
-tamper tests, typechecks and lints the workspace, and builds the Next.js
-application.
+This regenerates Batch artifacts from a no-key local Anvil fixture, verifies 99 release-time and 60 browser-time integrity conditions, runs Batch Policy and tamper tests, typechecks and lints the workspace, and builds the Next.js application.
 
 Focused commands:
 
@@ -122,14 +139,7 @@ Focused commands:
 pnpm --filter @marketlens/batch-policy test
 pnpm --filter @marketlens/batch-policy generate
 pnpm --filter @marketlens/batch-policy verify:artifacts
-pnpm --filter @marketlens/web dev --port 3300
 ```
-
-Open <http://localhost:3300> to see the batch policy firewall demo.
-
-The `predev` script automatically builds all workspace dependencies
-(`@themoss/core` → `@themoss/simulator` → `@marketlens/moss-prediction-market` →
-prediction-market-actions → agent-planner → batch-policy) before starting Next.js.
 
 ## Full local verification
 
@@ -137,11 +147,7 @@ prediction-market-actions → agent-planner → batch-policy) before starting Ne
 pnpm verify:phase4a:full
 ```
 
-The full command installs the locked JavaScript dependencies, runs the focused
-Phase 4A verification plus Analytics, Action, Moss core/simulator/protocol,
-shadow-market, Foundry unit/fuzz/invariant, format, secret, and Git whitespace
-checks. Its protocol fixture starts a no-key local Anvil on port `8546` and
-always stops it, including after a failed check.
+The full command installs the locked JavaScript dependencies, runs the focused Phase 4A verification plus Analytics, Action, Moss core/simulator/protocol, shadow-market, Foundry unit/fuzz/invariant, format, secret, and Git whitespace checks. Its protocol fixture starts a no-key local Anvil on port `8546` and always stops it, including after a failed check.
 
 ## Safety boundaries
 
@@ -151,5 +157,4 @@ always stops it, including after a failed check.
 - `NOT BROADCAST`
 - `NOT DEPLOYED ON MONAD`
 
-No UI control or backend path signs, submits, executes, or broadcasts the Agent
-proposals.
+No UI control or backend path signs, submits, executes, or broadcasts the Agent proposals.
