@@ -6,6 +6,8 @@ The current demo uses deterministic synthetic Agent proposals and pre-generated 
 
 ![MarketLens batch policy firewall — default verdict](docs/assets/demo/04-default-verdict.png)
 
+> **Screenshot provenance:** These screenshots are previously generated real demo artifacts from the same `e5f769a` code baseline; they were not re-captured during this documentation sprint.
+
 ## Problem
 
 AI Agents can prepare transaction actions faster than users can manually inspect them. MarketLens inserts a deterministic policy and evidence-verification layer before signing.

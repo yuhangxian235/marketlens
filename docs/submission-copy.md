@@ -57,6 +57,8 @@ The browser consumes pre-generated local Moss simulation artifacts and re-verifi
 
 The browser does not trigger new live Anvil simulation. It re-verifies published canonical artifacts.
 
+**Screenshot provenance:** Demo screenshots in `docs/assets/demo/` are previously generated real demo artifacts from the same `e5f769a` code baseline; they were not re-captured during this documentation sprint.
+
 ### Policy presets
 
 | Policy | Eligible | Blocked | Key behavior |
