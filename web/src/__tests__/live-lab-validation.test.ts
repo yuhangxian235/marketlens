@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 
 // Replicate the production validation functions for offline testing
 const VALID_MARKET_IDS = new Set(["1", "2", "3", "4"]);

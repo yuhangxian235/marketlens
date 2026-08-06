@@ -35,6 +35,12 @@ jobs:
           pnpm --filter @marketlens/agent-planner build
           pnpm --filter @marketlens/batch-policy build
 
+      - name: Web test typecheck
+        run: pnpm --filter @marketlens/web test:typecheck
+
+      - name: Live Lab offline tests
+        run: pnpm --filter @marketlens/web test
+
       - name: Batch-policy unit tests (offline)
         run: |
           cd packages/batch-policy
