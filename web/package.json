@@ -9,7 +9,8 @@
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:typecheck": "tsc --noEmit --project tsconfig.test.json"
   },
   "dependencies": {
     "@marketlens/batch-policy": "workspace:*",
