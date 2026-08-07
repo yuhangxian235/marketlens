@@ -1939,3 +1939,27 @@ button,input,select,summary{font:inherit}
   .verdictPanel .allowlistMark{width:36px;height:36px}
   .verdictPanel .safetySeal{margin-top:7px}
 }
+
+
+/* ─── Three hero tags ─── */
+.threeTags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.threeTags .tag {
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  background: #1a1d2e;
+  color: #94a3b8;
+  border: 1px solid #2d3148;
+}
+.threeTags .tagHighlight {
+  color: #7c3aed;
+  border-color: #7c3aed;
+  background: rgba(124, 58, 237, 0.08);
+}

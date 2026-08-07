@@ -37,7 +37,7 @@ const CONFLICT_EXAMPLE = [
 ];
 
 
-// ─── Cumulative budget example: two individually-safe buys that exceed batch total ───
+// ─── Hidden Cumulative Spend: two individually-safe buys that exceed batch total ───
 const CUMULATIVE_BUDGET_EXAMPLE = [
   {
     proposal_id: "live-budget-1",
@@ -196,10 +196,10 @@ export default function LiveLab() {
       {/* Actions */}
       <div style={styles.actions}>
         <button style={styles.btn} onClick={loadConflict}>
-          Load direction conflict
+          Contradictory Intent
         </button>
         <button style={styles.btn} onClick={loadCumulativeBudget}>
-          Load cumulative budget risk
+          Hidden Cumulative Spend
         </button>
         <button style={styles.btn} onClick={resolveCurrentRisk}>
           Resolve current risk
@@ -216,7 +216,7 @@ export default function LiveLab() {
       {/* Proposals */}
       <div style={styles.section}>
         <p style={{ color: "#94a3b8", fontSize: 13, marginBottom: 12 }}>
-          The Live Local Lab verifies a focused two-action batch for a reliable fresh-evidence demonstration.
+          The Live Local Lab verifies two batch-level risks that single-transaction simulation cannot detect.
         </p>
         <h3 style={styles.h3}>Proposals ({proposals.length})</h3>
         {proposals.map((p, i) => (
