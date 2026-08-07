@@ -2,16 +2,16 @@
 
 // Static attestation data — from verified MarketLens batch artifacts
 const ATTESTATION = {
-  receipt_hash: "NOT_PUBLISHED",
-  policy_hash: "NOT_PUBLISHED",
-  allowlist_hash: "NOT_PUBLISHED",
-  evidence_hash: "NOT_PUBLISHED",
-  registry_address: null,
+  receipt_hash: "0xc4d63e36cc55f237dc715d478e0f48d48b5995e151c21166287530ed73a9d0be",
+  policy_hash: "0xb457c3bd4ede5a988e4c21f0d58c30fa5e74ad818db12e6b8a20c002d274ccc6",
+  allowlist_hash: "0x01decf7f76428b8903e89e10f6dd8e7a275e48541beed4eb3e3482da8988c4ef",
+  evidence_hash: "0xae16a1b6e80400246b2de8298c2ea53f37072ad31f9e66ebbd9fa851b2720dee",
+  registry_address: "0x85AD7b41DC64d8E191A9Dc56B398068341c54203",
   chain: "Monad Testnet (10143)",
   explorer_url: "https://testnet.monadexplorer.com",
-  attestation_tx: null,
-  published_at: null,
-  verified_contract: false,
+  attestation_tx: "0x6ab6de991889f88fe5906fc0e679ca53eeb55e0369a34772c519a62ff477fe52",
+  published_at: "2026-08-07",
+  verified_contract: true,
 };
 
 export default function MonadAttestation() {

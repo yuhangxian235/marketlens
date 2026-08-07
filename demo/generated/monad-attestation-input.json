@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_hash": "0xc4d63e36cc55f237dc715d478e0f48d48b5995e151c21166287530ed73a9d0be",
+  "policy_hash": "0xb457c3bd4ede5a988e4c21f0d58c30fa5e74ad818db12e6b8a20c002d274ccc6",
+  "allowlist_hash": "0x01decf7f76428b8903e89e10f6dd8e7a275e48541beed4eb3e3482da8988c4ef",
+  "evidence_hash": "0xae16a1b6e80400246b2de8298c2ea53f37072ad31f9e66ebbd9fa851b2720dee",
+  "source_artifact_paths": [
+    "packages/batch-policy/fixtures/proposals.json",
+    "demo/generated/moss-simulations-provenance.json",
+    "web/public/data/batch-verification/simulation-results.json"
+  ],
+  "generated_at": "2026-08-07T01:31:59.208Z",
+  "data_status": "FROM_VERIFIED_ARTIFACTS"
+}

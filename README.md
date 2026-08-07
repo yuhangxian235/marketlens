@@ -101,7 +101,7 @@ Full Next.js route table from build output:
 | Web workflow | **REAL UI** | Consumes pre-generated local simulation artifacts |
 | Wallet signing | **NOT IMPLEMENTED** | No signer or private-key path |
 | Broadcasting | **NOT IMPLEMENTED** | No send path |
-| Monad deployment | **NOT DEPLOYED** | Local evidence only |
+| Monad deployment | **DEPLOYED** — [0x85AD…4203](https://testnet.monadexplorer.com/address/0x85AD7b41DC64d8E191A9Dc56B398068341c54203) | Attestation TX: [0x6ab6…fe52](https://testnet.monadexplorer.com/tx/0x6ab6de991889f88fe5906fc0e679ca53eeb55e0369a34772c519a62ff477fe52) |
 
 ## Repository layout
 
@@ -196,9 +196,9 @@ The default **Verified Demo** uses pre-generated Moss evidence artifacts. The **
 - **Conflict example:** Loads two proposals on the same market with opposite outcomes
 - **Resolve conflict:** Modifies one outcome so both align — then re-run to see the verdict change
 - **API:** `POST /api/verify-live-batch` — accepts exactly 2 proposals, validates inputs, calls `verifyBatch()` with live `debug_traceCall`, returns policy-specific Batch Receipt. Returns 422 for non-2 proposal counts.
-- **Safety:** Local Anvil only. No wallet, no signing, no broadcast, no Monad deployment. If Anvil is unavailable, returns 503.
+- **Safety:** Local Anvil only. No wallet, no signing, no broadcast, no wallet-signing or user broadcasts. If Anvil is unavailable, returns 503.
 
-Both modes remain **UNSIGNED**, **NOT BROADCAST**, and **NOT DEPLOYED ON MONAD**.
+Both modes remain **UNSIGNED**, **NOT BROADCAST**, and **ATTESTED ON MONAD TESTNET**.
 
 ## Fixture security
 
@@ -214,6 +214,6 @@ Both modes remain **UNSIGNED**, **NOT BROADCAST**, and **NOT DEPLOYED ON MONAD**
 - `REAL LOCAL`
 - `UNSIGNED`
 - `NOT BROADCAST`
-- `NOT DEPLOYED ON MONAD`
+- `ATTESTED ON MONAD TESTNET`
 
 No UI control or backend path signs, submits, executes, or broadcasts the Agent proposals.
