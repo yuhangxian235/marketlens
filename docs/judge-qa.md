@@ -89,3 +89,34 @@ No. This is a hackathon prototype and reference implementation. It demonstrates 
 ## 15. What's the next step after the hackathon?
 
 Three priorities: (1) add a second protocol adapter to demonstrate generality, (2) integrate with a real signing flow (wallet-level allowlist enforcement), (3) expand the policy DSL to cover more batch-level constraint types.
+
+
+---
+
+## 16. Why not just ask an LLM whether the batch looks safe?
+
+LLM judgments are probabilistic and non-deterministic — they are not policy enforcement. MarketLens produces deterministic verdicts using verified execution evidence and explicit user constraints. The same input always produces the same output, which can be independently re-verified and attested on-chain.
+
+---
+
+## 17. Is this actually running on Monad?
+
+The receipt attestation is running on Monad Testnet — verified transaction and registry address are publicly viewable. The user's prediction-market operations are not executed on Monad in this prototype. Monad anchors the verification proof, not the user's actions.
+
+---
+
+## 18. Why is putting hashes on Monad useful?
+
+Three reasons: (1) tamper-evident verification anchor — hashes cannot be altered after publication, (2) independent auditability — anyone can verify the receipt hash against the registry without trusting MarketLens infrastructure, (3) privacy preservation — the hash proves verification occurred without exposing the full proposal content.
+
+---
+
+## 19. Does MarketLens prevent a malicious Agent from bypassing it?
+
+In this prototype, MarketLens is a pre-sign policy layer. It evaluates proposals and produces a structured allowlist before the signing step. Enforcement depends on integrating the allowlist into the signing path — the wallet or signing tool must respect the verdict. MarketLens itself does not gate the wallet.
+
+---
+
+## 20. Is this production ready?
+
+No. This is a working hackathon prototype and reference implementation. It demonstrates deterministic batch-level policy evaluation with verified Moss simulation evidence, two batch-risk examples, and Monad Testnet attestation. Production deployment would require: protocol adapter hardening, key management integration for signing enforcement, formal specification of the policy DSL, and a security audit.

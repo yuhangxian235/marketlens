@@ -11,7 +11,7 @@ const ATTESTATION = {
   explorer_url: "https://testnet.monadexplorer.com",
   attestation_tx: "0x6ab6de991889f88fe5906fc0e679ca53eeb55e0369a34772c519a62ff477fe52",
   published_at: "2026-08-07",
-  verified_contract: true,
+  verified_contract: "bytecode_confirmed",
 };
 
 export default function MonadAttestation() {
@@ -22,8 +22,8 @@ export default function MonadAttestation() {
     <div style={styles.container}>
       <h3 style={styles.h3}>Monad Attestation Proof</h3>
       <div style={styles.badges}>
+        <span style={styles.badgeGreen}>REAL MONAD TESTNET ATTESTATION</span>
         <span style={styles.badgeBlue}>USER AGENT ACTIONS: UNSIGNED / NOT BROADCAST</span>
-        <span style={styles.badgeYellow}>ATTESTATION: PROJECT-CONTROLLED MONAD TESTNET HASH PUBLICATION</span>
       </div>
 
       <div style={styles.grid}>
@@ -41,7 +41,7 @@ export default function MonadAttestation() {
               </div>
             )}
             {a.published_at && <div>Published: {a.published_at}</div>}
-            <div>Verified: {a.verified_contract ? 'Yes' : 'No'}</div>
+            <div>Contract: bytecode deployed and confirmed on-chain. Explorer source verification pending.</div>
           </div>
       <div style={styles.note}>
         Zero user Agent actions are signed or broadcast. A project-controlled Monad Testnet attestation transaction records only the verified receipt hashes.
@@ -66,6 +66,10 @@ const styles: Record<string, React.CSSProperties> = {
   },
   h3: { fontSize: 16, fontWeight: 700, marginBottom: 12 },
   badges: { display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 },
+  badgeGreen: {
+    padding: '2px 10px', borderRadius: 3, fontSize: 10, fontWeight: 600,
+    background: 'rgba(110, 231, 183, 0.08)', color: '#6ee7b7', border: '1px solid rgba(110, 231, 183, 0.3)',
+  },
   badgeBlue: {
     padding: '2px 10px', borderRadius: 3, fontSize: 10, fontWeight: 600,
     background: '#1a1d2e', color: '#7c3aed',

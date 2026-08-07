@@ -65,7 +65,7 @@ Each action stays under the per-action payment limit. Together they exceed the u
 
 ## Monad Testnet Proof
 
-Monad is the public verification anchor — not the execution venue for prediction-market actions. After MarketLens evaluates a batch, only verified receipt hashes are published:
+Monad provides a public verification anchor for MarketLens receipts; the user's prediction-market actions are not executed on Monad in this prototype. After MarketLens evaluates a batch, only verified receipt hashes are published:
 
 ```
 Verified Batch Receipt

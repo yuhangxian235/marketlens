@@ -52,15 +52,19 @@
 
 *Click "Hidden Cumulative Spend" → Run fresh verification.*
 
-> "Each action stays under the per-action limit. But together they exceed the user's total budget."
+> "Each action stays under the per-action limit."
 
-*Show:*
-- *0.3 MON + 0.3 MON*
-- *Both under per-action ceiling*
-- *Combined exceeds 0.5 MON batch budget*
-- *BATCH_TOTAL_PAYMENT_EXCEEDED*
+*Show: 0.3 MON + 0.3 MON — both individually under the ceiling.*
 
-> "Single-simulation was fine with both. The batch firewall was not."
+> "Both actions pass individually."
+
+*Pause.*
+
+> "But together, they form an unsafe plan."
+
+*Show: Combined 0.6 MON exceeds 0.5 MON batch budget. BLOCK.*
+
+> "The single-action simulator approved both. The batch firewall blocked the plan."
 
 *Human-readable: "Each action stays under the per-action limit, but together they exceed the user's total budget."*
 *Technical code: BATCH_TOTAL_PAYMENT_EXCEEDED*
