@@ -1,49 +1,73 @@
 # User Testing Protocol — MarketLens
 
-## Goal
-Validate that users understand the **batch-level** difference between MarketLens and single-transaction simulation tools.
+## Setup
 
-## Participants
-5 users with Web3, AI agent, or general product background.
+- **Environment**: Deployed MarketLens UI (local or hosted)
+- **Participant profile**: Hackathon judge or Web3 practitioner unfamiliar with MarketLens
+- **Time allocation**: 5 minutes total
+- **Recording**: Note answers, time-to-understand, prompts needed, misconceptions
 
-## Tasks (order fixed)
+---
 
-### Task 1: First impression (30s)
-1. Open MarketLens homepage
-2. Read the hero section silently for 10 seconds
-3. State in your own words: "What does MarketLens do differently from a regular transaction simulator?"
+## Three Core Questions
 
-### Task 2: Direction conflict (2 min)
-1. Click "Live Local Lab →"
-2. Click "Load direction conflict"
-3. Read the two proposals
-4. Predict: "Which proposal will be blocked and why?"
-5. Click "Run fresh verification"
-6. Check: Was your prediction correct?
-7. Click "Resolve current risk"
-8. Click "Run fresh verification" again
-9. Observe: What changed?
+### Q1: In one sentence, what makes MarketLens different from a normal transaction simulator?
 
-### Task 3: Cumulative budget (2 min)
-1. Click "Load cumulative budget risk"
-2. Read the two proposals
-3. Question: "Each proposal is under the per-action limit. Why might the batch still fail?"
-4. Click "Run fresh verification"
-5. Check the result
-6. Click "Resolve current risk"
-7. Click "Run fresh verification" again
-8. Observe the difference
+**Success criteria**: Answer must include at least one of:
+- batch
+- multiple actions
+- whole plan
+- cross-action risk
 
-## Recording
+**Record**:
+- Time to answer: ___s
+- First answer: ___
+- Prompt needed? Y / N
+- Misconception: ___
 
-For each participant, record:
-- Did they understand the batch-level difference? (Y/N)
-- Did they correctly predict the conflict result? (Y/N)
-- Did they correctly explain cumulative budget failure? (Y/N)
-- Did they independently complete Resolve? (Y/N)
-- Total time for all tasks (min:sec)
-- Main confusion point (free text)
-- One quote (verbatim feedback)
+---
 
-## Template
-See `docs/user-testing-results-template.md`
+### Q2: Why can two individually-passing transactions still be blocked?
+
+**Success criteria**: Answer must reference either:
+- contradiction between actions
+- cumulative total exceeding a budget
+
+**Record**:
+- Time to answer: ___s
+- First answer: ___
+- Prompt needed? Y / N
+- Misconception: ___
+
+---
+
+### Q3: What does Monad do in this system?
+
+**Success criteria**: Answer must convey:
+- receipt/hash verification anchor (or equivalent)
+- NOT "user transactions execute on Monad"
+
+**Record**:
+- Time to answer: ___s
+- First answer: ___
+- Prompt needed? Y / N
+- Misconception: ___
+
+---
+
+## Completion Tracking
+
+| Metric | Value |
+|--------|-------|
+| Total demo time (from page load to scorecard) | ___s |
+| Q1 passed without prompt? | Y / N |
+| Q2 passed without prompt? | Y / N |
+| Q3 passed without prompt? | Y / N |
+| Any misconception about Monad executing user txs? | Y / N |
+| Any misconception about MarketLens controlling funds? | Y / N |
+
+---
+
+## Important
+
+All test results must be from actual participant sessions. Do not fabricate or estimate results. Leave fields blank until real data is collected.

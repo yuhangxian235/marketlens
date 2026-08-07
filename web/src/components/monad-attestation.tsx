@@ -26,13 +26,7 @@ export default function MonadAttestation() {
         <span style={styles.badgeYellow}>ATTESTATION: PROJECT-CONTROLLED MONAD TESTNET HASH PUBLICATION</span>
       </div>
 
-      {!isPublished && (
-        <div style={styles.unpublished}>Not published yet — attestation pending Monad Testnet deployment.</div>
-      )}
-
-      {isPublished && (
-        <>
-          <div style={styles.grid}>
+      <div style={styles.grid}>
             <Field label="Receipt hash" value={a.receipt_hash} />
             <Field label="Policy hash" value={a.policy_hash} />
             <Field label="Allowlist hash" value={a.allowlist_hash} />
@@ -49,8 +43,6 @@ export default function MonadAttestation() {
             {a.published_at && <div>Published: {a.published_at}</div>}
             <div>Verified: {a.verified_contract ? 'Yes' : 'No'}</div>
           </div>
-        </>
-      )}
       <div style={styles.note}>
         Zero user Agent actions are signed or broadcast. A project-controlled Monad Testnet attestation transaction records only the verified receipt hashes.
       </div>
