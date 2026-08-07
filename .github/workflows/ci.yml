@@ -67,7 +67,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly
+          version: stable
 
       - name: Forge fmt check
         run: cd contracts && forge fmt --check
