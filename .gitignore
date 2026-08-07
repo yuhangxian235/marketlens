@@ -47,3 +47,5 @@ external/*
 
 .turbo
 build/
+# Vercel local metadata
+.vercel
