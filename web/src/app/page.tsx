@@ -641,7 +641,7 @@ export default function BatchFirewallPage() {
         <div>
           <div className="eyebrow">BATCH-LEVEL POLICY · WHOLE AGENT PLAN · BEFORE USER SIGNING</div>
           <h2>Safe transactions can still form an unsafe plan.</h2>
-          <p>MarketLens checks an AI Agent's entire operation batch before signing — catching contradictions and cumulative risks that single-transaction simulation cannot see.</p>
+          <p>MarketLens checks an AI Agent&apos;s entire operation batch before signing — catching contradictions and cumulative risks that single-transaction simulation cannot see.</p>
         </div>
         <div className="mastheadControls">
             <div className="threeTags">
