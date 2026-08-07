@@ -8,15 +8,20 @@ import "safe-contracts/MockSafe.sol";
 
 contract TestTarget {
     uint256 public counter;
-    function increment() external payable { counter++; }
+
+    function increment() external payable {
+        counter++;
+    }
 }
 
 /// @title E2E Policy-to-Safe Closure Test
 /// @notice Proves: MarketLens BLOCK => denied approval => Safe REVERT
 ///          Uses real MarketLens engine result (verified in batch-policy TS test).
 contract E2EPolicyToSafeTest is Test {
-    address owner; uint256 ownerKey;
-    address signer; uint256 signerKey;
+    address owner;
+    uint256 ownerKey;
+    address signer;
+    uint256 signerKey;
     MockSafe safe;
     MarketLensSafeGuard guard;
     TestTarget target;
@@ -38,10 +43,17 @@ contract E2EPolicyToSafeTest is Test {
         safe.setGuard(address(guard));
         target = new TestTarget();
 
-        domainSeparator = keccak256(abi.encode(
-            keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
-            keccak256("MarketLens"), keccak256("1"), block.chainid, address(safe)
-        ));
+        domainSeparator = keccak256(
+            abi.encode(
+                keccak256(
+                    "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+                ),
+                keccak256("MarketLens"),
+                keccak256("1"),
+                block.chainid,
+                address(safe)
+            )
+        );
     }
 
     function _sign(bytes32 digest) internal view returns (bytes memory) {
@@ -53,7 +65,9 @@ contract E2EPolicyToSafeTest is Test {
     /// @param actionAllowed true if MarketLens returned PASS/ELIGIBLE for this action.
     function _issueApprovalIfAllowed(
         bool actionAllowed,
-        address _target, uint256 _value, bytes memory _calldata
+        address _target,
+        uint256 _value,
+        bytes memory _calldata
     ) internal view returns (bytes memory approvalSig, bool issued) {
         if (!actionAllowed) return (hex"", false);
 
@@ -61,16 +75,27 @@ contract E2EPolicyToSafeTest is Test {
         bytes32 nonce = keccak256(abi.encodePacked(_target, _value, _calldata, block.timestamp));
 
         MarketLensSafeGuard.Approval memory approval = MarketLensSafeGuard.Approval({
-            safe: address(safe), chainId: block.chainid, target: _target,
-            value: _value, calldataHash: keccak256(_calldata),
-            expiry: expiry, nonce: nonce
+            safe: address(safe),
+            chainId: block.chainid,
+            target: _target,
+            value: _value,
+            calldataHash: keccak256(_calldata),
+            expiry: expiry,
+            nonce: nonce
         });
 
-        bytes32 structHash = keccak256(abi.encode(
-            APPROVAL_TYPEHASH,
-            approval.safe, approval.chainId, approval.target,
-            approval.value, approval.calldataHash, approval.expiry, approval.nonce
-        ));
+        bytes32 structHash = keccak256(
+            abi.encode(
+                APPROVAL_TYPEHASH,
+                approval.safe,
+                approval.chainId,
+                approval.target,
+                approval.value,
+                approval.calldataHash,
+                approval.expiry,
+                approval.nonce
+            )
+        );
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
         bytes memory sig = _sign(digest);
         return (abi.encodePacked(sig, abi.encode(approval)), true);
@@ -96,7 +121,9 @@ contract E2EPolicyToSafeTest is Test {
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
         (bytes memory approvalSig, bool issued) = _issueApprovalIfAllowed(
             false, // MarketLens says BLOCKED for this action
-            address(target), 0, calldata_
+            address(target),
+            0,
+            calldata_
         );
         assertFalse(issued, "approval must NOT be issued for BLOCKED action");
 
@@ -126,7 +153,9 @@ contract E2EPolicyToSafeTest is Test {
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
         (bytes memory approvalSig, bool issued) = _issueApprovalIfAllowed(
             true, // MarketLens says ELIGIBLE
-            address(target), 0, calldata_
+            address(target),
+            0,
+            calldata_
         );
         assertTrue(issued, "approval must be issued for ELIGIBLE action");
         assertTrue(approvalSig.length > 65, "approval sig must be valid");

@@ -31,8 +31,9 @@ contract MarketLensSafeGuard is BaseTransactionGuard {
         bytes32 nonce;
     }
 
-    bytes32 private constant APPROVAL_TYPEHASH =
-        keccak256("Approval(address safe,uint256 chainId,address target,uint256 value,bytes32 calldataHash,uint256 expiry,bytes32 nonce)");
+    bytes32 private constant APPROVAL_TYPEHASH = keccak256(
+        "Approval(address safe,uint256 chainId,address target,uint256 value,bytes32 calldataHash,uint256 expiry,bytes32 nonce)"
+    );
 
     address public immutable trustedSigner;
     mapping(bytes32 => bool) public usedNonces;
@@ -44,10 +45,17 @@ contract MarketLensSafeGuard is BaseTransactionGuard {
 
     /// @notice Pre-execution check. REVERTS if approval is invalid → execution blocked.
     function checkTransaction(
-        address to, uint256 value, bytes memory data,
-        uint8, uint256, uint256, uint256,
-        address, address payable,
-        bytes memory signatures, address
+        address to,
+        uint256 value,
+        bytes memory data,
+        uint8,
+        uint256,
+        uint256,
+        uint256,
+        address,
+        address payable,
+        bytes memory signatures,
+        address
     ) external override {
         // msg.sender IS the Safe during execTransaction
         address safeAddr = msg.sender;
@@ -59,27 +67,44 @@ contract MarketLensSafeGuard is BaseTransactionGuard {
         Approval memory approval = abi.decode(approvalBytes, (Approval));
 
         // 1. Expiry
-        if (block.timestamp > approval.expiry)
+        if (block.timestamp > approval.expiry) {
             revert ApprovalExpired(approval.expiry, block.timestamp);
+        }
 
         // 2. Chain binding
-        if (approval.chainId != block.chainid)
+        if (approval.chainId != block.chainid) {
             revert WrongChain(approval.chainId, block.chainid);
+        }
 
         // 3. Safe binding — msg.sender IS the calling Safe
-        if (approval.safe != safeAddr)
+        if (approval.safe != safeAddr) {
             revert WrongSafe(approval.safe, safeAddr);
+        }
 
         // 4. EIP-712 signature verification
-        bytes32 domainSeparator = keccak256(abi.encode(
-            keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
-            keccak256("MarketLens"), keccak256("1"), block.chainid, approval.safe
-        ));
-        bytes32 structHash = keccak256(abi.encode(
-            APPROVAL_TYPEHASH,
-            approval.safe, approval.chainId, approval.target,
-            approval.value, approval.calldataHash, approval.expiry, approval.nonce
-        ));
+        bytes32 domainSeparator = keccak256(
+            abi.encode(
+                keccak256(
+                    "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+                ),
+                keccak256("MarketLens"),
+                keccak256("1"),
+                block.chainid,
+                approval.safe
+            )
+        );
+        bytes32 structHash = keccak256(
+            abi.encode(
+                APPROVAL_TYPEHASH,
+                approval.safe,
+                approval.chainId,
+                approval.target,
+                approval.value,
+                approval.calldataHash,
+                approval.expiry,
+                approval.nonce
+            )
+        );
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
 
         bytes memory sig65 = _slice(signatures, 0, 65);
@@ -93,7 +118,9 @@ contract MarketLensSafeGuard is BaseTransactionGuard {
         if (approval.target != to) revert TargetMismatch(approval.target, to);
         if (approval.value != value) revert ValueMismatch(approval.value, value);
         bytes32 actualHash = keccak256(data);
-        if (approval.calldataHash != actualHash) revert CalldataMismatch(approval.calldataHash, actualHash);
+        if (approval.calldataHash != actualHash) {
+            revert CalldataMismatch(approval.calldataHash, actualHash);
+        }
     }
 
     /// @notice Post-execution: mark nonce as used (even if tx reverted).
@@ -104,7 +131,9 @@ contract MarketLensSafeGuard is BaseTransactionGuard {
 
     function _recover(bytes32 digest, bytes memory sig) internal pure returns (address) {
         require(sig.length == 65, "bad sig");
-        bytes32 r; bytes32 s; uint8 v;
+        bytes32 r;
+        bytes32 s;
+        uint8 v;
         assembly {
             r := mload(add(sig, 32))
             s := mload(add(sig, 64))
@@ -114,10 +143,16 @@ contract MarketLensSafeGuard is BaseTransactionGuard {
         return ecrecover(digest, v, r, s);
     }
 
-    function _slice(bytes memory data, uint256 start, uint256 len) internal pure returns (bytes memory) {
+    function _slice(bytes memory data, uint256 start, uint256 len)
+        internal
+        pure
+        returns (bytes memory)
+    {
         require(start + len <= data.length, "overflow");
         bytes memory r = new bytes(len);
-        for (uint256 i = 0; i < len; i++) r[i] = data[start + i];
+        for (uint256 i = 0; i < len; i++) {
+            r[i] = data[start + i];
+        }
         return r;
     }
 }

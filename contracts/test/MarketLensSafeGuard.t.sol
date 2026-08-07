@@ -8,13 +8,22 @@ import "safe-contracts/MockSafe.sol";
 contract TestTarget {
     uint256 public counter;
     event Called(address caller, uint256 value);
-    function increment() external payable { counter++; emit Called(msg.sender, msg.value); }
-    function setCounter(uint256 _c) external { counter = _c; }
+
+    function increment() external payable {
+        counter++;
+        emit Called(msg.sender, msg.value);
+    }
+
+    function setCounter(uint256 _c) external {
+        counter = _c;
+    }
 }
 
 contract MarketLensSafeGuardTest is Test {
-    address owner; uint256 ownerKey;
-    address signer; uint256 signerKey;
+    address owner;
+    uint256 ownerKey;
+    address signer;
+    uint256 signerKey;
     MockSafe safe;
     MarketLensSafeGuard guard;
     TestTarget target;
@@ -37,10 +46,17 @@ contract MarketLensSafeGuardTest is Test {
         safe.setGuard(address(guard));
         target = new TestTarget();
 
-        domainSeparator = keccak256(abi.encode(
-            keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
-            keccak256("MarketLens"), keccak256("1"), block.chainid, address(safe)
-        ));
+        domainSeparator = keccak256(
+            abi.encode(
+                keccak256(
+                    "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+                ),
+                keccak256("MarketLens"),
+                keccak256("1"),
+                block.chainid,
+                address(safe)
+            )
+        );
     }
 
     function _sign(bytes32 digest) internal view returns (bytes memory) {
@@ -49,18 +65,34 @@ contract MarketLensSafeGuardTest is Test {
     }
 
     function _approvalSig(
-        address _safe, address _target, uint256 _value,
-        bytes memory _calldata, uint256 _expiry, bytes32 _nonce
+        address _safe,
+        address _target,
+        uint256 _value,
+        bytes memory _calldata,
+        uint256 _expiry,
+        bytes32 _nonce
     ) internal view returns (bytes memory) {
         MarketLensSafeGuard.Approval memory a = MarketLensSafeGuard.Approval({
-            safe: _safe, chainId: block.chainid, target: _target,
-            value: _value, calldataHash: keccak256(_calldata),
-            expiry: _expiry, nonce: _nonce
+            safe: _safe,
+            chainId: block.chainid,
+            target: _target,
+            value: _value,
+            calldataHash: keccak256(_calldata),
+            expiry: _expiry,
+            nonce: _nonce
         });
-        bytes32 structHash = keccak256(abi.encode(
-            APPROVAL_TYPEHASH, a.safe, a.chainId, a.target,
-            a.value, a.calldataHash, a.expiry, a.nonce
-        ));
+        bytes32 structHash = keccak256(
+            abi.encode(
+                APPROVAL_TYPEHASH,
+                a.safe,
+                a.chainId,
+                a.target,
+                a.value,
+                a.calldataHash,
+                a.expiry,
+                a.nonce
+            )
+        );
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
         bytes memory sig = _sign(digest);
         return abi.encodePacked(sig, abi.encode(a));
@@ -69,7 +101,14 @@ contract MarketLensSafeGuardTest is Test {
     // ═══ TEST A: APPROVED ═══
     function testA_ApprovedExecution() public {
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
-        bytes memory sig = _approvalSig(address(safe), address(target), 0, calldata_, block.timestamp + 1 hours, bytes32(uint256(1)));
+        bytes memory sig = _approvalSig(
+            address(safe),
+            address(target),
+            0,
+            calldata_,
+            block.timestamp + 1 hours,
+            bytes32(uint256(1))
+        );
         uint256 before_ = target.counter();
         vm.prank(owner);
         safe.execTransaction(address(target), 0, calldata_, sig);
@@ -87,25 +126,54 @@ contract MarketLensSafeGuardTest is Test {
     // ═══ TEST C1: TAMPERED VALUE ═══
     function testC1_TamperedValue() public {
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
-        bytes memory sig = _approvalSig(address(safe), address(target), 0, calldata_, block.timestamp + 1 hours, bytes32(uint256(3)));
+        bytes memory sig = _approvalSig(
+            address(safe),
+            address(target),
+            0,
+            calldata_,
+            block.timestamp + 1 hours,
+            bytes32(uint256(3))
+        );
         vm.prank(owner);
-        vm.expectRevert(abi.encodeWithSelector(MarketLensSafeGuard.ValueMismatch.selector, uint256(0), uint256(1 ether)));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                MarketLensSafeGuard.ValueMismatch.selector, uint256(0), uint256(1 ether)
+            )
+        );
         safe.execTransaction(address(target), 1 ether, calldata_, sig);
     }
 
     // ═══ TEST C2: TAMPERED TARGET ═══
     function testC2_TamperedTarget() public {
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
-        bytes memory sig = _approvalSig(address(safe), address(target), 0, calldata_, block.timestamp + 1 hours, bytes32(uint256(4)));
+        bytes memory sig = _approvalSig(
+            address(safe),
+            address(target),
+            0,
+            calldata_,
+            block.timestamp + 1 hours,
+            bytes32(uint256(4))
+        );
         vm.prank(owner);
-        vm.expectRevert(abi.encodeWithSelector(MarketLensSafeGuard.TargetMismatch.selector, address(target), address(0xdead)));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                MarketLensSafeGuard.TargetMismatch.selector, address(target), address(0xdead)
+            )
+        );
         safe.execTransaction(address(0xdead), 0, calldata_, sig);
     }
 
     // ═══ TEST C3: TAMPERED CALLDATA ═══
     function testC3_TamperedCalldata() public {
         bytes memory approved = abi.encodeWithSelector(TestTarget.increment.selector);
-        bytes memory sig = _approvalSig(address(safe), address(target), 0, approved, block.timestamp + 1 hours, bytes32(uint256(5)));
+        bytes memory sig = _approvalSig(
+            address(safe),
+            address(target),
+            0,
+            approved,
+            block.timestamp + 1 hours,
+            bytes32(uint256(5))
+        );
         bytes memory tampered = abi.encodeWithSelector(TestTarget.setCounter.selector, 999);
         vm.prank(owner);
         vm.expectRevert(); // CalldataMismatch
@@ -115,7 +183,9 @@ contract MarketLensSafeGuardTest is Test {
     // ═══ EXTRA: EXPIRED ═══
     function test_ExpiredApproval() public {
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
-        bytes memory sig = _approvalSig(address(safe), address(target), 0, calldata_, block.timestamp, bytes32(uint256(6)));
+        bytes memory sig = _approvalSig(
+            address(safe), address(target), 0, calldata_, block.timestamp, bytes32(uint256(6))
+        );
         vm.warp(block.timestamp + 1);
         vm.prank(owner);
         vm.expectRevert(); // ApprovalExpired
@@ -127,13 +197,26 @@ contract MarketLensSafeGuardTest is Test {
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
         // Build approval signed by WRONG key
         MarketLensSafeGuard.Approval memory a = MarketLensSafeGuard.Approval({
-            safe: address(safe), chainId: block.chainid, target: address(target),
-            value: 0, calldataHash: keccak256(calldata_),
-            expiry: block.timestamp + 1 hours, nonce: bytes32(uint256(7))
+            safe: address(safe),
+            chainId: block.chainid,
+            target: address(target),
+            value: 0,
+            calldataHash: keccak256(calldata_),
+            expiry: block.timestamp + 1 hours,
+            nonce: bytes32(uint256(7))
         });
-        bytes32 structHash = keccak256(abi.encode(
-            APPROVAL_TYPEHASH, a.safe, a.chainId, a.target, a.value, a.calldataHash, a.expiry, a.nonce
-        ));
+        bytes32 structHash = keccak256(
+            abi.encode(
+                APPROVAL_TYPEHASH,
+                a.safe,
+                a.chainId,
+                a.target,
+                a.value,
+                a.calldataHash,
+                a.expiry,
+                a.nonce
+            )
+        );
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerKey, digest); // WRONG KEY
         bytes memory sig = abi.encodePacked(abi.encodePacked(r, s, v), abi.encode(a));
@@ -151,7 +234,14 @@ contract MarketLensSafeGuardTest is Test {
         safe2.setGuard(address(guard));
 
         bytes memory calldata_ = abi.encodeWithSelector(TestTarget.increment.selector);
-        bytes memory sig = _approvalSig(address(safe), address(target), 0, calldata_, block.timestamp + 1 hours, bytes32(uint256(8)));
+        bytes memory sig = _approvalSig(
+            address(safe),
+            address(target),
+            0,
+            calldata_,
+            block.timestamp + 1 hours,
+            bytes32(uint256(8))
+        );
 
         vm.prank(owner);
         vm.expectRevert(); // WrongSafe
