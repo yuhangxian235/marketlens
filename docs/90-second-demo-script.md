@@ -1,98 +1,76 @@
 # 90-Second Demo Script — MarketLens
 
-**Total target: 80–95 seconds.**
+**Total target: 80–90 seconds. Narration: 190–205 words.**
 
 ---
 
-## 0–8s: The Problem
+## 0–10s: The Problem
 
-> "AI Agents rarely act only once. They plan several operations together."
-
-*Show: Agent batch with multiple proposals visible on screen.*
+> "AI Agents rarely act only once. They plan several operations together. The problem is simple: safe transactions can still form an unsafe plan."
 
 ---
 
-## 8–18s: The Key Insight
+## 10–20s: The Difference
 
-> "A simulator can approve every transaction individually and still miss that the overall plan contradicts the user's intent."
-
-*Show: Two proposals — both marked SIMULATION PASS.*
+> "Traditional simulation checks transactions one at a time. MarketLens checks the entire Agent batch before anything reaches a wallet."
 
 ---
 
-## 18–42s: Contradictory Intent
+## 20–43s: Contradictory Intent
 
 *Click "Contradictory Intent" → Run fresh verification.*
 
-> "Both actions are valid alone. Together, they contradict each other — opposite positions on the same market."
+> "Here, both actions simulate successfully and pass their individual checks. But they take opposite positions on the same market. Both actions pass individually. But together, they form an unsafe plan. MarketLens catches the batch-level conflict and blocks one of them immediately."
 
-*Show:*
-- *Action A: SIMULATION PASS, ACTION-LEVEL PASS*
-- *Action B: SIMULATION PASS, ACTION-LEVEL PASS*
-- *Batch verdict: 1 eligible / 1 blocked — BATCH_POLICY_CONFLICT*
-
-> "The simulator saw two safe transactions. The firewall saw one unsafe plan."
-
-*Human-readable: "Two individually valid actions take opposite positions on the same market."*
-*Technical code: BATCH_POLICY_CONFLICT*
+*Show: 1 eligible / 1 blocked — BATCH_POLICY_CONFLICT.*
 
 ---
 
-## 42–55s: Resolve
+## 43–55s: Resolve
 
-*Click "Resolve current risk" → re-run verification.*
+*Click "Resolve current risk" → Run fresh verification.*
 
-> "The user aligns the outcomes. Fresh evidence. Both now eligible, zero blocked."
-
-*Show: 2 eligible / 0 blocked.*
+> "Now I align the second action's outcome and run fresh verification again. The batch is now coherent: two eligible, zero blocked."
 
 ---
 
-## 55–70s: Hidden Cumulative Spend
+## 55–68s: Hidden Cumulative Spend
 
 *Click "Hidden Cumulative Spend" → Run fresh verification.*
 
-> "Each action stays under the per-action limit."
+> "MarketLens also catches cumulative risk that no single-action check can see. Each action spends 0.3 MON and passes individually, but together they exceed the 0.5 MON batch budget. Two safe transactions, one unsafe plan."
 
-*Show: 0.3 MON + 0.3 MON — both individually under the ceiling.*
-
-> "Both actions pass individually."
-
-*Pause.*
-
-> "But together, they form an unsafe plan."
-
-*Show: Combined 0.6 MON exceeds 0.5 MON batch budget. BLOCK.*
-
-> "The single-action simulator approved both. The batch firewall blocked the plan."
-
-*Human-readable: "Each action stays under the per-action limit, but together they exceed the user's total budget."*
-*Technical code: BATCH_TOTAL_PAYMENT_EXCEEDED*
+*Show: BATCH_TOTAL_PAYMENT_EXCEEDED.*
 
 ---
 
-## 70–83s: Monad Attestation
+## 68–82s: Monad Proof
 
-> "MarketLens does not broadcast the user's Agent actions. It anchors only the verified receipt hashes on Monad Testnet."
+> "After verification, MarketLens creates a structured receipt. Only the receipt hashes are anchored to Monad Testnet — a permanent, independently verifiable proof that does not broadcast the user's Agent actions."
 
-*Show:*
-- *Registry: 0x85AD…4203*
-- *Receipt hash*
-- *Attestation TX*
-- *Explorer link*
-
-> "A permanent, verifiable record — without executing a single user transaction."
+*Show: Registry, Attestation TX, Explorer.*
 
 ---
 
-## 83–90s: Closing
+## 82–90s: Closing
 
-> "MarketLens is not another transaction explainer. It is a firewall for the Agent's entire plan — BEFORE anything reaches a wallet."
+> "MarketLens is not another transaction explainer. It is a firewall for the Agent's entire plan — before signing, before broadcast, before disaster."
+
+*Static overlay: 35 Web Tests | 53 Foundry Tests | CI Passing | Monad Testnet Attestation.*
 
 ---
 
-## Engineering Proof (below the fold, small print)
+## Recording Shot List
 
-- 35 Web tests, 10 Batch-policy tests, 53 Foundry tests — all pass
-- Typecheck, lint, CI all green
-- Monad Testnet attestation: [Registry](https://testnet.monadexplorer.com/address/0x85AD7b41DC64d8E191A9Dc56B398068341c54203) | [TX](https://testnet.monadexplorer.com/tx/0x6ab6de991889f88fe5906fc0e679ca53eeb55e0369a34772c519a62ff477fe52)
+| Shot | Content | Duration |
+|------|---------|----------|
+| 1 | Homepage hero — tagline + subheadline | 3 sec |
+| 2 | Contradictory Intent loaded — two proposals visible | 5 sec |
+| 3 | Both action-level PASS indicators | 5 sec |
+| 4 | Batch BLOCK result — BATCH_POLICY_CONFLICT | 8 sec |
+| 5 | Resolve — second outcome aligned | 5 sec |
+| 6 | Fresh rerun → 2 eligible / 0 blocked | 8 sec |
+| 7 | Hidden Cumulative Spend — 0.3 + 0.3 > 0.5 | 10 sec |
+| 8 | Monad Attestation panel — hashes + registry | 6 sec |
+| 9 | Monad Explorer TX confirmation | 6 sec |
+| 10 | Final hero — tagline + safety overlay | 5 sec |
