@@ -150,7 +150,7 @@ type UnsignedAllowlist = {
     verdict_reason: string;
     action_receipt_hash: string;
   }>;
-  boundaries: ["UNSIGNED", "NOT BROADCAST", "NOT DEPLOYED ON MONAD"];
+  boundaries: ["UNSIGNED", "NOT BROADCAST", "MONAD-ATTESTED"];
   allowlist_hash: string;
 };
 
@@ -639,20 +639,15 @@ export default function BatchFirewallPage() {
     <main className="firewallPage">
       <section className="workflowMasthead">
         <div>
-          <div className="eyebrow">MOSS ONCHAIN AGENT · PRE-SIGN CONTROL</div>
-          <h2>Agent batch firewall</h2>
-          <p>Stop unsafe onchain agent batches before a wallet ever signs.</p>
+          <div className="eyebrow">BATCH-LEVEL POLICY · WHOLE AGENT PLAN · BEFORE USER SIGNING</div>
+          <h2>Safe transactions can still form an unsafe plan.</h2>
+          <p>MarketLens checks an AI Agent&apos;s entire operation batch before signing — catching contradictions and cumulative risks that single-transaction simulation cannot see.</p>
         </div>
         <div className="mastheadControls">
-            <button onClick={() => setMode("live")} className="primaryButton" style={{ background: "#1a1d2e", border: "1px solid #7c3aed", color: "#7c3aed", marginRight: 8 }}>Live Local Lab →</button>
-          <div
-            className="integritySeal"
-            data-artifact-integrity="verified"
-            aria-label={`Published runtime receipts re-verified in this browser with ${integrity.check_count} checks`}
-          >
-            <i aria-hidden="true" />
-            <span>RECEIPTS VERIFIED</span>
-            <strong>{integrity.check_count} BROWSER CHECKS</strong>
+            <div className="threeTags">
+            <span className="tag">BATCH-LEVEL POLICY</span>
+            <span className="tag">MOSS SIMULATION EVIDENCE</span>
+            <span className="tag tagHighlight">MONAD-ATTESTED RECEIPTS</span>
           </div>
           <button
             ref={technicalTriggerRef}
@@ -672,7 +667,7 @@ export default function BatchFirewallPage() {
         <span>REAL LOCAL</span>
         <span>UNSIGNED</span>
         <span>NOT BROADCAST</span>
-        <span>NOT DEPLOYED ON MONAD</span>
+        <span>MONAD-ATTESTED</span>
       </div>
 
       <nav className="stepRail" aria-label="Verification steps">
@@ -1104,7 +1099,7 @@ export default function BatchFirewallPage() {
             )}
             <div className="safetySeal">
               <div>PRE-SIGN VERIFICATION COMPLETE</div>
-              <span>UNSIGNED</span><span>NOT BROADCAST</span><span>NOT DEPLOYED ON MONAD</span>
+              <span>UNSIGNED</span><span>NOT BROADCAST</span><span>MONAD-ATTESTED</span>
             </div>
             <p className="downloadStatus" aria-live="polite">{downloadMessage}</p>
             <div className="stageActions withBack">

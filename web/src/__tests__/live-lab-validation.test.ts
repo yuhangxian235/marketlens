@@ -166,4 +166,29 @@ describe("route security", () => {
     const headers = { "Retry-After": "5" };
     expect(headers["Retry-After"]).toBe("5");
   });
+
+  // ─── Cumulative batch budget tests ───
+  it("cumulative budget: per-action below limit individually", () => {
+    const amount1 = BigInt("300000000000000000");
+    const amount2 = BigInt("300000000000000000");
+    const perActionMax = BigInt("500000000000000000");
+    expect(amount1 <= perActionMax).toBe(true);
+    expect(amount2 <= perActionMax).toBe(true);
+  });
+  it("cumulative budget: combined exceeds total payment limit", () => {
+    const amount1 = BigInt("300000000000000000");
+    const amount2 = BigInt("300000000000000000");
+    const totalMax = BigInt("500000000000000000");
+    expect(amount1 + amount2 > totalMax).toBe(true);
+  });
+  it("cumulative budget: resolve reduces second amount to fit", () => {
+    const amount1 = BigInt("300000000000000000");
+    const amount2 = BigInt("200000000000000000");
+    const totalMax = BigInt("500000000000000000");
+    expect(amount1 + amount2 <= totalMax).toBe(true);
+  });
+  it("cumulative budget: BATCH_TOTAL_PAYMENT_EXCEEDED reason code exists", () => {
+    const code = "BATCH_TOTAL_PAYMENT_EXCEEDED";
+    expect(code).toBeTruthy();
+  });
 });

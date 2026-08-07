@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "chain": "Monad Testnet",
+  "chain_id": 10143,
+  "registry_address": "0x85AD7b41DC64d8E191A9Dc56B398068341c54203",
+  "deployer_address": "0xD6961013198f5053b6309A2c1F30DD091AB66A69",
+  "deployment_transaction": "0x9649d1644046fe74032198ff5197f595f9250c2fb8c856bb2cda65ada3827730",
+  "deployment_block": 51539658,
+  "attestation_transaction": "0x6ab6de991889f88fe5906fc0e679ca53eeb55e0369a34772c519a62ff477fe52",
+  "attestation_block": 51540389,
+  "attested_hashes": {
+    "receipt_hash": "0xc4d63e36cc55f237dc715d478e0f48d48b5995e151c21166287530ed73a9d0be",
+    "policy_hash": "0xb457c3bd4ede5a988e4c21f0d58c30fa5e74ad818db12e6b8a20c002d274ccc6",
+    "allowlist_hash": "0x01decf7f76428b8903e89e10f6dd8e7a275e48541beed4eb3e3482da8988c4ef",
+    "evidence_hash": "0xae16a1b6e80400246b2de8298c2ea53f37072ad31f9e66ebbd9fa851b2720dee"
+  },
+  "onchain_readback": {
+    "verified": true,
+    "receipt_hash_match": true,
+    "policy_hash_match": true,
+    "allowlist_hash_match": true,
+    "evidence_hash_match": true,
+    "publisher_match": true
+  },
+  "event": {
+    "name": "BatchReceiptAttested",
+    "verified": true,
+    "topics_match": true,
+    "data_match": true
+  },
+  "source_artifact_paths": [
+    "packages/batch-policy/fixtures/proposals.json",
+    "packages/batch-policy/fixtures/policy.json",
+    "demo/generated/moss-simulations-provenance.json",
+    "web/public/data/batch-verification/simulation-results.json"
+  ],
+  "explorer_urls": {
+    "registry": "https://testnet.monadexplorer.com/address/0x85AD7b41DC64d8E191A9Dc56B398068341c54203",
+    "deployment_tx": "https://testnet.monadexplorer.com/tx/0x9649d1644046fe74032198ff5197f595f9250c2fb8c856bb2cda65ada3827730",
+    "attestation_tx": "https://testnet.monadexplorer.com/tx/0x6ab6de991889f88fe5906fc0e679ca53eeb55e0369a34772c519a62ff477fe52"
+  },
+  "contract_verification_status": "Cloudflare-gated; accessible via web UI at testnet.monadexplorer.com",
+  "safety_notice": "Zero user Agent actions are signed or broadcast. A project-controlled Monad Testnet transaction records only verified receipt hashes.",
+  "generated_at": "2026-08-07T01:32:51.339062Z",
+  "data_status": "FROM_LIVE_MONAD_TESTNET"
+}

@@ -1,39 +1,38 @@
 # MarketLens
 
-MarketLens is a pre-sign policy firewall for AI-agent-prepared prediction-market actions.
+**Safe transactions can still form an unsafe plan.**
 
-The current demo uses deterministic synthetic Agent proposals and pre-generated local Moss simulation evidence.
+MarketLens is a batch-level policy firewall for autonomous Agent operations.
 
-![MarketLens batch policy firewall — default verdict](docs/assets/demo/04-default-verdict.png)
+Individual actions may simulate successfully and pass action-level rules while the complete Agent plan still contradicts itself or exceeds aggregate user constraints.
 
-> **Screenshot provenance:** These screenshots are previously generated real demo artifacts from the same `e5f769a` code baseline; they were not re-captured during this documentation sprint.
+---
 
 ## Problem
 
-AI Agents can prepare transaction actions faster than users can manually inspect them. MarketLens inserts a deterministic policy and evidence-verification layer before signing.
+AI Agents increasingly plan multiple onchain actions at once. A transaction simulator can verify each action individually — it cannot determine whether the complete plan contradicts itself or exceeds the user's aggregate budget.
 
-## How it works
+## What MarketLens does differently
+
+MarketLens adds a **batch-level policy firewall** that examines the Agent's entire proposed operation batch before signing. It catches cross-action contradictions and cumulative risks that single-transaction simulation silently misses.
 
 ```
-Synthetic Agent Batch
-  → User Policy
-  → Moss Evidence Verification
-  → Structured Receipts
-  → Batch Verdict
-  → Unsigned Allowlist
+Agent Proposals
+      ↓
+Moss / Simulation Evidence
+      ↓
+Action-Level Checks
+      ↓
+MarketLens Batch Policy
+      ↓
+ALLOW / BLOCK
+      ↓
+Verified Receipt
+      ↓
+Monad Testnet Attestation
 ```
 
-The browser demo consumes pre-generated local Moss simulation outputs. It does **not** trigger a new live Anvil simulation on demand, and it does **not** connect to Monad.
-
-## Policy presets
-
-| Policy | Eligible | Blocked | Main behavior |
-| --- | --- | --- | --- |
-| Strict | 1 | 4 | Low action (0.10 MON) and batch (0.25 MON) limits; conflicts blocked |
-| Default | 2 | 3 | Moderate limits (0.50 MON); conflicts blocked |
-| Permissive | 4 | 1 | High limits (10.00 MON); opposing positions allowed |
-
-The verified fixture produces: 5 proposed, 2 eligible, 3 blocked, 0 signed, 0 broadcast (Default policy).
+**Moss tells MarketLens what each proposed action would do; MarketLens decides whether the Agent's complete plan should be allowed.**
 
 ## 30-second judge path
 
@@ -42,153 +41,159 @@ pnpm install --frozen-lockfile
 pnpm --filter @marketlens/web dev --port 3300
 ```
 
-Open <http://localhost:3300> to see the five-step batch policy firewall demo. The `predev` script automatically builds all workspace dependencies (`@themoss/core` → `@themoss/simulator` → `@marketlens/moss-prediction-market` → prediction-market-actions → agent-planner → batch-policy) before starting Next.js.
+Open <http://localhost:3300>. The `predev` script builds all workspace dependencies before starting Next.js.
 
-## Verified in this submission build
+---
 
-| Check | Result |
-| --- | --- |
-| Foundry | 44 passed, 0 failed (from prior reproducible audit) |
-| Batch-policy Vitest | 10 passed, 0 failed, 12 skipped |
-| Live-Anvil integration tests | 12 skipped (requires local Anvil; skip in offline CI) |
-| Typecheck | 0 errors |
-| Lint | 0 errors, 2 warnings |
-| Next.js build | 11 routes total (9 static + 2 dynamic API) |
-| Analytics pytest | not independently revalidated in this submission build |
+## Two batch-only risks
 
-Full Next.js route table from build output:
+### 1. Contradictory Intent
+
+Two individually valid actions take opposite positions on the same market. Both pass simulation. Both pass per-action rules. The firewall detects the contradiction and blocks one.
+
+- **Before**: 1 eligible / 1 blocked — `BATCH_POLICY_CONFLICT`
+- **Resolved**: 2 eligible / 0 blocked
+
+### 2. Hidden Cumulative Spend
+
+Each action stays under the per-action payment limit. Together they exceed the user's total batch budget. Single-simulation approves both. The firewall catches the cumulative total.
+
+- **Before**: blocked — `BATCH_TOTAL_PAYMENT_EXCEEDED`
+- **Resolved**: 2 eligible / 0 blocked
+
+---
+
+## Monad Testnet Proof
+
+Monad provides a public verification anchor for MarketLens receipts; the user's prediction-market actions are not executed on Monad in this prototype. After MarketLens evaluates a batch, only verified receipt hashes are published:
 
 ```
-○  /                          static
-○  /_not-found                static
-○  /action                    static
-○  /analytics                 static
-ƒ  /api/evaluate-batch        dynamic
-○  /architecture              static
-○  /demo                      static
-○  /icon.svg                  static
-○  /product-analytics         static
-○  /verification              static
+Verified Batch Receipt
+        ↓
+Canonical Hashes
+        ↓
+BatchReceiptRegistry (0x85AD…4203)
+        ↓
+Monad Testnet
+        ↓
+Public Explorer Proof
 ```
 
-## Current status
+| Field | Value |
+|-------|-------|
+| Chain | Monad Testnet (10143) |
+| Registry | [0x85AD7b41DC64d8E191A9Dc56B398068341c54203](https://testnet.monadexplorer.com/address/0x85AD7b41DC64d8E191A9Dc56B398068341c54203) |
+| Deployment TX | [0x9649d1…7730](https://testnet.monadexplorer.com/tx/0x9649d1644046fe74032198ff5197f595f9250c2fb8c856bb2cda65ada3827730) |
+| Attestation TX | [0x6ab6de…fe52](https://testnet.monadexplorer.com/tx/0x6ab6de991889f88fe5906fc0e679ca53eeb55e0369a34772c519a62ff477fe52) |
+
+> Zero user Agent actions are signed or broadcast. A project-controlled Monad Testnet transaction records only verified receipt hashes.
+
+---
+
+## Policy presets
+
+| Policy | Eligible | Blocked | Main behavior |
+|--------|----------|---------|---------------|
+| Strict | 1 | 4 | Low action (0.10 MON) and batch (0.25 MON) limits; conflicts blocked |
+| Default | 2 | 3 | Moderate limits (0.50 MON); conflicts blocked |
+| Permissive | 4 | 1 | High limits (10.00 MON); opposing positions allowed |
+
+Default policy fixture: 5 proposed, 2 eligible, 3 blocked, 0 signed, 0 broadcast.
+
+---
+
+## Live Local Lab
+
+The default **Verified Demo** uses pre-generated Moss evidence artifacts. The **Live Local Lab** calls a local Anvil fixture for fresh evidence on exactly two proposals — demonstrating Contradictory Intent and Hidden Cumulative Spend.
+
+- **Run**: `pnpm demo:live` (starts Anvil, seeds contract, starts Next.js)
+- **Mode switch**: Click "Live Local Lab →" in the masthead
+- **API**: `POST /api/verify-live-batch` — 2 proposals only (422 otherwise), validates inputs, runs `debug_traceCall`, returns Batch Receipt
+- **Safety**: Local Anvil only. No wallet, no signing, no broadcast.
+
+Both modes are **UNSIGNED**, **NOT BROADCAST**, and **ATTESTED ON MONAD TESTNET**.
+
+---
+
+## Architecture
+
+The batch-policy engine is protocol-agnostic. The reference implementation targets prediction markets.
 
 | Capability | Status | Boundary |
-| --- | --- | --- |
-| Solidity prediction market | **REAL LOCAL** | Foundry contract and tests |
-| Event indexing and analytics | **PARTIALLY VERIFIED** | Local pipeline implemented; current submission tests not revalidated |
-| Moss protocol adapter | **REAL LOCAL** | Source-pinned `@themoss/core` integration |
-| Moss Evidence Verification | **REAL LOCAL** | Unsigned local Anvil `debug_traceCall`; pre-generated outputs |
-| Batch policy firewall | **REAL LOCAL** | Action and batch policy verdicts |
-| Web workflow | **REAL UI** | Consumes pre-generated local simulation artifacts |
-| Wallet signing | **NOT IMPLEMENTED** | No signer or private-key path |
-| Broadcasting | **NOT IMPLEMENTED** | No send path |
-| Monad deployment | **NOT DEPLOYED** | Local evidence only |
+|------------|--------|----------|
+| Solidity prediction market | REAL LOCAL | Foundry contract and tests |
+| Moss protocol adapter | REAL LOCAL | Source-pinned `@themoss/core` |
+| Moss Evidence Verification | REAL LOCAL | Unsigned local Anvil `debug_traceCall` |
+| Batch policy firewall | REAL LOCAL | Action and batch policy verdicts |
+| Web workflow | REAL UI | Pre-generated Moss simulation artifacts |
+| Wallet signing | NOT IMPLEMENTED | No signer path |
+| Broadcasting | NOT IMPLEMENTED | No send path |
+| Monad attestation | **DEPLOYED** | [Registry](https://testnet.monadexplorer.com/address/0x85AD7b41DC64d8E191A9Dc56B398068341c54203) |
+
+---
+
+## Verified in this submission
+
+| Check | Result |
+|-------|--------|
+| Web tests | 35 passed, 0 failed |
+| Foundry tests | 53 passed, 0 failed |
+| Batch-policy tests | 10 passed, 0 failed, 12 skipped (requires Anvil) |
+| Typecheck | 0 errors |
+| Lint | 0 errors, 0 warnings |
+| CI | success |
+
+---
+
+## Run locally
+
+```powershell
+# Requirements: Node >= 22, pnpm 11.10.0
+pnpm install --frozen-lockfile
+pnpm --filter @marketlens/web dev --port 3300
+```
+
+Contracts use Foundry (`forge test`). Analytics uses Python 3.11 and `uv`.
+
+```powershell
+# Full verification
+pnpm verify:phase4a:full
+```
+
+---
 
 ## Repository layout
 
 ```text
 marketlens/
-├── contracts/                         # Solidity contract and Foundry tests
-├── analytics/                         # RPC indexer, SQLite, SQL/pandas analytics
-├── external/moss/                     # Vendored Moss @themoss/core and @themoss/simulator
+├── contracts/                         # Solidity + Foundry tests
+├── analytics/                         # RPC indexer, SQLite, SQL/pandas
+├── external/moss/                     # Vendored @themoss/core + @themoss/simulator
 ├── packages/
-│   ├── prediction-market-actions/     # Action calldata and application seam
-│   ├── moss-prediction-market/        # Source-pinned Moss protocol adapter
-│   ├── batch-policy/                  # Phase 4A action/batch policy firewall
+│   ├── prediction-market-actions/     # Action calldata + application seam
+│   ├── moss-prediction-market/        # Moss protocol adapter
+│   ├── batch-policy/                  # Action/batch policy firewall
 │   ├── agent-planner/                 # Deterministic Agent proposal generator
-│   └── polymarket-shadow/             # Shadow-market research implementation
-├── web/                               # Next.js evidence and firewall UI
-├── config/                            # Network and deployment manifests
-├── artifacts/                         # ABI, reproduction, and visual evidence
-├── scripts/                           # Local bootstrap/reproduction entrypoints
-└── docs/                              # Architecture, audits, and phase reports
+│   └── polymarket-shadow/             # Shadow-market research
+├── web/                               # Next.js firewall UI
+├── config/                            # Network + deployment manifests
+├── artifacts/                         # ABI, reproduction, visual evidence
+├── scripts/                           # Local bootstrap/reproduction
+└── docs/                              # Architecture, audits, phase reports
 ```
 
-## Install
+---
 
-```powershell
-# Requirements: Node >= 22, pnpm 11.10.0 (via corepack)
-pnpm install --frozen-lockfile
-```
-
-This resolves all workspace packages including the vendored `@themoss/core` and `@themoss/simulator` under `external/moss/`. No git submodule or external clone step is required.
-
-Analytics uses Python 3.11 and `uv`; contracts use Foundry in WSL.
-
-## Moss dependency provenance
+## Moss dependency
 
 MarketLens vendors `@themoss/core` and `@themoss/simulator` from the Moss upstream repository.
 
-- **Upstream:** <https://github.com/nishuzumi/moss>
-- **Pinned commit:** `d09b38cbc44ee7f5722c5d09e7224f7750187762` (2026-07-22)
-- **License:** MIT
-- **Included:** `packages/core/`, `packages/simulator/`
-- **Vendored under:** `external/moss/`
-- **Modifications:** None — vendored as-is from the pinned upstream commit
+- **Upstream**: <https://github.com/nishuzumi/moss>
+- **Pinned commit**: `d09b38cbc44ee7f5722c5d09e7224f7750187762`
+- **License**: MIT
+- **Vendored under**: `external/moss/` (no modifications)
 
-See `external/moss/UPSTREAM.md` for the full provenance record.
-
-## Verify Phase 4A
-
-```powershell
-pnpm verify:phase4a
-```
-
-This regenerates Batch artifacts from a no-key local Anvil fixture, verifies 99 release-time and 60 browser-time integrity conditions, runs Batch Policy and tamper tests, typechecks and lints the workspace, and builds the Next.js application.
-
-Focused commands:
-
-```powershell
-pnpm --filter @marketlens/batch-policy test
-pnpm --filter @marketlens/batch-policy generate
-pnpm --filter @marketlens/batch-policy verify:artifacts
-```
-
-## Full local verification
-
-```powershell
-pnpm verify:phase4a:full
-```
-
-The full command installs the locked JavaScript dependencies, runs the focused Phase 4A verification plus Analytics, Action, Moss core/simulator/protocol, shadow-market, Foundry unit/fuzz/invariant, format, secret, and Git whitespace checks. Its protocol fixture starts a no-key local Anvil on port `8546` and always stops it, including after a failed check.
-
-## Demo walkthrough
-
-![Incoming batch](docs/assets/demo/01-incoming-batch.png)
-*Step 1 — Five synthetic Agent proposals arrive. The Agent proposes; it does not approve or send.*
-
-![Policy controls](docs/assets/demo/02-policy-controls.png)
-*Step 2 — User policy controls: three presets (Strict/Default/Permissive) with configurable payment limits and conflict rules.*
-
-![Moss evidence verification](docs/assets/demo/03-moss-evidence.png)
-*Step 3 — Pre-generated Moss evidence is revealed and re-verified in the browser (60 Web Crypto integrity checks).*
-
-![Default verdict](docs/assets/demo/04-default-verdict.png)
-*Steps 4–5 — Action Receipts and Batch Verdict: 2 eligible, 3 blocked under Default policy. Zero signed, zero broadcast.*
-
-
-
-## Live Local Proposal Lab
-
-The default **Verified Demo** uses pre-generated Moss evidence artifacts. The **Live Local Lab** calls a local Anvil fixture to generate fresh evidence per verification run. It is locked to exactly **two proposals** — a focused two-action batch for reliable fresh-evidence demonstration.
-
-- **Run:** `pnpm demo:live` (starts Anvil, seeds contract, starts Next.js)
-- **Mode switch:** Click "Live Local Lab →" in the demo masthead
-- **Conflict example:** Loads two proposals on the same market with opposite outcomes
-- **Resolve conflict:** Modifies one outcome so both align — then re-run to see the verdict change
-- **API:** `POST /api/verify-live-batch` — accepts exactly 2 proposals, validates inputs, calls `verifyBatch()` with live `debug_traceCall`, returns policy-specific Batch Receipt. Returns 422 for non-2 proposal counts.
-- **Safety:** Local Anvil only. No wallet, no signing, no broadcast, no Monad deployment. If Anvil is unavailable, returns 503.
-
-Both modes remain **UNSIGNED**, **NOT BROADCAST**, and **NOT DEPLOYED ON MONAD**.
-
-## Fixture security
-
-**Legacy reproduction scripts** (`scripts/deploy-moss-local-state.ps1`, `scripts/reproduce-moss-local.py`) contain well-known Anvil development keys for ephemeral local fixture initialization only. They are not production secrets and must never be used on any real network or with real funds.
-
-**The Live Lab fixture** (`scripts/fixture.sh`) uses local Anvil state-injection RPC methods (`anvil_setStorageAt`, `anvil_setCode`, `anvil_setBalance`) — no raw private keys, no `cast send`, no `eth_sendTransaction`.
-
-**The Live verification API** performs `debug_traceCall` only and never signs, sends, or broadcasts transactions.
+---
 
 ## Safety boundaries
 
@@ -196,6 +201,12 @@ Both modes remain **UNSIGNED**, **NOT BROADCAST**, and **NOT DEPLOYED ON MONAD**
 - `REAL LOCAL`
 - `UNSIGNED`
 - `NOT BROADCAST`
-- `NOT DEPLOYED ON MONAD`
+- `ATTESTED ON MONAD TESTNET`
 
-No UI control or backend path signs, submits, executes, or broadcasts the Agent proposals.
+No UI control or backend path signs, submits, executes, or broadcasts Agent proposals.
+
+---
+
+## Fixture security
+
+Legacy reproduction scripts use well-known Anvil development keys for ephemeral local fixtures. The Live Lab fixture (`scripts/fixture.sh`) uses state-injection RPC methods — no raw private keys, no `cast send`, no `eth_sendTransaction`. The Live verification API performs `debug_traceCall` only.
