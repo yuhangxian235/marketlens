@@ -637,30 +637,84 @@ export default function BatchFirewallPage() {
 
   return (
     <main className="firewallPage">
-      <section className="workflowMasthead">
-        <div>
-          <div className="eyebrow">BATCH-LEVEL POLICY · WHOLE AGENT PLAN · BEFORE USER SIGNING</div>
-          <h2>Safe transactions can still form an unsafe plan.</h2>
-          <p>MarketLens checks an AI Agent&apos;s entire operation batch before signing — catching contradictions and cumulative risks that single-transaction simulation cannot see.</p>
+      {/* ===== JUDGE HERO ===== */}
+      <section className="judge-hero">
+        <div className="judge-hero-badge">
+          <span className="dot" />
+          AI Agent Execution Policy Firewall
         </div>
-        <div className="mastheadControls">
-            <div className="threeTags">
-            <span className="tag">BATCH-LEVEL POLICY</span>
-            <span className="tag">MOSS SIMULATION EVIDENCE</span>
-            <span className="tag tagHighlight">MONAD-ATTESTED RECEIPTS</span>
-          </div>
+        <h1>
+          Control what your <span className="hl">AI Agent</span><br />
+          is allowed to execute.
+        </h1>
+        <p className="sub">
+          MarketLens reviews the Agent&apos;s complete plan before signing,
+          detecting cross-action conflicts and policy violations.
+        </p>
+        <p className="sub-minor">
+          Single actions can be valid. The complete plan can still be unsafe.
+        </p>
+        <div className="judge-hero-actions">
+          <a href="/demo" className="btn-primary">View Verified Demo</a>
           <button
             ref={technicalTriggerRef}
-            className="technicalTrigger"
+            className="btn-secondary"
             type="button"
-            aria-label="Open technical evidence"
+            aria-label="Technical evidence"
             onClick={() => setTechnicalOpen(true)}
           >
-            <span className="technicalLabelFull">Technical evidence</span>
-            <span className="technicalLabelShort">Evidence</span>
+            Technical Evidence
           </button>
         </div>
       </section>
+
+      {/* ===== AGENT PLAN OVERVIEW ===== */}
+      {batchState === "LOADED" && proposals.length > 0 && (
+        <section className="plan-overview">
+          <div className="plan-overview-header">
+            <h3>🤖 AI Agent Plan</h3>
+            <span className="plan-meta">
+              {proposals.length} proposed actions · {receipt?.eligible_count ?? 0} allowed · {receipt?.final_blocked_count ?? 0} blocked
+            </span>
+          </div>
+          <div className="plan-summary">
+            <div className="plan-summary-item">
+              <span className="num neutral">{proposals.length}</span>
+              <span className="lbl">Proposed</span>
+            </div>
+            <div className="plan-summary-item">
+              <span className="num green">{receipt?.eligible_count ?? 0}</span>
+              <span className="lbl">Allowed</span>
+            </div>
+            <div className="plan-summary-item">
+              <span className="num red">{receipt?.final_blocked_count ?? 0}</span>
+              <span className="lbl">Blocked</span>
+            </div>
+          </div>
+          <div className="plan-actions">
+            {proposals.map((proposal, idx) => {
+              const ar = receipt?.action_receipts?.find((r) => r.proposal_id === proposal.proposal_id);
+              const verdict = ar?.final_verdict ?? "PENDING";
+              const vcls = verdict === "PASS" ? "pass" : verdict === "BLOCKED" ? "blocked" : "neutral";
+              return (
+                <div className="plan-action-card" key={proposal.proposal_id}>
+                  <div className="action-header">
+                    <span className="action-label">Action {String.fromCharCode(65 + idx)}</span>
+                    <span className={`action-verdict ${vcls}`}>
+                      {verdict === "PASS" ? "✓ PASS" : verdict === "BLOCKED" ? "✕ BLOCKED" : "⋯ PENDING"}
+                    </span>
+                  </div>
+                  <div className="action-detail">
+                    <strong>{proposal.capability.replace("_", " ")} · {proposal.outcome}</strong><br />
+                    {proposal.market_question.slice(0, 40)}…<br />
+                    {formatWei(proposal.requested_amount)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <div className="boundaryStrip" aria-label="Safety boundaries">
         <span>SYNTHETIC AGENT PROPOSAL</span>

@@ -1,30 +1,30 @@
 /* ====== MarketLens Design System · Dark Theme ====== */
 :root {
-  --bg:           #080b14;
-  --surface-1:    #111827;
-  --surface-2:    #182033;
-  --surface-3:    #1e2a45;
-  --border:       #252e48;
-  --border-strong:#344060;
-  --border-accent:rgba(124,58,237,0.35);
-  --text-primary: #e8ecf4;
-  --text-muted:   #8893b4;
-  --text-dim:     #5a6688;
-  --accent:       #7c3aed;
-  --accent-hover: #8b5cf6;
-  --accent-soft:  rgba(124,58,237,0.12);
-  --success:      #10b981;
+  --bg:           #070b18;
+  --surface-1:    #0e1428;
+  --surface-2:    #151d36;
+  --surface-3:    #1c2748;
+  --border:       #1e2c4a;
+  --border-strong:#2a3d66;
+  --border-accent:rgba(110,84,255,0.30);
+  --text-primary: #eef0f6;
+  --text-muted:   #8896b8;
+  --text-dim:     #556288;
+  --accent:       #6e54ff;
+  --accent-hover: #8b77ff;
+  --accent-soft:  rgba(110,84,255,0.10);
+  --success:      #22c55e;
   --success-bg:   #064e3b;
-  --success-text: #6ee7b7;
+  --success-text: #4ade80;
   --warning:      #f59e0b;
   --warning-bg:   #78350f;
   --warning-text: #fde68a;
   --danger:       #ef4444;
   --danger-bg:    #7f1d1d;
   --danger-text:  #fca5a5;
-  --font-display: "Aptos Display","Bahnschrift","Segoe UI","Arial Narrow",sans-serif;
-  --font-body:    "Aptos","Segoe UI",system-ui,sans-serif;
-  --font-mono:    "Cascadia Mono","SF Mono","SFMono-Regular","Consolas",monospace;
+  --font-display: "Inter","Aptos Display","Bahnschrift","Segoe UI","Arial Narrow",sans-serif;
+  --font-body:    "Inter","Aptos","Segoe UI",system-ui,sans-serif;
+  --font-mono:    "JetBrains Mono","Cascadia Mono","SF Mono","Consolas",monospace;
   --page-pad-x:   clamp(24px, 4vw, 48px);
   --page-max:     1280px;
   --nav-h:        64px;
@@ -214,6 +214,40 @@ button,input,select,summary{font:inherit}
 .final-status-sub{font-size:15px;color:var(--text-muted);margin:0 0 20px}
 .final-status-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
 .final-status-footnote{font-size:11px;color:var(--text-dim)}
+
+
+/* ====== JUDGE HERO ====== */
+.judge-hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(48px,8vh,96px) var(--page-pad-x) clamp(32px,5vh,64px);max-width:900px;margin:0 auto}
+.judge-hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;border:1px solid var(--border-accent);background:var(--accent-soft);color:var(--accent-hover);font-size:12px;font-weight:650;margin-bottom:20px;letter-spacing:.01em}
+.judge-hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.judge-hero h1{font-family:var(--font-display);font-size:clamp(32px,4.5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:0 0 14px;color:var(--text-primary)}
+.judge-hero h1 .hl{background:linear-gradient(135deg,#6e54ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.judge-hero .sub{font-size:clamp(15px,1.8vw,18px);color:var(--text-muted);line-height:1.55;max-width:560px;margin:0 0 8px}
+.judge-hero .sub-minor{font-size:13px;color:var(--text-dim);margin:0 0 32px;max-width:480px}
+.judge-hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+/* ====== AGENT PLAN OVERVIEW ====== */
+.plan-overview{border:1px solid var(--border);border-radius:16px;background:var(--surface-1);overflow:hidden;max-width:900px;margin:0 auto 48px}
+.plan-overview-header{padding:16px 24px;border-bottom:1px solid var(--border);background:var(--surface-2);display:flex;align-items:center;justify-content:space-between}
+.plan-overview-header h3{font-family:var(--font-display);font-size:16px;font-weight:650;margin:0;color:var(--text-primary)}
+.plan-overview-header .plan-meta{font-size:12px;color:var(--text-muted)}
+.plan-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.plan-summary-item{display:flex;flex-direction:column;align-items:center;padding:18px 12px;background:var(--surface-1);gap:4px}
+.plan-summary-item .num{font-family:var(--font-display);font-size:30px;font-weight:700;letter-spacing:-.02em}
+.plan-summary-item .num.green{color:var(--success-text)}
+.plan-summary-item .num.red{color:var(--danger-text)}
+.plan-summary-item .num.neutral{color:var(--text-primary)}
+.plan-summary-item .lbl{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.plan-actions{padding:16px 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.plan-action-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:var(--surface-2);transition:border-color .15s}
+.plan-action-card:hover{border-color:var(--border-accent)}
+.plan-action-card .action-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.plan-action-card .action-label{font-weight:700;font-size:13px;color:var(--text-primary)}
+.plan-action-card .action-verdict{font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px}
+.plan-action-card .action-verdict.pass{background:var(--success-bg);color:var(--success-text)}
+.plan-action-card .action-verdict.blocked{background:var(--danger-bg);color:var(--danger-text)}
+.plan-action-card .action-detail{font-size:11px;color:var(--text-muted);line-height:1.5}
+.plan-action-card .action-detail strong{color:var(--text-primary)}
 
 /* ====== AGENT BATCH POLICY FIREWALL ====== */
 .firewallSiteHeader{
