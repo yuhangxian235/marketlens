@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,8 +23,8 @@ export default function RootLayout({
             </span>
           </span>
           <nav>
-            <a href="/">Home</a>
-            <a href="/demo">Verified Demo</a>
+            <Link href="/">Home</Link>
+            <Link href="/demo">Verified Demo</Link>
           </nav>
           <div className="headerStatus" aria-label="Execution boundaries">
             <span className="statusBadge statusBadge-verified">REAL LOCAL</span>

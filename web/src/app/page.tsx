@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import {
   verifyPublishedBatchArtifacts,
   type BrowserArtifactVerification,
@@ -655,7 +656,7 @@ export default function BatchFirewallPage() {
           Single actions can be valid. The complete plan can still be unsafe.
         </p>
         <div className="judge-hero-actions">
-          <a href="/demo" className="btn-primary">View Verified Demo</a>
+          <Link href="/demo" className="btn-primary">View Verified Demo</Link>
           <button
             ref={technicalTriggerRef}
             className="btn-secondary"
