@@ -74,10 +74,10 @@ Frontend: `value: parseEther(amount)`. MON is the native currency.
 
 | Function | Signature | Selector |
 |----------|-----------|----------|
-| placeBet | placeBet(uint256,uint8,uint256) | **0x67c77639** |
-| placeBetsBatch | placeBetsBatch(uint256[],uint8[],uint256[]) | **0x687228ed** |
+| placeBet | placeBet(uint256,uint8,uint256) | **0xda866c48** |
+| placeBetsBatch | placeBetsBatch(uint256[],uint8[],uint256[]) | **0x4487dda7** |
 
-Computed via Node.js `crypto.createHash('sha3-256')` (Keccak-256).
+**Correction (2026-08-08):** The initial RECON pass computed selectors via Node.js `crypto.createHash('sha3-256')`, which produces SHA3-256, NOT Keccak-256. Ethereum uses the original Keccak-256 (pre-SHA3 standardization). The correct selectors above were recomputed via `ethers.id()` (true Keccak-256). The integration code uses `ethers.id()` at runtime and therefore produces correct selectors automatically.
 
 ## 12. Function Names
 
@@ -99,8 +99,8 @@ Key functions confirmed:
 ## 14. Calldata Understood?
 
 **YES.** Simple ABI-encoded parameters:
-- Single bet: `0x67c77639` + encode(eventId, predictionIndex, betAmount)
-- Multi-bet: `0x687228ed` + encode([eventIds], [indices], [amounts])
+- Single bet: `0xda866c48` + encode(eventId, predictionIndex, betAmount)
+- Multi-bet: `0x4487dda7` + encode([eventIds], [indices], [amounts])
 - All types are standard Solidity: uint256, uint8, arrays
 - No complex struct encoding needed
 

@@ -26,16 +26,18 @@ defineChain({id:10143,name:"Monad Testnet",nativeCurrency:{name:"MON",symbol:"MO
 ### placeBet
 ```
 placeBet(uint256 eventId, uint8 predictionIndex, uint256 betAmount) payable
-Selector: 0x4487dda7 (computed via ethers.id() = Keccak-256)
+Selector: 0xda866c48
 ```
+Computed via `ethers.id("placeBet(uint256,uint8,uint256)").slice(0,10)` = true Keccak-256.
 
 ### placeBetsBatch
 ```
 placeBetsBatch(uint256[] eventIds, uint8[] predictionIndices, uint256[] betAmounts) payable
-Selector: 0x4487dda7... (computed via ethers.id())
+Selector: 0x4487dda7
 ```
+Computed via `ethers.id("placeBetsBatch(uint256[],uint8[],uint256[])").slice(0,10)` = true Keccak-256.
 
-Note: The RECON report initially reported `0x687228ed` and `0x67c77639` computed via Node.js `crypto.createHash('sha3-256')`. This is SHA3-256, NOT Keccak-256. Ethereum uses the original Keccak-256 (pre-SHA3). Correct selectors are computed via `ethers.id()` which uses true Keccak-256.
+**Correction:** The initial RECON report (docs/uryzen-monad-recon-report.md) reported `0x687228ed` and `0x67c77639` computed via Node.js `crypto.createHash('sha3-256')`. This produces SHA3-256, NOT Keccak-256 — Ethereum uses the original Keccak-256 (pre-SHA3 standardization). The integration code (`types.ts`) uses `ethers.id()` at runtime, which always produces correct Keccak-256 selectors.
 
 ### getEvent
 ```

@@ -34,13 +34,23 @@
 placeBetsBatch(uint256[] eventIds, uint8[] predictionIndices, uint256[] betAmounts) payable
 ```
 
-## 7. placeBetsBatch Selector
+## 7. Function Selectors (Keccak-256 via ethers.id())
 
-`0x4487dda7` (computed via `ethers.id()` = true Keccak-256)
+| Function | Selector |
+|----------|----------|
+| placeBet | **0xda866c48** |
+| placeBetsBatch | **0x4487dda7** |
+
+Computed via `ethers.id()` = true Keccak-256 (not SHA3-256).
 
 ## 8. Real Reference Transaction Hash
 
-Not found within time limit (block height 51M+ on Monad Testnet). Contract existence verified via `eth_getCode`.
+**No reference Uryzen transaction hash was located within the recon time limit.**
+Block height on Monad Testnet (51M+) made RPC transaction scanning infeasible in the 45-minute recon window.
+
+Contract existence verified via `eth_getCode`.
+Transaction structure verified via production JS bundle analysis (wagmi `writeContract`).
+No claim of a reproduced or observed real Uryzen transaction is made.
 
 ## 9. Market Snapshot
 
@@ -145,7 +155,7 @@ Bet A only (predictionIndex 0)
 
 ## 35. Foundry Tests
 
-N/A (WSL — no contract changes)
+Local WSL environment limitation prevented direct Foundry execution. **PR CI independently completed all Foundry checks successfully** (Forge fmt, Forge build, Forge test, contract-tests — all SUCCESS).
 
 ## 36. Batch-Policy Tests
 
@@ -153,19 +163,19 @@ N/A (WSL — no contract changes)
 
 ## 37. Safe E2E
 
-N/A (requires anvil + PowerShell)
+Requires anvil + PowerShell (local WSL limitation). No Safe contract changes were made.
 
 ## 38. Typecheck
 
-Pre-existing error in `e2e-safe-enforcement.test.ts` (also on main)
+**SUCCESS** (CI verified). Local pre-existing error in `e2e-safe-enforcement.test.ts` was not introduced by this PR.
 
 ## 39. Lint
 
-Not run (time constraint, non-blocking)
+**SUCCESS** (CI verified).
 
 ## 40. Build
 
-Dependencies built successfully
+**SUCCESS** — dependencies built, Next.js build passed (CI verified).
 
 ## 41. Commit SHAs
 
@@ -178,6 +188,10 @@ edd5452 — test: prove ineligible Uryzen bets never reach signing
 ## 42. PR Number
 
 **#7**
+
+## 42b. PR CI
+
+Run #31246404937 — **SUCCESS** (all 9 jobs: contract-tests, Forge fmt, Forge build, Forge test, typecheck, lint, batch-policy tests, Live Lab tests, Next.js build).
 
 ## 43. PR URL
 
