@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "MarketLens · AI Agent Execution Policy Firewall",
   description:
-    "Control what your AI Agent is allowed to execute. MarketLens reviews the Agent's complete plan before signing, detecting cross-action conflicts and policy violations.",
+    "Control what your AI Agent is allowed to execute. MarketLens reviews the complete plan before signing, detecting conflicts and policy violations.",
 };
 
 export default function RootLayout({
@@ -15,21 +15,19 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header className="siteHeader">
-          <span className="brand">
+          <Link href="/" className="brand">
             <span className="brandMark">ML</span>
-            <span>
-              MarketLens
-              <small>AI Agent Policy Firewall</small>
-            </span>
-          </span>
+            <span>MarketLens</span>
+          </Link>
           <nav>
-            <Link href="/">Home</Link>
+            <Link href="/">Agent Plan</Link>
             <Link href="/demo">Verified Demo</Link>
+            <Link href="/demo?mode=live">Live Lab</Link>
           </nav>
-          <div className="headerStatus" aria-label="Execution boundaries">
-            <span className="statusBadge statusBadge-verified">REAL LOCAL</span>
-            <span className="statusBadge statusBadge-warning">UNSIGNED</span>
-            <span className="statusBadge statusBadge-warning">NOT BROADCAST</span>
+          <div className="headerStatus">
+            <span className="trustBadge">Monad Testnet ●</span>
+            <span className="trustBadge trustBadge-dim">Synthetic Demo</span>
+            <span className="trustBadge trustBadge-dim">Unsigned</span>
           </div>
         </header>
         {children}

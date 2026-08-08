@@ -656,7 +656,7 @@ export default function BatchFirewallPage() {
           Single actions can be valid. The complete plan can still be unsafe.
         </p>
         <div className="judge-hero-actions">
-          <Link href="/demo" className="btn-primary">View Verified Demo</Link>
+          <Link href="/demo" className="btn-primary">Review Execution Plan →</Link>
           <button
             ref={technicalTriggerRef}
             className="btn-secondary"
@@ -666,6 +666,11 @@ export default function BatchFirewallPage() {
           >
             Technical Evidence
           </button>
+        </div>
+        <div className="judge-hero-trust">
+          <span className="trustBadge trustBadge-dim">Synthetic Demo</span>
+          <span className="trustBadge trustBadge-dim">Unsigned</span>
+          <span className="trustBadge trustBadge-dim">No Transaction Broadcast</span>
         </div>
       </section>
 
@@ -692,24 +697,48 @@ export default function BatchFirewallPage() {
               <span className="lbl">Blocked</span>
             </div>
           </div>
-          <div className="plan-actions">
+          <div className="plan-actions-grid">
             {proposals.map((proposal, idx) => {
               const ar = receipt?.action_receipts?.find((r) => r.proposal_id === proposal.proposal_id);
-              const verdict = ar?.final_verdict ?? "PENDING";
-              const vcls = verdict === "PASS" ? "pass" : verdict === "BLOCKED" ? "blocked" : "neutral";
+              const individualVerdict = ar?.action_level_verdict ?? "PENDING";
+              const planVerdict = ar?.final_verdict ?? "PENDING";
+              const isBlocked = ar?.final_verdict === "BLOCKED";
+              const blockReason = ar?.verdict_reason ?? "";
               return (
-                <div className="plan-action-card" key={proposal.proposal_id}>
-                  <div className="action-header">
+                <div className="action-card2" key={proposal.proposal_id}>
+                  <div className="action-card2-header">
                     <span className="action-label">Action {String.fromCharCode(65 + idx)}</span>
-                    <span className={`action-verdict ${vcls}`}>
-                      {verdict === "PASS" ? "✓ PASS" : verdict === "BLOCKED" ? "✕ BLOCKED" : "⋯ PENDING"}
-                    </span>
+                    <span style={{fontSize:10,color:"var(--text-dim)"}}>{proposal.outcome} · {formatWei(proposal.requested_amount)}</span>
                   </div>
-                  <div className="action-detail">
-                    <strong>{proposal.capability.replace("_", " ")} · {proposal.outcome}</strong><br />
-                    {proposal.market_question.slice(0, 40)}…<br />
-                    {formatWei(proposal.requested_amount)}
+                  <div className="action-card2-body">
+                    <div className="action-card2-row">
+                      <span className="row-label">Operation</span>
+                      <span className="row-val">{proposal.capability.replace("_"," ")}</span>
+                    </div>
+                    <div className="action-card2-row">
+                      <span className="row-label">Individual Check</span>
+                      <span className={`row-val ${individualVerdict==="PASS"?"pass":"blocked"}`}>
+                        {individualVerdict==="PASS"?"✓ PASS":"✕ BLOCKED"}
+                      </span>
+                    </div>
+                    <div className="action-card2-divider" />
+                    <div className="action-card2-row">
+                      <span className="row-label">Plan Decision</span>
+                      <span className={`row-val ${planVerdict==="PASS"?"pass":"blocked"}`}>
+                        {planVerdict==="PASS"?"✓ ELIGIBLE":"✕ INELIGIBLE"}
+                      </span>
+                    </div>
                   </div>
+                  {isBlocked && (
+                    <div className="action-card2-footer blocked">
+                      Reason: {blockReason}
+                    </div>
+                  )}
+                  {!isBlocked && planVerdict==="PASS" && (
+                    <div className="action-card2-footer eligible">
+                      ✓ Allowed in plan
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -753,8 +782,8 @@ export default function BatchFirewallPage() {
           <div className="stepPanel">
             <StepHeading
               index={1}
-              title="Inspect what the agent wants to do"
-              description="A deterministic, policy-blind planner produced five unsigned intents from one local market snapshot. The firewall has not approved or sent any of them."
+              title="Agent Plan Review"
+              description="Each action passed its individual check. MarketLens now evaluates the complete plan."
             />
             <div className="proposalList">
               {proposals.map((proposal, index) => (
@@ -1090,71 +1119,97 @@ export default function BatchFirewallPage() {
 
         {step === 5 && (
           <div className="stepPanel verdictPanel">
-            <div className="verdictLead">
-              <div className="verdictHero">
-                <span>BATCH VERDICT · {receipt.final_verdict.replaceAll("_", " ")}</span>
-                <h1 id="workflow-step-title" tabIndex={-1}><strong>{receipt.eligible_count}</strong> OF <strong>{receipt.proposed_count}</strong></h1>
-                <h2>ACTIONS ELIGIBLE FOR REVIEW</h2>
-                <p>The firewall preserved {receipt.eligible_count} policy-eligible actions and stopped {receipt.final_blocked_count} before signing. Nothing was signed or broadcast.</p>
+            <StepHeading
+              index={5}
+              title="Verified Decision Receipt"
+              description="The complete audit result. Every action was checked alone, then the plan was evaluated as a whole."
+            />
+
+            {/* Audit-style receipt */}
+            <div className="receipt-audit">
+              <div className="receipt-audit-header">
+                <h3>VERIFIED DECISION RECEIPT</h3>
+                <span style={{fontSize:11,color:'var(--text-dim)'}}>{receipt.batch_id.slice(0,14)}…</span>
               </div>
-              <div className="decisionStory">
-                <div className="decisionNarrowing" aria-label={`${receipt.proposed_count} proposed, ${receipt.action_pass_count} passed action checks, ${receipt.batch_blocked_count} blocked at batch level, ${receipt.eligible_count} eligible`}>
-                  <div><span>PROPOSED</span><strong>{receipt.proposed_count}</strong><small>agent intents</small></div>
-                  <i aria-hidden="true">→</i>
-                  <div><span>ACTION PASS</span><strong>{receipt.action_pass_count}</strong><small>safe in isolation</small></div>
-                  <i aria-hidden="true">−</i>
-                  <div className="removed"><span>BATCH BLOCK</span><strong>{receipt.batch_blocked_count}</strong><small>unsafe together</small></div>
-                  <i aria-hidden="true">=</i>
-                  <div className="eligible"><span>ELIGIBLE</span><strong>{receipt.eligible_count}</strong><small>preserved actions</small></div>
+              <div className="receipt-audit-body">
+                <div className="receipt-audit-row">
+                  <span className="audit-label">Plan Status</span>
+                  <span className="audit-val" style={{color:receipt.final_verdict==='ELIGIBLE'?'var(--success-text)':receipt.final_verdict==='PARTIALLY_ELIGIBLE'?'var(--warning-text)':'var(--danger-text)',fontSize:15}}>
+                    {receipt.final_verdict.replaceAll('_',' ')}
+                  </span>
                 </div>
-                <p className="decisionNote">
-                  <strong>{batchConflictCheck?.proposal_id ?? "One action"}</strong> passed Moss and action rules in isolation, then the batch policy blocked the conflict.
-                </p>
+                <div className="receipt-audit-row">
+                  <span className="audit-label">Eligible Actions</span>
+                  <span className="audit-val" style={{color:'var(--success-text)'}}>{receipt.eligible_count}</span>
+                </div>
+                {receipt.final_blocked_count > 0 && (
+                  <div className="receipt-audit-row">
+                    <span className="audit-label">Blocked Actions</span>
+                    <span className="audit-val" style={{color:'var(--danger-text)'}}>{receipt.final_blocked_count}</span>
+                  </div>
+                )}
+                {receipt.final_blocked_count > 0 && receipt.blocked_proposal_ids.map((pid) => {
+                  const blocked = receiptsById.get(pid);
+                  return (
+                    <div className="receipt-audit-row" key={pid}>
+                      <span className="audit-label" style={{paddingLeft:16,fontSize:11}}>{pid}</span>
+                      <span className="audit-val" style={{fontSize:11,color:'var(--danger-text)'}}>{blocked?.verdict_reason?.replaceAll('_',' ')}</span>
+                    </div>
+                  );
+                })}
+                <div className="receipt-audit-row">
+                  <span className="audit-label">Signed</span>
+                  <span className="audit-val">{receipt.signed_count}</span>
+                </div>
+                <div className="receipt-audit-row">
+                  <span className="audit-label">Broadcast</span>
+                  <span className="audit-val">{receipt.broadcast_count}</span>
+                </div>
+              </div>
+              <div className="receipt-audit-footer">
+                <span className="audit-seal">✓ Evidence Verified</span>
+                <span>Monad Testnet ● Chain 10143</span>
+                <span style={{marginLeft:'auto',fontFamily:'var(--font-mono)',fontSize:9}}>{shorten(receipt.receipt_hash, 10, 8)}</span>
               </div>
             </div>
-            <div className="summaryGrid">
-              {[
-                ["Proposed", receipt.proposed_count, "neutral"],
-                ["Eligible", receipt.eligible_count, "pass"],
-                ["Blocked", receipt.final_blocked_count, "blocked"],
-                ["Signed", receipt.signed_count, "neutral"],
-                ["Broadcast", receipt.broadcast_count, "neutral"],
-              ].map(([label, count, summaryTone]) => (
-                <div className={`summaryCell ${summaryTone}`} key={String(label)}><strong>{count}</strong><span>{label}</span></div>
-              ))}
-            </div>
-            <div className="verdictLists">
-              <section>
-                <header><span className="passDot" /><h3>Unsigned allowlist</h3><strong>{receipt.eligible_count}</strong></header>
-                {receipt.eligible_proposal_ids.map((proposalId) => {
-                  const action = receiptsById.get(proposalId);
-                  return <div className="verdictItem" key={proposalId}><strong>{proposalId}</strong><span>{action?.capability} · {action?.outcome}</span><em>ELIGIBLE</em></div>;
+
+            {/* Allowed + Blocked lists */}
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginTop:24}}>
+              <div style={{padding:16,borderRadius:10,border:'1px solid rgba(34,197,94,.2)',background:'rgba(34,197,94,.04)'}}>
+                <div style={{fontSize:11,fontWeight:700,color:'var(--success-text)',marginBottom:8}}>
+                  ✓ ALLOWED ({receipt.eligible_count})
+                </div>
+                {receipt.eligible_proposal_ids.map((pid) => {
+                  const a = receiptsById.get(pid);
+                  return <div key={pid} style={{fontSize:11,color:'var(--text-muted)',marginBottom:4}}>
+                    <strong style={{color:'var(--text-primary)'}}>{pid}</strong> · {a?.capability} · {a?.outcome}
+                  </div>;
                 })}
-              </section>
-              <section>
-                <header><span className="blockedDot" /><h3>Blocked</h3><strong>{receipt.final_blocked_count}</strong></header>
-                {receipt.blocked_proposal_ids.map((proposalId) => {
-                  const action = receiptsById.get(proposalId);
-                  return <div className="verdictItem" key={proposalId}><strong>{proposalId}</strong><span>{action?.verdict_reason}</span><em>BLOCKED</em></div>;
+              </div>
+              <div style={{padding:16,borderRadius:10,border:receipt.final_blocked_count>0?'1px solid rgba(239,68,68,.2)':'1px solid var(--border)',background:receipt.final_blocked_count>0?'rgba(239,68,68,.04)':'var(--surface-2)'}}>
+                <div style={{fontSize:11,fontWeight:700,color:receipt.final_blocked_count>0?'var(--danger-text)':'var(--text-dim)',marginBottom:8}}>
+                  ✕ BLOCKED ({receipt.final_blocked_count})
+                </div>
+                {receipt.blocked_proposal_ids.map((pid) => {
+                  const a = receiptsById.get(pid);
+                  return <div key={pid} style={{fontSize:11,color:'var(--text-muted)',marginBottom:4}}>
+                    <strong style={{color:'var(--text-primary)'}}>{pid}</strong> · {a?.verdict_reason?.replaceAll('_',' ')}
+                  </div>;
                 })}
-              </section>
+              </div>
             </div>
+
             {allowlist && (
-              <div className="allowlistReady">
-                <div className="allowlistMark" aria-hidden="true">
-                  {String(allowlist.eligible_count).padStart(2, "0")}
-                </div>
-                <div>
-                  <span>UNSIGNED ALLOWLIST READY</span>
-                  <strong>{allowlist.eligible_count} actions preserved for human review</strong>
-                  <p>This JSON is evidence, not an executable transaction.</p>
-                </div>
-                <code title={allowlist.allowlist_hash}>{shorten(allowlist.allowlist_hash, 12, 10)}</code>
+              <div style={{marginTop:20,padding:14,borderRadius:10,border:'1px solid var(--border-accent)',background:'var(--accent-soft)',display:'flex',alignItems:'center',gap:12}}>
+                <span style={{fontSize:11,fontWeight:700,color:'var(--accent-hover)'}}>ALLOWLIST READY</span>
+                <span style={{fontSize:11,color:'var(--text-muted)'}}>{allowlist.eligible_count} actions preserved · unsigned · not broadcast</span>
               </div>
             )}
-            <div className="safetySeal">
-              <div>PRE-SIGN VERIFICATION COMPLETE</div>
-              <span>UNSIGNED</span><span>NOT BROADCAST</span><span>MONAD-ATTESTED</span>
+
+            <div style={{display:'flex',alignItems:'center',gap:10,marginTop:16,padding:'10px 16px',borderRadius:8,background:'var(--surface-2)',fontSize:11,color:'var(--text-muted)'}}>
+              <span style={{color:'var(--success-text)',fontWeight:700}}>✓ Evidence Verified</span>
+              <span>Monad Testnet ●</span>
+              <span style={{marginLeft:'auto',fontFamily:'var(--font-mono)',fontSize:9}}>UNSIGNED · NOT BROADCAST</span>
             </div>
             <p className="downloadStatus" aria-live="polite">{downloadMessage}</p>
             <div className="stageActions withBack">
