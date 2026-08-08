@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MarketLens · Pre-sign policy firewall for agent batches",
+  title: "MarketLens · AI Agent Execution Policy Firewall",
   description:
-    "See why an agent action can pass alone but still be blocked when the whole batch violates user policy.",
+    "Control what your AI Agent is allowed to execute. MarketLens reviews the complete plan before signing, detecting conflicts and policy violations.",
 };
 
 export default function RootLayout({
@@ -13,18 +14,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="siteHeader firewallSiteHeader">
-          <span className="brand">
+        <header className="siteHeader">
+          <Link href="/" className="brand">
             <span className="brandMark">ML</span>
-            <span>
-              MarketLens
-              <small>Agent batch policy firewall</small>
-            </span>
-          </span>
-          <div className="headerStatus" aria-label="Execution boundaries">
-            <span className="statusBadge statusBadge-verified">REAL LOCAL</span>
-            <span className="statusBadge statusBadge-warning">UNSIGNED</span>
-            <span className="statusBadge statusBadge-warning">NOT BROADCAST</span>
+            <span>MarketLens</span>
+          </Link>
+          <nav>
+            <Link href="/">Agent Plan</Link>
+            <Link href="/demo">Verified Demo</Link>
+            <Link href="/demo?mode=live">Live Lab</Link>
+          </nav>
+          <div className="headerStatus">
+            <span className="trustBadge">Monad Testnet ●</span>
+            <span className="trustBadge trustBadge-dim">Synthetic Demo</span>
+            <span className="trustBadge trustBadge-dim">Unsigned</span>
           </div>
         </header>
         {children}
