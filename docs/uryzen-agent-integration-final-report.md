@@ -180,6 +180,8 @@ Requires anvil + PowerShell (local WSL limitation). No Safe contract changes wer
 ## 41. Commit SHAs
 
 ```
+3b87814 — docs: correct Uryzen integration evidence
+3a178de — docs: add Uryzen agent integration final report
 edd5452 — test: prove ineligible Uryzen bets never reach signing
 2307580 — feat: gate Uryzen batch signing with MarketLens policy
 823071f — feat: add Uryzen prediction agent integration proof
@@ -191,21 +193,20 @@ edd5452 — test: prove ineligible Uryzen bets never reach signing
 
 ## 42b. PR CI
 
-Run #31246404937 — **SUCCESS** (all 9 jobs: contract-tests, Forge fmt, Forge build, Forge test, typecheck, lint, batch-policy tests, Live Lab tests, Next.js build).
+Latest CI: **#31249248450 — SUCCESS**
+Previous CI: **#31246404937 — SUCCESS**
+
+All 9 jobs pass: contract-tests, Forge fmt, Forge build, Forge test, typecheck, lint, batch-policy tests, Live Lab tests, Next.js build.
 
 ## 43. PR URL
 
 https://github.com/yuhangxian235/marketlens/pull/7
 
-## 44. PR CI
-
-Pending
-
-## 45. Main Modified?
+## 44. Main Modified?
 
 **NO** — main at `9f75841a` unchanged
 
-## 46. Git Status
+## 45. Git Status
 
 Clean — all changes committed
 
