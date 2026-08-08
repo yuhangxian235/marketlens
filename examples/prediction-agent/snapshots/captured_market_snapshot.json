@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-08-08T02:28:28.038021+00:00",
+  "source": "Polymarket Gamma API \u2014 https://gamma-api.polymarket.com/markets/559651",
+  "note": "Captured public market snapshot for deterministic offline replay. NOT live data.",
+  "market": {
+    "id": "559651",
+    "question": "Xi Jinping out before 2027?",
+    "conditionId": "0xa467b14d51f01b957109d9cbb1d6c124fab2a089d52ed8f471d23c2812e743b7",
+    "slug": "xi-jinping-out-before-2027",
+    "outcomes": [
+      "Yes",
+      "No"
+    ],
+    "outcomePrices": [
+      "0.0445",
+      "0.9555"
+    ],
+    "clobTokenIds": [
+      "32338220190071351435772801779725302244575775216413325951443816017994629993401",
+      "25659310674993675562345759665114759892400026242514633218387667107987341231962"
+    ],
+    "volume": "11908451.726115985",
+    "liquidity": "264229.95747",
+    "active": true,
+    "closed": false,
+    "acceptingOrders": true,
+    "endDate": "2026-12-31T00:00:00Z",
+    "bestBid": "0.044",
+    "bestAsk": "0.045",
+    "lastTradePrice": "0.044",
+    "chainId": 137,
+    "orderPriceMinTickSize": 0.001,
+    "orderMinSize": 5
+  }
+}
