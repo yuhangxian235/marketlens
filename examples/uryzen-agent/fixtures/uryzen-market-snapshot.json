@@ -1,0 +1,55 @@
+{
+  "captured_at": "2026-08-08T03:00:00Z",
+  "source": "Uryzen Public API \u2014 https://uryzen.com/api/events/",
+  "note": "Captured public Uryzen market snapshot for deterministic offline replay. NOT live data.",
+  "chainId": 10143,
+  "chainName": "Monad Testnet",
+  "nativeCurrency": "MON",
+  "market": {
+    "apiId": 260,
+    "onChainEventId": 273,
+    "title": "Who will win the 2027 French presidential election?",
+    "category": "Politics/Elections",
+    "totalPool": "40.50",
+    "totalPoolWei": "40500000000000000000",
+    "status": "Open",
+    "outcomes": [
+      {
+        "index": 0,
+        "label": "Edouard Philippe"
+      },
+      {
+        "index": 1,
+        "label": "Jordan Bardella"
+      },
+      {
+        "index": 2,
+        "label": "Marine Le Pen"
+      },
+      {
+        "index": 3,
+        "label": "Jean-Luc Melenchon"
+      },
+      {
+        "index": 4,
+        "label": "Manuel Valls"
+      },
+      {
+        "index": 5,
+        "label": "Dominique de Villepin"
+      },
+      {
+        "index": 6,
+        "label": "Bruno Retailleau"
+      },
+      {
+        "index": 7,
+        "label": "Someone Else"
+      },
+      {
+        "index": 8,
+        "label": "Gabriel Attal"
+      }
+    ]
+  }
+}
